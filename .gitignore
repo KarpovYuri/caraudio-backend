@@ -1,0 +1,23 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go build command
+*.out
+
+# GoLand
+.idea/
+
+# VS Code
+.vscode/
+
+# Dependencies (if using go mod vendor)
+vendor/
+
+# Local environment variables
+.env
