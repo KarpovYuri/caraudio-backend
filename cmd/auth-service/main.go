@@ -1,22 +1,26 @@
-// cmd/auth-service/main.go
 package main
 
 import (
-	"fmt"
+	"github.com/KarpovYuri/caraudio-backend/internal/auth"
+	"google.golang.org/grpc"
 	"log"
-	"net/http"
+	"net"
 )
 
 func main() {
-	// Простая маршрутизация для примера
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello from Auth Service!")
-	})
+	grpcPort := ":50051"
 
-	// Запуск HTTP-сервера
-	port := ":8080"
-	log.Printf("Auth Service starting on port %s\n", port)
-	if err := http.ListenAndServe(port, nil); err != nil {
-		log.Fatalf("could not start server: %v", err)
+	lis, err := net.Listen("tcp", grpcPort)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+
+	auth.RegisterServer(grpcServer)
+
+	log.Printf("Auth Service starting gRPC server on port %s", grpcPort)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
 	}
 }
