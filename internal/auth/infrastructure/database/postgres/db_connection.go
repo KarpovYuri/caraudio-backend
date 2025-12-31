@@ -18,6 +18,9 @@ func InitDB(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
 	}
 
 	if err = db.Ping(); err != nil {
+		if closeErr := db.Close(); closeErr != nil {
+			log.Printf("failed to close DB connection after failed ping: %v", closeErr)
+		}
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 

@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"errors"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/app/services"
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
@@ -22,8 +23,6 @@ func NewAuthGRPCServer(authService services.AuthService) *AuthGRPCServer {
 	}
 }
 
-// ================= LOGIN =================
-
 func (s *AuthGRPCServer) Login(
 	ctx context.Context,
 	req *authv1.LoginRequest,
@@ -37,7 +36,7 @@ func (s *AuthGRPCServer) Login(
 		s.authService.Login(ctx, req.Login, req.Password)
 
 	if err != nil {
-		if err == domain.ErrInvalidCredentials {
+		if errors.Is(err, domain.ErrInvalidCredentials) {
 			return nil, status.Error(codes.Unauthenticated, "invalid credentials")
 		}
 		return nil, status.Error(codes.Internal, err.Error())
@@ -51,8 +50,6 @@ func (s *AuthGRPCServer) Login(
 	}, nil
 }
 
-// ================= REFRESH =================
-
 func (s *AuthGRPCServer) Refresh(
 	ctx context.Context,
 	req *authv1.RefreshRequest,
@@ -64,7 +61,7 @@ func (s *AuthGRPCServer) Refresh(
 
 	accessToken, err := s.authService.Refresh(ctx, req.RefreshToken)
 	if err != nil {
-		if err == domain.ErrInvalidToken {
+		if errors.Is(err, domain.ErrInvalidToken) {
 			return nil, status.Error(codes.Unauthenticated, "invalid refresh token")
 		}
 		return nil, status.Error(codes.Internal, err.Error())
@@ -74,8 +71,6 @@ func (s *AuthGRPCServer) Refresh(
 		AccessToken: accessToken,
 	}, nil
 }
-
-// ================= VALIDATE =================
 
 func (s *AuthGRPCServer) ValidateToken(
 	ctx context.Context,
@@ -103,8 +98,6 @@ func (s *AuthGRPCServer) ValidateToken(
 		IsValid: true,
 	}, nil
 }
-
-// ================= LOGOUT =================
 
 func (s *AuthGRPCServer) Logout(
 	ctx context.Context,

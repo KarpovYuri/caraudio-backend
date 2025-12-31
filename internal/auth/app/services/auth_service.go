@@ -9,15 +9,13 @@ import (
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/database/postgres"
-	utils "github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/utils"
+	"github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/utils"
 )
 
 const (
 	accessTokenTTL  = 15 * time.Minute
 	refreshTokenTTL = 7 * 24 * time.Hour
 )
-
-// ===== PUBLIC INTERFACE =====
 
 type AuthService interface {
 	Login(
@@ -34,8 +32,6 @@ type AuthService interface {
 
 	Logout(ctx context.Context, refreshToken string) error
 }
-
-// ===== IMPLEMENTATION =====
 
 type authService struct {
 	userRepo  postgres.UserRepository
@@ -54,8 +50,6 @@ func NewAuthService(
 		jwtSecret: jwtSecret,
 	}
 }
-
-// ===== METHODS =====
 
 func (s *authService) Login(
 	ctx context.Context,
@@ -132,7 +126,7 @@ func (s *authService) Refresh(
 }
 
 func (s *authService) ValidateToken(
-	ctx context.Context,
+	_ context.Context,
 	accessToken string,
 ) (string, string, bool, error) {
 

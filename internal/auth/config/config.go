@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -31,7 +32,8 @@ func LoadConfig() (*Config, error) {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		var notFoundError viper.ConfigFileNotFoundError
+		if errors.As(err, &notFoundError) {
 			log.Printf("Config file not found: %v, using env vars if available", err)
 		} else {
 			return nil, fmt.Errorf("failed to read config file: %w", err)

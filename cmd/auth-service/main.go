@@ -29,11 +29,9 @@ func main() {
 		}
 	}()
 
-	// ✅ ВАЖНО: создаём ОБА репозитория
 	userRepo := authdb.NewPostgresUserRepository(db)
-	tokenRepo := authdb.NewPostgresRefreshTokenRepository(db)
+	tokenRepo := authdb.NewPgRefreshTokenRepository(db)
 
-	// ✅ ВАЖНО: сигнатура совпадает
 	authService := authservice.NewAuthService(
 		userRepo,
 		tokenRepo,

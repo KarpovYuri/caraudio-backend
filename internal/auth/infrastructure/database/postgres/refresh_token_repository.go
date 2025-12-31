@@ -14,15 +14,15 @@ type RefreshTokenRepository interface {
 	DeleteByHash(ctx context.Context, hash string) error
 }
 
-type PostgresRefreshTokenRepository struct {
+type PgRefreshTokenRepository struct {
 	db *sqlx.DB
 }
 
-func NewPostgresRefreshTokenRepository(db *sqlx.DB) RefreshTokenRepository {
-	return &PostgresRefreshTokenRepository{db: db}
+func NewPgRefreshTokenRepository(db *sqlx.DB) RefreshTokenRepository {
+	return &PgRefreshTokenRepository{db: db}
 }
 
-func (r *PostgresRefreshTokenRepository) Create(
+func (r *PgRefreshTokenRepository) Create(
 	ctx context.Context,
 	token *domain.RefreshToken,
 ) error {
@@ -47,7 +47,7 @@ func (r *PostgresRefreshTokenRepository) Create(
 	return err
 }
 
-func (r *PostgresRefreshTokenRepository) GetByHash(
+func (r *PgRefreshTokenRepository) GetByHash(
 	ctx context.Context,
 	hash string,
 ) (*domain.RefreshToken, error) {
@@ -68,7 +68,7 @@ func (r *PostgresRefreshTokenRepository) GetByHash(
 	return &token, nil
 }
 
-func (r *PostgresRefreshTokenRepository) DeleteByHash(
+func (r *PgRefreshTokenRepository) DeleteByHash(
 	ctx context.Context,
 	hash string,
 ) error {
