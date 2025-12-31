@@ -23,10 +23,23 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Printf("failed to close db: %v", err)
+		}
+	}()
 
+	// ✅ ВАЖНО: создаём ОБА репозитория
 	userRepo := authdb.NewPostgresUserRepository(db)
-	authService := authservice.NewAuthService(userRepo, cfg.JWTSecret, cfg.JWTExpirationHours)
+	tokenRepo := authdb.NewPostgresRefreshTokenRepository(db)
+
+	// ✅ ВАЖНО: сигнатура совпадает
+	authService := authservice.NewAuthService(
+		userRepo,
+		tokenRepo,
+		cfg.JWTSecret,
+	)
+
 	authGRPCServer := authgrpc.NewAuthGRPCServer(authService)
 
 	lis, err := net.Listen("tcp", cfg.GRPCPort)
@@ -36,6 +49,7 @@ func main() {
 
 	s := grpc.NewServer()
 	authv1.RegisterAuthServiceServer(s, authGRPCServer)
+
 	log.Printf("Auth Service listening on %s", cfg.GRPCPort)
 
 	if err := s.Serve(lis); err != nil {

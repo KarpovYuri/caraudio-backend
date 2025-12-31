@@ -13,7 +13,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *domain.User) error
-	GetUserByEmail(ctx context.Context, email string) (*domain.User, error)
+	GetUserByLogin(ctx context.Context, login string) (*domain.User, error)
 	GetUserByID(ctx context.Context, id string) (*domain.User, error)
 }
 
@@ -26,12 +26,12 @@ func NewPostgresUserRepository(db *sqlx.DB) UserRepository {
 }
 
 func (r *postgresUserRepository) CreateUser(ctx context.Context, user *domain.User) error {
-	query := `INSERT INTO users (id, email, password, role, created_at, updated_at)
-              VALUES (:id, :email, :password, :role, :created_at, :updated_at)`
+	query := `INSERT INTO users (id, login, password, role, created_at, updated_at)
+              VALUES (:id, :login, :password, :role, :created_at, :updated_at)`
 	_, err := r.db.NamedExecContext(ctx, query, user)
 	if err != nil {
-		if err.Error() == "pq: duplicate key value violates unique constraint \"idx_users_email\"" ||
-			err.Error() == "pq: duplicate key value violates unique constraint \"users_email_key\"" {
+		if err.Error() == "pq: duplicate key value violates unique constraint \"idx_users_login\"" ||
+			err.Error() == "pq: duplicate key value violates unique constraint \"users_login_key\"" {
 			return domain.ErrUserAlreadyExists
 		}
 		return fmt.Errorf("failed to create user: %w", err)
@@ -39,22 +39,22 @@ func (r *postgresUserRepository) CreateUser(ctx context.Context, user *domain.Us
 	return nil
 }
 
-func (r *postgresUserRepository) GetUserByEmail(ctx context.Context, email string) (*domain.User, error) {
+func (r *postgresUserRepository) GetUserByLogin(ctx context.Context, login string) (*domain.User, error) {
 	var user domain.User
-	query := `SELECT id, email, password, role, created_at, updated_at FROM users WHERE email = $1`
-	err := r.db.GetContext(ctx, &user, query, email)
+	query := `SELECT id, login, password, role, created_at, updated_at FROM users WHERE login = $1`
+	err := r.db.GetContext(ctx, &user, query, login)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, domain.ErrUserNotFound
 		}
-		return nil, fmt.Errorf("failed to get user by email: %w", err)
+		return nil, fmt.Errorf("failed to get user by login: %w", err)
 	}
 	return &user, nil
 }
 
 func (r *postgresUserRepository) GetUserByID(ctx context.Context, id string) (*domain.User, error) {
 	var user domain.User
-	query := `SELECT id, email, password, role, created_at, updated_at FROM users WHERE id = $1`
+	query := `SELECT id, login, password, role, created_at, updated_at FROM users WHERE id = $1`
 	err := r.db.GetContext(ctx, &user, query, id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {

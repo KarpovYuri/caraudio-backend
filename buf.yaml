@@ -1,0 +1,5 @@
+# buf.yaml
+version: v1
+build:
+  roots:
+    - pkg/api/proto

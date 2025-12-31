@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"log"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/app/services"
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
@@ -18,62 +17,109 @@ type AuthGRPCServer struct {
 }
 
 func NewAuthGRPCServer(authService services.AuthService) *AuthGRPCServer {
-	return &AuthGRPCServer{authService: authService}
+	return &AuthGRPCServer{
+		authService: authService,
+	}
 }
 
-func (s *AuthGRPCServer) Register(ctx context.Context, req *authv1.RegisterRequest) (*authv1.RegisterResponse, error) {
-	user, token, err := s.authService.Register(ctx, req.Email, req.Password)
-	if err != nil {
-		if err == domain.ErrUserAlreadyExists {
-			return nil, status.Errorf(codes.AlreadyExists, "user with this email already exists")
-		}
-		log.Printf("Error registering user: %v", err)
-		return nil, status.Errorf(codes.Internal, "failed to register user: %v", err)
+// ================= LOGIN =================
+
+func (s *AuthGRPCServer) Login(
+	ctx context.Context,
+	req *authv1.LoginRequest,
+) (*authv1.LoginResponse, error) {
+
+	if req.Login == "" || req.Password == "" {
+		return nil, status.Error(codes.InvalidArgument, "login and password are required")
 	}
 
-	return &authv1.RegisterResponse{
-		UserId:       user.ID,
-		AccessToken:  token,
-		RefreshToken: "",
-	}, nil
-}
+	user, accessToken, refreshToken, err :=
+		s.authService.Login(ctx, req.Login, req.Password)
 
-func (s *AuthGRPCServer) Login(ctx context.Context, req *authv1.LoginRequest) (*authv1.LoginResponse, error) {
-	user, token, err := s.authService.Login(ctx, req.Email, req.Password)
 	if err != nil {
 		if err == domain.ErrInvalidCredentials {
-			return nil, status.Errorf(codes.Unauthenticated, "invalid email or password")
+			return nil, status.Error(codes.Unauthenticated, "invalid credentials")
 		}
-		log.Printf("Error logging in user: %v", err)
-		return nil, status.Errorf(codes.Internal, "failed to login: %v", err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	return &authv1.LoginResponse{
 		UserId:       user.ID,
-		AccessToken:  token,
-		RefreshToken: "",
+		Role:         user.Role,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}, nil
 }
 
-func (s *AuthGRPCServer) ValidateToken(ctx context.Context, req *authv1.ValidateTokenRequest) (*authv1.ValidateTokenResponse, error) {
-	userID, role, isValid, err := s.authService.ValidateToken(ctx, req.AccessToken)
+// ================= REFRESH =================
+
+func (s *AuthGRPCServer) Refresh(
+	ctx context.Context,
+	req *authv1.RefreshRequest,
+) (*authv1.RefreshResponse, error) {
+
+	if req.RefreshToken == "" {
+		return nil, status.Error(codes.InvalidArgument, "refresh token is required")
+	}
+
+	accessToken, err := s.authService.Refresh(ctx, req.RefreshToken)
+	if err != nil {
+		if err == domain.ErrInvalidToken {
+			return nil, status.Error(codes.Unauthenticated, "invalid refresh token")
+		}
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &authv1.RefreshResponse{
+		AccessToken: accessToken,
+	}, nil
+}
+
+// ================= VALIDATE =================
+
+func (s *AuthGRPCServer) ValidateToken(
+	ctx context.Context,
+	req *authv1.ValidateTokenRequest,
+) (*authv1.ValidateTokenResponse, error) {
+
+	if req.AccessToken == "" {
+		return &authv1.ValidateTokenResponse{
+			IsValid: false,
+		}, nil
+	}
+
+	userID, role, isValid, err :=
+		s.authService.ValidateToken(ctx, req.AccessToken)
+
 	if err != nil || !isValid {
-		return nil, status.Errorf(codes.Unauthenticated, "invalid or expired token: %v", err)
+		return &authv1.ValidateTokenResponse{
+			IsValid: false,
+		}, nil
 	}
 
 	return &authv1.ValidateTokenResponse{
 		UserId:  userID,
-		IsValid: isValid,
 		Role:    role,
+		IsValid: true,
 	}, nil
 }
 
-func (s *AuthGRPCServer) Logout(ctx context.Context, req *authv1.LogoutRequest) (*authv1.LogoutResponse, error) {
-	err := s.authService.Logout(ctx, req.AccessToken)
-	if err != nil {
-		log.Printf("Error during logout: %v", err)
-		return nil, status.Errorf(codes.Internal, "failed to logout: %v", err)
+// ================= LOGOUT =================
+
+func (s *AuthGRPCServer) Logout(
+	ctx context.Context,
+	req *authv1.LogoutRequest,
+) (*authv1.LogoutResponse, error) {
+
+	if req.RefreshToken == "" {
+		return nil, status.Error(codes.InvalidArgument, "refresh token is required")
 	}
-	log.Printf("Logout successful for token: %s", req.AccessToken)
-	return &authv1.LogoutResponse{Success: true}, nil
+
+	if err := s.authService.Logout(ctx, req.RefreshToken); err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &authv1.LogoutResponse{
+		Success: true,
+	}, nil
 }

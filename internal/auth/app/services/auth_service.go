@@ -3,103 +3,152 @@ package services
 import (
 	"context"
 	"errors"
-	"fmt"
-	utils2 "github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/utils"
-	"log"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/database/postgres"
-	"github.com/google/uuid"
+	utils "github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/utils"
 )
 
+const (
+	accessTokenTTL  = 15 * time.Minute
+	refreshTokenTTL = 7 * 24 * time.Hour
+)
+
+// ===== PUBLIC INTERFACE =====
+
 type AuthService interface {
-	Register(ctx context.Context, email, password string) (*domain.User, string, error)
-	Login(ctx context.Context, email, password string) (*domain.User, string, error)
-	ValidateToken(ctx context.Context, token string) (userID, role string, isValid bool, err error)
-	Logout(ctx context.Context, token string) error
+	Login(
+		ctx context.Context,
+		login, password string,
+	) (*domain.User, string, string, error)
+
+	Refresh(ctx context.Context, refreshToken string) (string, error)
+
+	ValidateToken(
+		ctx context.Context,
+		accessToken string,
+	) (userID, role string, isValid bool, err error)
+
+	Logout(ctx context.Context, refreshToken string) error
 }
+
+// ===== IMPLEMENTATION =====
 
 type authService struct {
-	userRepo        postgres.UserRepository
-	jwtSecret       string
-	jwtExpirationHs int
+	userRepo  postgres.UserRepository
+	tokenRepo postgres.RefreshTokenRepository
+	jwtSecret string
 }
 
-func NewAuthService(userRepo postgres.UserRepository, jwtSecret string, jwtExpirationHs int) AuthService {
+func NewAuthService(
+	userRepo postgres.UserRepository,
+	tokenRepo postgres.RefreshTokenRepository,
+	jwtSecret string,
+) AuthService {
 	return &authService{
-		userRepo:        userRepo,
-		jwtSecret:       jwtSecret,
-		jwtExpirationHs: jwtExpirationHs,
+		userRepo:  userRepo,
+		tokenRepo: tokenRepo,
+		jwtSecret: jwtSecret,
 	}
 }
 
-func (s *authService) Register(ctx context.Context, email, password string) (*domain.User, string, error) {
-	existingUser, err := s.userRepo.GetUserByEmail(ctx, email)
-	if err != nil && !errors.Is(err, domain.ErrUserNotFound) {
-		return nil, "", fmt.Errorf("failed to check existing user: %w", err)
-	}
-	if existingUser != nil {
-		return nil, "", domain.ErrUserAlreadyExists
-	}
+// ===== METHODS =====
 
-	hashedPassword, err := utils2.HashPassword(password)
-	if err != nil {
-		return nil, "", fmt.Errorf("failed to hash password: %w", err)
-	}
+func (s *authService) Login(
+	ctx context.Context,
+	login, password string,
+) (*domain.User, string, string, error) {
 
-	newUser := &domain.User{
-		ID:        uuid.New().String(),
-		Email:     email,
-		Password:  hashedPassword,
-		Role:      "user",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-
-	if err := s.userRepo.CreateUser(ctx, newUser); err != nil {
-		return nil, "", fmt.Errorf("failed to create user: %w", err)
-	}
-
-	token, err := utils2.GenerateJWT(newUser.ID, newUser.Role, s.jwtSecret, s.jwtExpirationHs)
-	if err != nil {
-		return nil, "", fmt.Errorf("failed to generate JWT for new user: %w", err)
-	}
-
-	return newUser, token, nil
-}
-
-func (s *authService) Login(ctx context.Context, email, password string) (*domain.User, string, error) {
-	user, err := s.userRepo.GetUserByEmail(ctx, email)
+	user, err := s.userRepo.GetUserByLogin(ctx, login)
 	if err != nil {
 		if errors.Is(err, domain.ErrUserNotFound) {
-			return nil, "", domain.ErrInvalidCredentials
+			return nil, "", "", domain.ErrInvalidCredentials
 		}
-		return nil, "", fmt.Errorf("failed to retrieve user: %w", err)
+		return nil, "", "", err
 	}
 
-	if !utils2.CheckPasswordHash(password, user.Password) {
-		return nil, "", domain.ErrInvalidCredentials
+	if !utils.CheckPasswordHash(password, user.Password) {
+		return nil, "", "", domain.ErrInvalidCredentials
 	}
 
-	token, err := utils2.GenerateJWT(user.ID, user.Role, s.jwtSecret, s.jwtExpirationHs)
+	accessToken, err := utils.GenerateJWT(
+		user.ID,
+		user.Role,
+		s.jwtSecret,
+		accessTokenTTL,
+	)
 	if err != nil {
-		return nil, "", fmt.Errorf("failed to generate JWT: %w", err)
+		return nil, "", "", err
 	}
 
-	return user, token, nil
+	refreshToken := uuid.NewString()
+	refreshTokenHash := utils.HashString(refreshToken)
+
+	err = s.tokenRepo.Create(ctx, &domain.RefreshToken{
+		ID:        uuid.NewString(),
+		UserID:    user.ID,
+		TokenHash: refreshTokenHash,
+		ExpiresAt: time.Now().Add(refreshTokenTTL),
+		CreatedAt: time.Now(),
+	})
+	if err != nil {
+		return nil, "", "", err
+	}
+
+	return user, accessToken, refreshToken, nil
 }
 
-func (s *authService) ValidateToken(ctx context.Context, token string) (userID, role string, isValid bool, err error) {
-	claims, err := utils2.ParseJWT(token, s.jwtSecret)
+func (s *authService) Refresh(
+	ctx context.Context,
+	refreshToken string,
+) (string, error) {
+
+	hash := utils.HashString(refreshToken)
+
+	rt, err := s.tokenRepo.GetByHash(ctx, hash)
 	if err != nil {
-		return "", "", false, fmt.Errorf("token validation failed: %w", err)
+		return "", domain.ErrInvalidToken
+	}
+
+	if time.Now().After(rt.ExpiresAt) {
+		_ = s.tokenRepo.DeleteByHash(ctx, hash)
+		return "", domain.ErrInvalidToken
+	}
+
+	user, err := s.userRepo.GetUserByID(ctx, rt.UserID)
+	if err != nil {
+		return "", err
+	}
+
+	return utils.GenerateJWT(
+		user.ID,
+		user.Role,
+		s.jwtSecret,
+		accessTokenTTL,
+	)
+}
+
+func (s *authService) ValidateToken(
+	ctx context.Context,
+	accessToken string,
+) (string, string, bool, error) {
+
+	claims, err := utils.ParseJWT(accessToken, s.jwtSecret)
+	if err != nil {
+		return "", "", false, nil
 	}
 
 	return claims.UserID, claims.Role, true, nil
 }
 
-func (s *authService) Logout(ctx context.Context, token string) error {
-	log.Printf("User logout simulated for token: %s", token)
-	return nil
+func (s *authService) Logout(
+	ctx context.Context,
+	refreshToken string,
+) error {
+
+	hash := utils.HashString(refreshToken)
+	return s.tokenRepo.DeleteByHash(ctx, hash)
 }
