@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	authgrpc "github.com/KarpovYuri/caraudio-backend/internal/auth/adapters/grpc"
 	authservice "github.com/KarpovYuri/caraudio-backend/internal/auth/app/services"
@@ -14,6 +15,8 @@ import (
 )
 
 func main() {
+	log.SetOutput(os.Stdout)
+
 	cfg, err := authconfig.LoadConfig()
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
