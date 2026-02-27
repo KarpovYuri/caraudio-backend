@@ -1,6 +1,7 @@
 grpc_port: ":50051"
 jwt_secret: "super_secret_auth_jwt_key_please_change"
 jwt_expiration_hours: 24
+allowed_origin: "http://localhost:4200"
 
 database:
   host: "localhost"

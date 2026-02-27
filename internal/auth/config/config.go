@@ -12,6 +12,7 @@ type Config struct {
 	GRPCPort           string         `mapstructure:"grpc_port"`
 	JWTSecret          string         `mapstructure:"jwt_secret"`
 	JWTExpirationHours int            `mapstructure:"jwt_expiration_hours"`
+	AllowedOrigin      string         `mapstructure:"allowed_origin"`
 	Database           DatabaseConfig `mapstructure:"database"`
 }
 
