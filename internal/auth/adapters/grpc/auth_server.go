@@ -33,7 +33,7 @@ func (s *AuthGRPCServer) Login(
 	}
 
 	user, accessToken, refreshToken, err :=
-		s.authService.Login(ctx, req.Login, req.Password)
+		s.authService.Login(ctx, req.Login, req.Password, req.RememberMe)
 
 	if err != nil {
 		if errors.Is(err, domain.ErrInvalidCredentials) {

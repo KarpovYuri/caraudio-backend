@@ -12,6 +12,7 @@ type RefreshTokenRepository interface {
 	Create(ctx context.Context, token *domain.RefreshToken) error
 	GetByHash(ctx context.Context, hash string) (*domain.RefreshToken, error)
 	DeleteByHash(ctx context.Context, hash string) error
+	DeleteByUserId(ctx context.Context, userId string) error
 }
 
 type PgRefreshTokenRepository struct {
@@ -79,5 +80,16 @@ func (r *PgRefreshTokenRepository) DeleteByHash(
 	`
 
 	_, err := r.db.ExecContext(ctx, query, hash)
+	return err
+}
+
+func (r *PgRefreshTokenRepository) DeleteByUserId(
+	ctx context.Context,
+	userId string) error {
+	query := `
+		DELETE FROM refresh_tokens
+		WHERE user_id = $1
+`
+	_, err := r.db.ExecContext(ctx, query, userId)
 	return err
 }

@@ -2,7 +2,6 @@ package domain
 
 import "time"
 
-// RefreshToken хранит refresh-токен пользователя
 type RefreshToken struct {
 	ID        string    `db:"id"`
 	UserID    string    `db:"user_id"`

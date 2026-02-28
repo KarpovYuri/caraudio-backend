@@ -2,7 +2,6 @@ package domain
 
 import "errors"
 
-// Общие ошибки для auth-сервиса
 var (
 	ErrUserNotFound        = errors.New("user not found")
 	ErrUserAlreadyExists   = errors.New("user already exists")

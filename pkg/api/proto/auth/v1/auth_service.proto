@@ -11,6 +11,7 @@ option go_package = "github.com/KarpovYuri/caraudio-backend/pkg/api/proto/auth/v
 message LoginRequest {
   string login = 1;
   string password = 2;
+  bool remember_me = 3;
 }
 
 message LoginResponse {

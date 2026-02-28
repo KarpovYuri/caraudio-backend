@@ -13,14 +13,16 @@ import (
 )
 
 const (
-	accessTokenTTL  = 15 * time.Minute
-	refreshTokenTTL = 7 * 24 * time.Hour
+	accessTokenTTL       = 15 * time.Minute
+	defaultRefreshTTL    = 24 * time.Hour
+	rememberMeRefreshTTL = 30 * 24 * time.Hour
 )
 
 type AuthService interface {
 	Login(
 		ctx context.Context,
 		login, password string,
+		rememberMe bool,
 	) (*domain.User, string, string, error)
 
 	Refresh(ctx context.Context, refreshToken string) (string, error)
@@ -54,6 +56,7 @@ func NewAuthService(
 func (s *authService) Login(
 	ctx context.Context,
 	login, password string,
+	rememberMe bool,
 ) (*domain.User, string, string, error) {
 
 	user, err := s.userRepo.GetUserByLogin(ctx, login)
@@ -78,6 +81,13 @@ func (s *authService) Login(
 		return nil, "", "", err
 	}
 
+	refreshTTL := defaultRefreshTTL
+	if rememberMe {
+		refreshTTL = rememberMeRefreshTTL
+	}
+
+	_ = s.tokenRepo.DeleteByUserId(ctx, user.ID)
+
 	refreshToken := uuid.NewString()
 	refreshTokenHash := utils.HashString(refreshToken)
 
@@ -85,7 +95,7 @@ func (s *authService) Login(
 		ID:        uuid.NewString(),
 		UserID:    user.ID,
 		TokenHash: refreshTokenHash,
-		ExpiresAt: time.Now().Add(refreshTokenTTL),
+		ExpiresAt: time.Now().Add(refreshTTL),
 		CreatedAt: time.Now(),
 	})
 	if err != nil {
