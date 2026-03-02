@@ -18,14 +18,11 @@ message LoginResponse {
   string user_id = 1;
   string role = 2;
   string access_token = 3;
-  string refresh_token = 4;
 }
 
 // ===== REFRESH =====
 
-message RefreshRequest {
-  string refresh_token = 1;
-}
+message RefreshRequest {}
 
 message RefreshResponse {
   string access_token = 1;
@@ -45,9 +42,7 @@ message ValidateTokenResponse {
 
 // ===== LOGOUT =====
 
-message LogoutRequest {
-  string refresh_token = 1;
-}
+message LogoutRequest {}
 
 message LogoutResponse {
   bool success = 1;

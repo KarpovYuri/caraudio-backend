@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 
 	authgrpc "github.com/KarpovYuri/caraudio-backend/internal/auth/adapters/grpc"
 	authservice "github.com/KarpovYuri/caraudio-backend/internal/auth/app/services"
@@ -15,6 +16,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
@@ -62,7 +64,30 @@ func main() {
 	}()
 
 	ctx := context.Background()
-	mux := runtime.NewServeMux()
+
+	mux := runtime.NewServeMux(
+		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
+			switch strings.ToLower(key) {
+			case "cookie":
+				return "grpcgateway-cookie", true
+			default:
+				return runtime.DefaultHeaderMatcher(key)
+			}
+		}),
+		runtime.WithForwardResponseOption(func(ctx context.Context, w http.ResponseWriter, resp proto.Message) error {
+			md, ok := runtime.ServerMetadataFromContext(ctx)
+			if !ok {
+				return nil
+			}
+			if cookies := md.HeaderMD.Get("set-cookie"); len(cookies) > 0 {
+				for _, cookie := range cookies {
+					w.Header().Add("Set-Cookie", cookie)
+				}
+			}
+			return nil
+		}),
+	)
+
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
 	err = authv1.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, "localhost"+cfg.GRPCPort, opts)
@@ -80,8 +105,9 @@ func allowCORS(h http.Handler, origin string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization, Set-Cookie, Cookie")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
+		w.Header().Set("Access-Control-Expose-Headers", "Set-Cookie")
 
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
