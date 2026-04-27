@@ -18,12 +18,14 @@ import (
 
 type AuthGRPCServer struct {
 	authv1.UnimplementedAuthServiceServer
-	authService services.AuthService
+	authService  services.AuthService
+	cookieSecure bool
 }
 
-func NewAuthGRPCServer(authService services.AuthService) *AuthGRPCServer {
+func NewAuthGRPCServer(authService services.AuthService, cookieSecure bool) *AuthGRPCServer {
 	return &AuthGRPCServer{
-		authService: authService,
+		authService:  authService,
+		cookieSecure: cookieSecure,
 	}
 }
 
@@ -46,8 +48,16 @@ func (s *AuthGRPCServer) Login(
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
+	maxAge := 24 * 60 * 60
+	if req.RememberMe {
+		maxAge = 30 * 24 * 60 * 60
+	}
+
 	cookieValue := fmt.Sprintf("refresh_token=%s; Path=/; HttpOnly; SameSite=Lax; MaxAge=%d",
-		refreshToken, 30*24*60*60)
+		refreshToken, maxAge)
+	if s.cookieSecure {
+		cookieValue += "; Secure"
+	}
 
 	header := metadata.Pairs("Set-Cookie", cookieValue)
 
@@ -143,6 +153,9 @@ func (s *AuthGRPCServer) Logout(
 	}
 
 	deleteCookie := "refresh_token=; Path=/; HttpOnly; SameSite=Lax; MaxAge=-1"
+	if s.cookieSecure {
+		deleteCookie += "; Secure"
+	}
 
 	header := metadata.Pairs("Set-Cookie", deleteCookie)
 

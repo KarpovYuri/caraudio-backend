@@ -46,7 +46,7 @@ func main() {
 		cfg.JWTSecret,
 	)
 
-	authGRPCServer := authgrpc.NewAuthGRPCServer(authService)
+	authGRPCServer := authgrpc.NewAuthGRPCServer(authService, cfg.CookieSecure)
 
 	lis, err := net.Listen("tcp", cfg.GRPCPort)
 	if err != nil {
@@ -96,18 +96,22 @@ func main() {
 	}
 
 	log.Printf("Auth HTTP Gateway listening on :8080")
-	if err := http.ListenAndServe(":8080", allowCORS(mux, cfg.AllowedOrigin)); err != nil {
+	if err := http.ListenAndServe(":8080", allowCORS(mux, cfg.AllowedOrigins)); err != nil {
 		log.Fatalf("Failed to serve Gateway: %v", err)
 	}
 }
 
-func allowCORS(h http.Handler, origin string) http.Handler {
+func allowCORS(h http.Handler, allowedOrigins []string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", origin)
+		origin := r.Header.Get("Origin")
+		if origin != "" && isAllowedOrigin(origin, allowedOrigins) {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+			w.Header().Set("Access-Control-Expose-Headers", "Set-Cookie")
+		}
+		w.Header().Set("Vary", "Origin")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization, Set-Cookie, Cookie")
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Expose-Headers", "Set-Cookie")
 
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
@@ -115,4 +119,13 @@ func allowCORS(h http.Handler, origin string) http.Handler {
 		}
 		h.ServeHTTP(w, r)
 	})
+}
+
+func isAllowedOrigin(origin string, allowedOrigins []string) bool {
+	for _, allowedOrigin := range allowedOrigins {
+		if origin == allowedOrigin {
+			return true
+		}
+	}
+	return false
 }

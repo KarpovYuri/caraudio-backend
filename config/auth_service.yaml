@@ -1,12 +1,14 @@
 grpc_port: ":50051"
-jwt_secret: "super_secret_auth_jwt_key_please_change"
+jwt_secret: ""
 jwt_expiration_hours: 24
-allowed_origin: "http://localhost:4200"
+allowed_origins:
+  - "http://localhost:4200"
+cookie_secure: false
 
 database:
   host: "localhost"
   port: 5432
   user: "auth_db_user"
-  password: "auth_db_password"
+  password: ""
   dbname: "auth_db"
   sslmode: "disable"
