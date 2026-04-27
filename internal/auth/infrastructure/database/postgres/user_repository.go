@@ -8,7 +8,7 @@ import (
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 )
 
 type UserRepository interface {
@@ -30,8 +30,8 @@ func (r *postgresUserRepository) CreateUser(ctx context.Context, user *domain.Us
               VALUES (:id, :login, :password, :role, :created_at, :updated_at)`
 	_, err := r.db.NamedExecContext(ctx, query, user)
 	if err != nil {
-		if err.Error() == "pq: duplicate key value violates unique constraint \"idx_users_login\"" ||
-			err.Error() == "pq: duplicate key value violates unique constraint \"users_login_key\"" {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) && pqErr.Code == "23505" {
 			return domain.ErrUserAlreadyExists
 		}
 		return fmt.Errorf("failed to create user: %w", err)

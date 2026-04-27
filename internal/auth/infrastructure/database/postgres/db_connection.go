@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/config"
 	"github.com/jmoiron/sqlx"
@@ -19,11 +19,11 @@ func InitDB(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
 
 	if err = db.Ping(); err != nil {
 		if closeErr := db.Close(); closeErr != nil {
-			log.Printf("failed to close DB connection after failed ping: %v", closeErr)
+			slog.Error("failed to close db connection after failed ping", "error", closeErr)
 		}
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	log.Println("Auth Service: Successfully connected to the database!")
+	slog.Info("database connection established")
 	return db, nil
 }

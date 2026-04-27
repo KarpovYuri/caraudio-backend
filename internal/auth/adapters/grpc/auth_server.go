@@ -42,10 +42,7 @@ func (s *AuthGRPCServer) Login(
 		s.authService.Login(ctx, req.Login, req.Password, req.RememberMe)
 
 	if err != nil {
-		if errors.Is(err, domain.ErrInvalidCredentials) {
-			return nil, status.Error(codes.Unauthenticated, "invalid credentials")
-		}
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, mapServiceError(err)
 	}
 
 	maxAge := 24 * 60 * 60
@@ -95,10 +92,7 @@ func (s *AuthGRPCServer) Refresh(
 
 	accessToken, err := s.authService.Refresh(ctx, refreshToken)
 	if err != nil {
-		if errors.Is(err, domain.ErrInvalidToken) {
-			return nil, status.Error(codes.Unauthenticated, "invalid refresh token")
-		}
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, mapServiceError(err)
 	}
 
 	return &authv1.RefreshResponse{
@@ -120,7 +114,16 @@ func (s *AuthGRPCServer) ValidateToken(
 	userID, role, isValid, err :=
 		s.authService.ValidateToken(ctx, req.AccessToken)
 
-	if err != nil || !isValid {
+	if err != nil {
+		if errors.Is(err, domain.ErrInvalidToken) || errors.Is(err, domain.ErrTokenExpired) {
+			return &authv1.ValidateTokenResponse{
+				IsValid: false,
+			}, nil
+		}
+		return nil, mapServiceError(err)
+	}
+
+	if !isValid {
 		return &authv1.ValidateTokenResponse{
 			IsValid: false,
 		}, nil
@@ -177,4 +180,17 @@ func extractToken(cookieStr, name string) string {
 		}
 	}
 	return ""
+}
+
+func mapServiceError(err error) error {
+	switch {
+	case errors.Is(err, domain.ErrInvalidCredentials):
+		return status.Error(codes.Unauthenticated, "invalid credentials")
+	case errors.Is(err, domain.ErrInvalidToken), errors.Is(err, domain.ErrTokenExpired):
+		return status.Error(codes.Unauthenticated, "invalid token")
+	case errors.Is(err, domain.ErrUserNotFound):
+		return status.Error(codes.NotFound, "user not found")
+	default:
+		return status.Error(codes.Internal, "internal server error")
+	}
 }

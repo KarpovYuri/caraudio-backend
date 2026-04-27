@@ -3,8 +3,10 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
@@ -91,7 +93,7 @@ func (s *authService) Login(
 	refreshToken := uuid.NewString()
 	refreshTokenHash := utils.HashString(refreshToken)
 
-	err = s.tokenRepo.Create(ctx, &domain.RefreshToken{
+	err = s.tokenRepo.ReplaceForUser(ctx, &domain.RefreshToken{
 		ID:        uuid.NewString(),
 		UserID:    user.ID,
 		TokenHash: refreshTokenHash,
@@ -142,7 +144,10 @@ func (s *authService) ValidateToken(
 
 	claims, err := utils.ParseJWT(accessToken, s.jwtSecret)
 	if err != nil {
-		return "", "", false, nil
+		if errors.Is(err, jwt.ErrTokenExpired) {
+			return "", "", false, fmt.Errorf("%w: %v", domain.ErrTokenExpired, err)
+		}
+		return "", "", false, fmt.Errorf("%w: %v", domain.ErrInvalidToken, err)
 	}
 
 	return claims.UserID, claims.Role, true, nil

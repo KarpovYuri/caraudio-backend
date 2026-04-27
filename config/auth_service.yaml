@@ -1,9 +1,15 @@
 grpc_port: ":50051"
+http_port: ":8080"
 jwt_secret: ""
 jwt_expiration_hours: 24
 allowed_origins:
   - "http://localhost:4200"
 cookie_secure: false
+http_read_timeout: 15s
+http_write_timeout: 15s
+http_idle_timeout: 60s
+shutdown_timeout: 15s
+token_cleanup_every: 10m
 
 database:
   host: "localhost"
