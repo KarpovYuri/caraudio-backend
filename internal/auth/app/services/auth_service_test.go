@@ -11,12 +11,18 @@ import (
 )
 
 type fakeUserRepo struct {
+	createUserFn     func(ctx context.Context, user *domain.User) error
 	getUserByLoginFn func(ctx context.Context, login string) (*domain.User, error)
 	getUserByIDFn    func(ctx context.Context, id string) (*domain.User, error)
+	updateUserFn     func(ctx context.Context, user *domain.User) error
+	deleteUserFn     func(ctx context.Context, id string) error
 }
 
-func (f *fakeUserRepo) CreateUser(_ context.Context, _ *domain.User) error {
-	return nil
+func (f *fakeUserRepo) CreateUser(ctx context.Context, user *domain.User) error {
+	if f.createUserFn == nil {
+		return nil
+	}
+	return f.createUserFn(ctx, user)
 }
 
 func (f *fakeUserRepo) GetUserByLogin(ctx context.Context, login string) (*domain.User, error) {
@@ -31,6 +37,20 @@ func (f *fakeUserRepo) GetUserByID(ctx context.Context, id string) (*domain.User
 		return nil, errors.New("getUserByIDFn is not set")
 	}
 	return f.getUserByIDFn(ctx, id)
+}
+
+func (f *fakeUserRepo) UpdateUser(ctx context.Context, user *domain.User) error {
+	if f.updateUserFn == nil {
+		return nil
+	}
+	return f.updateUserFn(ctx, user)
+}
+
+func (f *fakeUserRepo) DeleteUser(ctx context.Context, id string) error {
+	if f.deleteUserFn == nil {
+		return nil
+	}
+	return f.deleteUserFn(ctx, id)
 }
 
 type fakeRefreshTokenRepo struct {

@@ -58,7 +58,10 @@ func main() {
 		cfg.JWTSecret,
 	)
 
+	userService := authservice.NewUserService(userRepo)
+
 	authGRPCServer := authgrpc.NewAuthGRPCServer(authService, cfg.CookieSecure)
+	userGRPCServer := authgrpc.NewUserGRPCServer(userService, authService)
 
 	lis, err := net.Listen("tcp", cfg.GRPCPort)
 	if err != nil {
@@ -68,6 +71,7 @@ func main() {
 
 	s := grpc.NewServer(grpc.UnaryInterceptor(grpcLoggingInterceptor(logger)))
 	authv1.RegisterAuthServiceServer(s, authGRPCServer)
+	authv1.RegisterUserServiceServer(s, userGRPCServer)
 
 	ctx := context.Background()
 
@@ -83,6 +87,8 @@ func main() {
 			switch strings.ToLower(key) {
 			case "cookie":
 				return "grpcgateway-cookie", true
+			case "authorization":
+				return "authorization", true
 			default:
 				return runtime.DefaultHeaderMatcher(key)
 			}
@@ -105,7 +111,13 @@ func main() {
 
 	err = authv1.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, "localhost"+cfg.GRPCPort, opts)
 	if err != nil {
-		logger.Error("failed to register gateway", "error", err)
+		logger.Error("failed to register auth gateway", "error", err)
+		os.Exit(1)
+	}
+
+	err = authv1.RegisterUserServiceHandlerFromEndpoint(ctx, mux, "localhost"+cfg.GRPCPort, opts)
+	if err != nil {
+		logger.Error("failed to register user gateway", "error", err)
 		os.Exit(1)
 	}
 

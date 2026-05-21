@@ -188,8 +188,16 @@ func mapServiceError(err error) error {
 		return status.Error(codes.Unauthenticated, "invalid credentials")
 	case errors.Is(err, domain.ErrInvalidToken), errors.Is(err, domain.ErrTokenExpired):
 		return status.Error(codes.Unauthenticated, "invalid token")
+	case errors.Is(err, domain.ErrUnauthorized):
+		return status.Error(codes.Unauthenticated, "unauthorized")
+	case errors.Is(err, domain.ErrForbidden):
+		return status.Error(codes.PermissionDenied, "forbidden")
 	case errors.Is(err, domain.ErrUserNotFound):
 		return status.Error(codes.NotFound, "user not found")
+	case errors.Is(err, domain.ErrUserAlreadyExists):
+		return status.Error(codes.AlreadyExists, "user already exists")
+	case errors.Is(err, domain.ErrInvalidArgument):
+		return status.Error(codes.InvalidArgument, err.Error())
 	default:
 		return status.Error(codes.Internal, "internal server error")
 	}

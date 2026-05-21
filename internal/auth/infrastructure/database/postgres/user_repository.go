@@ -15,6 +15,8 @@ type UserRepository interface {
 	CreateUser(ctx context.Context, user *domain.User) error
 	GetUserByLogin(ctx context.Context, login string) (*domain.User, error)
 	GetUserByID(ctx context.Context, id string) (*domain.User, error)
+	UpdateUser(ctx context.Context, user *domain.User) error
+	DeleteUser(ctx context.Context, id string) error
 }
 
 type postgresUserRepository struct {
@@ -63,4 +65,41 @@ func (r *postgresUserRepository) GetUserByID(ctx context.Context, id string) (*d
 		return nil, fmt.Errorf("failed to get user by ID: %w", err)
 	}
 	return &user, nil
+}
+
+func (r *postgresUserRepository) UpdateUser(ctx context.Context, user *domain.User) error {
+	query := `UPDATE users
+              SET login = :login, password = :password, role = :role, updated_at = :updated_at
+              WHERE id = :id`
+	result, err := r.db.NamedExecContext(ctx, query, user)
+	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) && pqErr.Code == "23505" {
+			return domain.ErrUserAlreadyExists
+		}
+		return fmt.Errorf("failed to update user: %w", err)
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+	if rows == 0 {
+		return domain.ErrUserNotFound
+	}
+	return nil
+}
+
+func (r *postgresUserRepository) DeleteUser(ctx context.Context, id string) error {
+	result, err := r.db.ExecContext(ctx, `DELETE FROM users WHERE id = $1`, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete user: %w", err)
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+	if rows == 0 {
+		return domain.ErrUserNotFound
+	}
+	return nil
 }

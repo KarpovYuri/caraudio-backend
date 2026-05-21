@@ -4,6 +4,11 @@ import (
 	"time"
 )
 
+const (
+	RoleUser  = "user"
+	RoleAdmin = "admin"
+)
+
 type User struct {
 	ID        string    `db:"id"`
 	Login     string    `db:"login"`
