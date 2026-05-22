@@ -56,7 +56,7 @@ jobs:
 
             docker pull ghcr.io/karpovyuri/caraudio-backend:latest
 
-            cat << 'EOF' > ~/auth_service.env
+            cat << EOF > ~/auth_service.env
             AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
             AUTH_DATABASE_PASSWORD="${{ secrets.AUTH_DATABASE_PASSWORD }}"
             AUTH_GRPC_PORT=:50051
@@ -74,7 +74,7 @@ jobs:
               --name auth-service-prod \
               --restart unless-stopped \
               -p 127.0.0.1:8080:8080 \
-              -v ~/auth_service.env:/.env \
+              --env-file ~/auth_service.env \
               ghcr.io/karpovyuri/caraudio-backend:latest
 
             docker image prune -f
