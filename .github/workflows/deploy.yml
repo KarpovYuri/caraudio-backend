@@ -3,7 +3,7 @@ name: Deploy Auth Service
 on:
   push:
     branches:
-      - main # или мастер, поменяй на свою ветку, если нужно
+      - main
 
 jobs:
   build-and-push:
@@ -23,7 +23,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: karpovyuri
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
@@ -32,7 +32,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/caraudio-backend:latest
+          tags: ghcr.io/karpovyuri/caraudio-backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -49,12 +49,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u karpovyuri --password-stdin
 
             docker stop auth-service-prod || true
             docker rm auth-service-prod || true
 
-            docker pull ghcr.io/${{ github.repository_owner }}/caraudio-backend:latest
+            docker pull ghcr.io/karpovyuri/caraudio-backend:latest
 
             cat << 'EOF' > ~/auth_service.env
             AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
@@ -75,6 +75,6 @@ jobs:
               --restart unless-stopped \
               -p 127.0.0.1:8080:8080 \
               -v ~/auth_service.env:/.env \
-              ghcr.io/${{ github.repository_owner }}/caraudio-backend:latest
+              ghcr.io/karpovyuri/caraudio-backend:latest
 
             docker image prune -f
