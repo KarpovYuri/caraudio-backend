@@ -58,7 +58,12 @@ jobs:
 
             cat << EOF > ~/auth_service.env
             AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
+            AUTH_DATABASE_HOST="localhost"
+            AUTH_DATABASE_PORT="5432"
+            AUTH_DATABASE_USER="auth_db_user"
+            AUTH_DATABASE_NAME="auth_db"
             AUTH_DATABASE_PASSWORD="${{ secrets.AUTH_DATABASE_PASSWORD }}"
+            AUTH_DATABASE_SSLMODE="disable"
             AUTH_GRPC_PORT=:50051
             AUTH_HTTP_PORT=:8080
             AUTH_ALLOWED_ORIGINS=http://localhost:4200
