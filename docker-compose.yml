@@ -1,6 +1,22 @@
 version: "3.9"
 
 services:
+  auth-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-service-app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=auth_db_user
+      - DB_PASSWORD=auth_db_password
+      - DB_NAME=auth_db
+    depends_on:
+      - postgres
   postgres:
     image: postgres:16
     container_name: auth-postgres
