@@ -58,7 +58,7 @@ jobs:
 
             cat << EOF > ~/auth_service.env
             AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
-            AUTH_DATABASE_HOST="localhost"
+            AUTH_DATABASE_HOST="auth-postgres"
             AUTH_DATABASE_PORT="5432"
             AUTH_DATABASE_USER="auth_db_user"
             AUTH_DATABASE_NAME="auth_db"
