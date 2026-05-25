@@ -95,9 +95,6 @@ jobs:
             AUTH_TOKEN_CLEANUP_EVERY=10m
             EOF
 
-            # ----------------------------
-            # START BACKEND
-            # ----------------------------
             docker pull ghcr.io/karpovyuri/caraudio-backend:latest
 
             docker run -d \
@@ -108,7 +105,4 @@ jobs:
               --env-file ~/auth_service.env \
               ghcr.io/karpovyuri/caraudio-backend:latest
 
-            # ----------------------------
-            # CLEANUP
-            # ----------------------------
             docker image prune -f
