@@ -12,7 +12,7 @@ shutdown_timeout: 15s
 token_cleanup_every: 10m
 
 database:
-  host: "localhost"
+  host: "auth-postgres"
   port: 5432
   user: "auth_db_user"
   password: ""
