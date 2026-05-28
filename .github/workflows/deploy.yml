@@ -55,22 +55,11 @@ jobs:
             docker pull ghcr.io/karpovyuri/caraudio-backend:latest
 
             cat << EOF > ~/auth_service.env
-            AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
-            AUTH_DATABASE_HOST="${{ secrets.AUTH_DATABASE_HOST }}"
-            AUTH_DATABASE_PORT="${{ secrets.AUTH_DATABASE_PORT }}"
             AUTH_DATABASE_USER="${{ secrets.AUTH_DATABASE_USER }}"
             AUTH_DATABASE_DBNAME="${{ secrets.AUTH_DATABASE_DBNAME }}"
             AUTH_DATABASE_PASSWORD="${{ secrets.AUTH_DATABASE_PASSWORD }}"
-            AUTH_DATABASE_SSLMODE="${{ secrets.AUTH_DATABASE_SSLMODE }}"
-            AUTH_GRPC_PORT=:50051
-            AUTH_HTTP_PORT=:8080
-            AUTH_ALLOWED_ORIGINS=http://localhost:4200
-            AUTH_COOKIE_SECURE=false
-            AUTH_HTTP_READ_TIMEOUT=15s
-            AUTH_HTTP_WRITE_TIMEOUT=15s
-            AUTH_HTTP_IDLE_TIMEOUT=60s
-            AUTH_SHUTDOWN_TIMEOUT=15s
-            AUTH_TOKEN_CLEANUP_EVERY=10m
+            AUTH_DATABASE_HOST="${{ secrets.AUTH_DATABASE_HOST }}"
+            AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"            
             EOF
             
             docker stop auth-service-prod || true

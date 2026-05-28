@@ -68,6 +68,9 @@ func LoadConfig() (*Config, error) {
 	if dbName := os.Getenv("AUTH_DATABASE_DBNAME"); dbName != "" {
 		cfg.Database.DBName = dbName
 	}
+	if dbHost := os.Getenv("AUTH_DATABASE_HOST"); dbHost != "" {
+		cfg.Database.Host = dbHost
+	}
 	if jwtSecret := os.Getenv("AUTH_JWT_SECRET"); jwtSecret != "" {
 		cfg.JWTSecret = jwtSecret
 	}
@@ -134,6 +137,9 @@ func LoadConfig() (*Config, error) {
 	}
 	if cfg.Database.DBName == "" {
 		return nil, errors.New("AUTH_DATABASE_DBNAME is required")
+	}
+	if cfg.Database.Host == "" {
+		return nil, errors.New("AUTH_DATABASE_HOST is required")
 	}
 	if cfg.GRPCPort == "" {
 		return nil, errors.New("AUTH_GRPC_PORT is required")
