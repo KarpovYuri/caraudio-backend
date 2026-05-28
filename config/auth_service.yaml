@@ -1,7 +1,6 @@
 grpc_port: ":50051"
 http_port: ":8080"
 jwt_secret: ""
-jwt_expiration_hours: 24
 allowed_origins:
   - "http://localhost:4200"
 cookie_secure: false
@@ -12,9 +11,9 @@ shutdown_timeout: 15s
 token_cleanup_every: 10m
 
 database:
-  host: "auth-postgres"
+  host: "localhost"
   port: 5432
-  user: "auth_db_user"
+  user: ""
   password: ""
-  dbname: "auth_db"
+  dbname: ""
   sslmode: "disable"

@@ -1,0 +1,31 @@
+# Исходный код и бинарные файлы
+.git
+.gitignore
+.dockerignore
+Dockerfile
+*docker-compose*
+bin/
+obj/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Локальные зависимости и кэши
+vendor/
+.idea/
+.vscode/
+node_modules/
+
+# Логи и временные файлы
+*.log
+tmp/
+dist/
+build/
+
+# Тесты и документация (если не нужны в образе)
+*_test.go
+coverage.out
+.DS_Store
+README.md
+docs/

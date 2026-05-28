@@ -14,18 +14,17 @@ import (
 )
 
 type Config struct {
-	GRPCPort           string         `mapstructure:"grpc_port"`
-	HTTPPort           string         `mapstructure:"http_port"`
-	JWTSecret          string         `mapstructure:"jwt_secret"`
-	JWTExpirationHours int            `mapstructure:"jwt_expiration_hours"`
-	AllowedOrigins     []string       `mapstructure:"allowed_origins"`
-	CookieSecure       bool           `mapstructure:"cookie_secure"`
-	HTTPReadTimeout    time.Duration  `mapstructure:"http_read_timeout"`
-	HTTPWriteTimeout   time.Duration  `mapstructure:"http_write_timeout"`
-	HTTPIdleTimeout    time.Duration  `mapstructure:"http_idle_timeout"`
-	ShutdownTimeout    time.Duration  `mapstructure:"shutdown_timeout"`
-	TokenCleanupEvery  time.Duration  `mapstructure:"token_cleanup_every"`
-	Database           DatabaseConfig `mapstructure:"database"`
+	GRPCPort          string         `mapstructure:"grpc_port"`
+	HTTPPort          string         `mapstructure:"http_port"`
+	JWTSecret         string         `mapstructure:"jwt_secret"`
+	AllowedOrigins    []string       `mapstructure:"allowed_origins"`
+	CookieSecure      bool           `mapstructure:"cookie_secure"`
+	HTTPReadTimeout   time.Duration  `mapstructure:"http_read_timeout"`
+	HTTPWriteTimeout  time.Duration  `mapstructure:"http_write_timeout"`
+	HTTPIdleTimeout   time.Duration  `mapstructure:"http_idle_timeout"`
+	ShutdownTimeout   time.Duration  `mapstructure:"shutdown_timeout"`
+	TokenCleanupEvery time.Duration  `mapstructure:"token_cleanup_every"`
+	Database          DatabaseConfig `mapstructure:"database"`
 }
 
 type DatabaseConfig struct {
@@ -60,8 +59,14 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("failed to unmarshal config: %w", err)
 	}
 
+	if dbUser := os.Getenv("AUTH_DATABASE_USER"); dbUser != "" {
+		cfg.Database.User = dbUser
+	}
 	if dbPassword := os.Getenv("AUTH_DATABASE_PASSWORD"); dbPassword != "" {
 		cfg.Database.Password = dbPassword
+	}
+	if dbName := os.Getenv("AUTH_DATABASE_DBNAME"); dbName != "" {
+		cfg.Database.DBName = dbName
 	}
 	if jwtSecret := os.Getenv("AUTH_JWT_SECRET"); jwtSecret != "" {
 		cfg.JWTSecret = jwtSecret
@@ -71,9 +76,6 @@ func LoadConfig() (*Config, error) {
 	}
 	if httpPort := os.Getenv("AUTH_HTTP_PORT"); httpPort != "" {
 		cfg.HTTPPort = httpPort
-	}
-	if allowedOrigin := os.Getenv("AUTH_ALLOWED_ORIGIN"); allowedOrigin != "" {
-		cfg.AllowedOrigins = []string{allowedOrigin}
 	}
 	if allowedOrigins := os.Getenv("AUTH_ALLOWED_ORIGINS"); allowedOrigins != "" {
 		cfg.AllowedOrigins = parseCommaSeparatedList(allowedOrigins)
@@ -124,8 +126,14 @@ func LoadConfig() (*Config, error) {
 	if cfg.JWTSecret == "" {
 		return nil, errors.New("AUTH_JWT_SECRET is required")
 	}
+	if cfg.Database.User == "" {
+		return nil, errors.New("AUTH_DATABASE_USER is required")
+	}
 	if cfg.Database.Password == "" {
 		return nil, errors.New("AUTH_DATABASE_PASSWORD is required")
+	}
+	if cfg.Database.DBName == "" {
+		return nil, errors.New("AUTH_DATABASE_DBNAME is required")
 	}
 	if cfg.GRPCPort == "" {
 		return nil, errors.New("AUTH_GRPC_PORT is required")

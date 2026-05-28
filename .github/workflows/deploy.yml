@@ -51,39 +51,17 @@ jobs:
           script: |
 
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-            docker network create auth-network || true
-
-            docker volume create postgres_data || true
-
-            docker stop auth-service-prod || true
-            docker rm auth-service-prod || true
-
-            docker stop auth-postgres || true
-            docker rm auth-postgres || true
-
-            docker run -d \
-              --name auth-postgres \
-              --network auth-network \
-              --restart unless-stopped \
-              -e POSTGRES_USER=auth_db_user \
-              -e POSTGRES_PASSWORD=${{ secrets.AUTH_DATABASE_PASSWORD }} \
-              -e POSTGRES_DB=auth_db \
-              -v postgres_data:/var/lib/postgresql/data \
-              postgres:16
-
-            until docker exec auth-postgres pg_isready -U auth_db_user; do
-              sleep 2
-            done
+            
+            docker pull ghcr.io/karpovyuri/caraudio-backend:latest
 
             cat << EOF > ~/auth_service.env
             AUTH_JWT_SECRET="${{ secrets.AUTH_JWT_SECRET }}"
-            AUTH_DATABASE_HOST="auth-postgres"
-            AUTH_DATABASE_PORT="5432"
-            AUTH_DATABASE_USER="auth_db_user"
-            AUTH_DATABASE_NAME="auth_db"
+            AUTH_DATABASE_HOST="${{ secrets.AUTH_DATABASE_HOST }}"
+            AUTH_DATABASE_PORT="${{ secrets.AUTH_DATABASE_PORT }}"
+            AUTH_DATABASE_USER="${{ secrets.AUTH_DATABASE_USER }}"
+            AUTH_DATABASE_NAME="${{ secrets.AUTH_DATABASE_NAME }}"
             AUTH_DATABASE_PASSWORD="${{ secrets.AUTH_DATABASE_PASSWORD }}"
-            AUTH_DATABASE_SSLMODE="disable"
+            AUTH_DATABASE_SSLMODE="${{ secrets.AUTH_DATABASE_SSLMODE }}"
             AUTH_GRPC_PORT=:50051
             AUTH_HTTP_PORT=:8080
             AUTH_ALLOWED_ORIGINS=http://localhost:4200
@@ -94,12 +72,12 @@ jobs:
             AUTH_SHUTDOWN_TIMEOUT=15s
             AUTH_TOKEN_CLEANUP_EVERY=10m
             EOF
-
-            docker pull ghcr.io/karpovyuri/caraudio-backend:latest
+            
+            docker stop auth-service-prod || true
+            docker rm auth-service-prod || true
 
             docker run -d \
               --name auth-service-prod \
-              --network auth-network \
               --restart unless-stopped \
               -p 8080:8080 \
               --env-file ~/auth_service.env \
