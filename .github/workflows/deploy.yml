@@ -78,6 +78,7 @@ jobs:
 
             docker run -d \
               --name auth-service-prod \
+              --network auth-network
               --restart unless-stopped \
               -p 8080:8080 \
               --env-file ~/auth_service.env \
