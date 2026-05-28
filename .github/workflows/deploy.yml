@@ -59,7 +59,7 @@ jobs:
             AUTH_DATABASE_HOST="${{ secrets.AUTH_DATABASE_HOST }}"
             AUTH_DATABASE_PORT="${{ secrets.AUTH_DATABASE_PORT }}"
             AUTH_DATABASE_USER="${{ secrets.AUTH_DATABASE_USER }}"
-            AUTH_DATABASE_DBNAME="${{ secrets.AUTH_DATABASE_NAME }}"
+            AUTH_DATABASE_DBNAME="${{ secrets.AUTH_DATABASE_DBNAME }}"
             AUTH_DATABASE_PASSWORD="${{ secrets.AUTH_DATABASE_PASSWORD }}"
             AUTH_DATABASE_SSLMODE="${{ secrets.AUTH_DATABASE_SSLMODE }}"
             AUTH_GRPC_PORT=:50051
