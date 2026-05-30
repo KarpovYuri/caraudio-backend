@@ -1,0 +1,17 @@
+grpc_port: ":50052"
+http_port: ":8081"
+jwt_secret: ""
+allowed_origins:
+  - "http://localhost:4200"
+http_read_timeout: 15s
+http_write_timeout: 15s
+http_idle_timeout: 60s
+shutdown_timeout: 15s
+
+database:
+  host: ""
+  port: 5432
+  user: ""
+  password: ""
+  dbname: ""
+  sslmode: "disable"
