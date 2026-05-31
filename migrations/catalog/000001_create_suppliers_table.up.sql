@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS suppliers (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(64) UNIQUE,
+    logo VARCHAR(512) DEFAULT '',
+    api_url VARCHAR(512) DEFAULT '',
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers (name);
+CREATE INDEX IF NOT EXISTS idx_suppliers_is_active ON suppliers (is_active);
