@@ -5,6 +5,7 @@ import (
 	"os"
 
 	catalogconfig "github.com/KarpovYuri/caraudio-backend/internal/catalog/config"
+	catalogdb "github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/database/postgres"
 )
 
 func main() {
@@ -19,6 +20,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	logger.Info("config loaded", cfg)
-
+	db, err := catalogdb.InitDB(&cfg.Database)
+	if err != nil {
+		logger.Error("failed to connect to database", "error", err)
+		os.Exit(1)
+	}
+	defer func() {
+		if err := db.Close(); err != nil {
+			logger.Error("failed to close db", "error", err)
+		}
+	}()
 }
