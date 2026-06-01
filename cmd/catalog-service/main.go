@@ -4,6 +4,7 @@ import (
 	"log/slog"
 	"os"
 
+	catalogservice "github.com/KarpovYuri/caraudio-backend/internal/catalog/app/services"
 	catalogconfig "github.com/KarpovYuri/caraudio-backend/internal/catalog/config"
 	catalogdb "github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/database/postgres"
 )
@@ -33,7 +34,9 @@ func main() {
 
 	supplierRepo := catalogdb.NewPostgresSupplierRepository(db)
 
-	slog.Info("supplier repository initialized",
-		slog.Any("supplierRepo", supplierRepo),
+	catalogSvc := catalogservice.NewCatalogService(supplierRepo)
+
+	slog.Info("catalog service initialized",
+		slog.Any("catalogSvc", catalogSvc),
 	)
 }
