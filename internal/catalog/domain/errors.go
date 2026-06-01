@@ -3,6 +3,8 @@ package domain
 import "errors"
 
 var (
-	ErrAlreadyExists    = errors.New("already exists")
-	ErrSupplierNotFound = errors.New("supplier not found")
+	ErrInvalidArgument     = errors.New("invalid argument")
+	ErrAlreadyExists       = errors.New("already exists")
+	ErrSupplierHasProducts = errors.New("supplier has products")
+	ErrSupplierNotFound    = errors.New("supplier not found")
 )
