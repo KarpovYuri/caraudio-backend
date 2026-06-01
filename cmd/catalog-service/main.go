@@ -30,4 +30,10 @@ func main() {
 			logger.Error("failed to close db", "error", err)
 		}
 	}()
+
+	supplierRepo := catalogdb.NewPostgresSupplierRepository(db)
+
+	slog.Info("supplier repository initialized",
+		slog.Any("supplierRepo", supplierRepo),
+	)
 }
