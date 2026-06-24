@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/KarpovYuri/caraudio-backend/pkg/api/proto/catalog/v1;catalogv1";
+
+// ===== Supplier =====
+
+message Supplier {
+  int64 id = 1;
+  string name = 2;
+  string code = 3;
+  string logo = 4;
+  string api_url = 5;
+  bool is_active = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message ListSuppliersRequest {}
+
+message ListSuppliersResponse {
+  repeated Supplier suppliers = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message GetSupplierRequest {
+  int64 id = 1;
+}
+
+message GetSupplierResponse {
+  Supplier supplier = 1;
+}
+
+message CreateSupplierRequest {
+  string name = 1;
+  string code = 2;
+  string logo = 3;
+  string api_url = 4;
+  bool is_active = 5;
+}
+
+message CreateSupplierResponse {
+  Supplier supplier = 1;
+}
+
+message UpdateSupplierRequest {
+  int64 id = 1;
+  string name = 2;
+  string code = 3;
+  string logo = 4;
+  string api_url = 5;
+  bool is_active = 6;
+}
+
+message UpdateSupplierResponse {
+  Supplier supplier = 1;
+}
+
+message DeleteSupplierRequest {
+  int64 id = 1;
+}
+
+message DeleteSupplierResponse {
+  bool success = 1;
+}
+
+service CatalogService {
+  rpc ListSuppliers(ListSuppliersRequest) returns (ListSuppliersResponse) {
+    option (google.api.http) = {get: "/v1/suppliers"};
+  }
+
+  rpc GetSupplier(GetSupplierRequest) returns (GetSupplierResponse) {
+    option (google.api.http) = {get: "/v1/suppliers/{id}"};
+  }
+
+  rpc CreateSupplier(CreateSupplierRequest) returns (CreateSupplierResponse) {
+    option (google.api.http) = {
+      post: "/v1/suppliers"
+      body: "*"
+    };
+  }
+
+  rpc UpdateSupplier(UpdateSupplierRequest) returns (UpdateSupplierResponse) {
+    option (google.api.http) = {
+      patch: "/v1/suppliers/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteSupplier(DeleteSupplierRequest) returns (DeleteSupplierResponse) {
+    option (google.api.http) = {delete: "/v1/suppliers/{id}"};
+  }
+}

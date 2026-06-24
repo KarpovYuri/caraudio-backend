@@ -2,8 +2,10 @@ package main
 
 import (
 	"log/slog"
+	"net"
 	"os"
 
+	cataloggrpc "github.com/KarpovYuri/caraudio-backend/internal/catalog/adapters/grpc"
 	catalogservice "github.com/KarpovYuri/caraudio-backend/internal/catalog/app/services"
 	catalogconfig "github.com/KarpovYuri/caraudio-backend/internal/catalog/config"
 	catalogdb "github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/database/postgres"
@@ -36,7 +38,19 @@ func main() {
 
 	catalogSvc := catalogservice.NewCatalogService(supplierRepo)
 
-	slog.Info("catalog service initialized",
-		slog.Any("catalogSvc", catalogSvc),
+	catalogGRPC := cataloggrpc.NewCatalogGRPCServer(
+		catalogSvc,
+		cfg.JWTSecret,
+	)
+
+	lis, err := net.Listen("tcp", cfg.GRPCPort)
+	if err != nil {
+		logger.Error("failed to listen on gRPC port", "port", cfg.GRPCPort, "error", err)
+		os.Exit(1)
+	}
+
+	slog.Info("catalog GRPC initialized",
+		slog.Any("catalogGRPC", catalogGRPC),
+		slog.Any("lis", lis),
 	)
 }
