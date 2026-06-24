@@ -1,4 +1,5 @@
 @echo off
+
 REM Ensure we are in the root of the Go module
 cd /d "%~dp0\.."
 
@@ -8,12 +9,13 @@ set "OUTPUT_PATH=pkg/api/proto"
 set "GOOGLE_API_PATH=third_party"
 
 REM Define service
-set "SERVICE=auth/v1"
+set "SERVICE=catalog/v1"
 
 echo Generating Go code and HTTP Gateway for %SERVICE%...
 
-for %%F in (auth_service.proto user_service.proto) do (
+for %%F in (catalog_service.proto) do (
     echo Generating %%F...
+
     protoc ^
         --proto_path=%PROTO_PATH% ^
         --proto_path=%GOOGLE_API_PATH% ^
@@ -26,5 +28,4 @@ for %%F in (auth_service.proto user_service.proto) do (
         %PROTO_PATH%/%SERVICE%/%%F
 )
 
-echo Generation complete.
-pause
+echo Catalog generation complete.

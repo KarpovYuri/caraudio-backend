@@ -83,6 +83,7 @@ func main() {
 			}
 			return metadata.Pairs("x-request-id", requestID)
 		}),
+
 		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
 			switch strings.ToLower(key) {
 			case "cookie":
