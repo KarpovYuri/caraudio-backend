@@ -12,6 +12,7 @@ import (
 
 func (s *CatalogGRPCServer) ListSuppliers(
 	ctx context.Context,
+	req *catalogv1.ListSuppliersRequest,
 ) (*catalogv1.ListSuppliersResponse, error) {
 	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
 		return nil, mapServiceError(err)
