@@ -161,9 +161,6 @@ func (*ListSuppliersRequest) Descriptor() ([]byte, []int) {
 type ListSuppliersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Suppliers     []*Supplier            `protobuf:"bytes,1,rep,name=suppliers,proto3" json:"suppliers,omitempty"`
-	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
-	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -203,27 +200,6 @@ func (x *ListSuppliersResponse) GetSuppliers() []*Supplier {
 		return x.Suppliers
 	}
 	return nil
-}
-
-func (x *ListSuppliersResponse) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListSuppliersResponse) GetPage() int32 {
-	if x != nil {
-		return x.Page
-	}
-	return 0
-}
-
-func (x *ListSuppliersResponse) GetPageSize() int32 {
-	if x != nil {
-		return x.PageSize
-	}
-	return 0
 }
 
 type GetSupplierRequest struct {
@@ -667,12 +643,9 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"created_at\x18\a \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\b \x01(\tR\tupdatedAt\"\x16\n" +
-	"\x14ListSuppliersRequest\"\x92\x01\n" +
+	"\x14ListSuppliersRequest\"K\n" +
 	"\x15ListSuppliersResponse\x122\n" +
-	"\tsuppliers\x18\x01 \x03(\v2\x14.catalog.v1.SupplierR\tsuppliers\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
-	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"$\n" +
+	"\tsuppliers\x18\x01 \x03(\v2\x14.catalog.v1.SupplierR\tsuppliers\"$\n" +
 	"\x12GetSupplierRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"G\n" +
 	"\x13GetSupplierResponse\x120\n" +
