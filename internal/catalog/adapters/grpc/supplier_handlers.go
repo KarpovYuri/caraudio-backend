@@ -14,9 +14,9 @@ func (s *CatalogGRPCServer) ListSuppliers(
 	ctx context.Context,
 	req *catalogv1.ListSuppliersRequest,
 ) (*catalogv1.ListSuppliersResponse, error) {
-	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
-		return nil, mapServiceError(err)
-	}
+	//if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+	//	return nil, mapServiceError(err)
+	//}
 
 	result, err := s.catalogService.ListSuppliers(ctx)
 	if err != nil {
@@ -30,7 +30,6 @@ func (s *CatalogGRPCServer) ListSuppliers(
 
 	return &catalogv1.ListSuppliersResponse{
 		Suppliers: suppliers,
-		Total:     int32(len(suppliers)),
 	}, nil
 }
 

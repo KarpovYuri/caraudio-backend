@@ -10,7 +10,7 @@ shutdown_timeout: 15s
 
 database:
   host: ""
-  port: 5432
+  port: 5433
   user: ""
   password: ""
   dbname: ""
