@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS categories (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    parent_id UUID REFERENCES categories (id) ON DELETE SET NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_categories_parent_id ON categories (parent_id);
+CREATE INDEX IF NOT EXISTS idx_categories_slug ON categories (slug);
