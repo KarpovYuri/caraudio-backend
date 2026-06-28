@@ -19,16 +19,36 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CatalogService_ListSuppliers_FullMethodName  = "/catalog.v1.CatalogService/ListSuppliers"
-	CatalogService_GetSupplier_FullMethodName    = "/catalog.v1.CatalogService/GetSupplier"
-	CatalogService_CreateSupplier_FullMethodName = "/catalog.v1.CatalogService/CreateSupplier"
-	CatalogService_UpdateSupplier_FullMethodName = "/catalog.v1.CatalogService/UpdateSupplier"
-	CatalogService_DeleteSupplier_FullMethodName = "/catalog.v1.CatalogService/DeleteSupplier"
-	CatalogService_ListCategories_FullMethodName = "/catalog.v1.CatalogService/ListCategories"
-	CatalogService_GetCategory_FullMethodName    = "/catalog.v1.CatalogService/GetCategory"
-	CatalogService_CreateCategory_FullMethodName = "/catalog.v1.CatalogService/CreateCategory"
-	CatalogService_UpdateCategory_FullMethodName = "/catalog.v1.CatalogService/UpdateCategory"
-	CatalogService_DeleteCategory_FullMethodName = "/catalog.v1.CatalogService/DeleteCategory"
+	CatalogService_ListSuppliers_FullMethodName          = "/catalog.v1.CatalogService/ListSuppliers"
+	CatalogService_GetSupplier_FullMethodName            = "/catalog.v1.CatalogService/GetSupplier"
+	CatalogService_CreateSupplier_FullMethodName         = "/catalog.v1.CatalogService/CreateSupplier"
+	CatalogService_UpdateSupplier_FullMethodName         = "/catalog.v1.CatalogService/UpdateSupplier"
+	CatalogService_DeleteSupplier_FullMethodName         = "/catalog.v1.CatalogService/DeleteSupplier"
+	CatalogService_ListCategories_FullMethodName         = "/catalog.v1.CatalogService/ListCategories"
+	CatalogService_GetCategory_FullMethodName            = "/catalog.v1.CatalogService/GetCategory"
+	CatalogService_CreateCategory_FullMethodName         = "/catalog.v1.CatalogService/CreateCategory"
+	CatalogService_UpdateCategory_FullMethodName         = "/catalog.v1.CatalogService/UpdateCategory"
+	CatalogService_DeleteCategory_FullMethodName         = "/catalog.v1.CatalogService/DeleteCategory"
+	CatalogService_ListProducts_FullMethodName           = "/catalog.v1.CatalogService/ListProducts"
+	CatalogService_GetProduct_FullMethodName             = "/catalog.v1.CatalogService/GetProduct"
+	CatalogService_CreateProduct_FullMethodName          = "/catalog.v1.CatalogService/CreateProduct"
+	CatalogService_UpdateProduct_FullMethodName          = "/catalog.v1.CatalogService/UpdateProduct"
+	CatalogService_DeleteProduct_FullMethodName          = "/catalog.v1.CatalogService/DeleteProduct"
+	CatalogService_ListProductImages_FullMethodName      = "/catalog.v1.CatalogService/ListProductImages"
+	CatalogService_GetProductImage_FullMethodName        = "/catalog.v1.CatalogService/GetProductImage"
+	CatalogService_CreateProductImage_FullMethodName     = "/catalog.v1.CatalogService/CreateProductImage"
+	CatalogService_UpdateProductImage_FullMethodName     = "/catalog.v1.CatalogService/UpdateProductImage"
+	CatalogService_DeleteProductImage_FullMethodName     = "/catalog.v1.CatalogService/DeleteProductImage"
+	CatalogService_ListProductAttributes_FullMethodName  = "/catalog.v1.CatalogService/ListProductAttributes"
+	CatalogService_GetProductAttribute_FullMethodName    = "/catalog.v1.CatalogService/GetProductAttribute"
+	CatalogService_CreateProductAttribute_FullMethodName = "/catalog.v1.CatalogService/CreateProductAttribute"
+	CatalogService_UpdateProductAttribute_FullMethodName = "/catalog.v1.CatalogService/UpdateProductAttribute"
+	CatalogService_DeleteProductAttribute_FullMethodName = "/catalog.v1.CatalogService/DeleteProductAttribute"
+	CatalogService_ListBrands_FullMethodName             = "/catalog.v1.CatalogService/ListBrands"
+	CatalogService_GetBrand_FullMethodName               = "/catalog.v1.CatalogService/GetBrand"
+	CatalogService_CreateBrand_FullMethodName            = "/catalog.v1.CatalogService/CreateBrand"
+	CatalogService_UpdateBrand_FullMethodName            = "/catalog.v1.CatalogService/UpdateBrand"
+	CatalogService_DeleteBrand_FullMethodName            = "/catalog.v1.CatalogService/DeleteBrand"
 )
 
 // CatalogServiceClient is the client API for CatalogService service.
@@ -45,6 +65,26 @@ type CatalogServiceClient interface {
 	CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
 	UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*UpdateCategoryResponse, error)
 	DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
+	ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error)
+	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
+	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
+	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
+	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
+	ListProductImages(ctx context.Context, in *ListProductImagesRequest, opts ...grpc.CallOption) (*ListProductImagesResponse, error)
+	GetProductImage(ctx context.Context, in *GetProductImageRequest, opts ...grpc.CallOption) (*GetProductImageResponse, error)
+	CreateProductImage(ctx context.Context, in *CreateProductImageRequest, opts ...grpc.CallOption) (*CreateProductImageResponse, error)
+	UpdateProductImage(ctx context.Context, in *UpdateProductImageRequest, opts ...grpc.CallOption) (*UpdateProductImageResponse, error)
+	DeleteProductImage(ctx context.Context, in *DeleteProductImageRequest, opts ...grpc.CallOption) (*DeleteProductImageResponse, error)
+	ListProductAttributes(ctx context.Context, in *ListProductAttributesRequest, opts ...grpc.CallOption) (*ListProductAttributesResponse, error)
+	GetProductAttribute(ctx context.Context, in *GetProductAttributeRequest, opts ...grpc.CallOption) (*GetProductAttributeResponse, error)
+	CreateProductAttribute(ctx context.Context, in *CreateProductAttributeRequest, opts ...grpc.CallOption) (*CreateProductAttributeResponse, error)
+	UpdateProductAttribute(ctx context.Context, in *UpdateProductAttributeRequest, opts ...grpc.CallOption) (*UpdateProductAttributeResponse, error)
+	DeleteProductAttribute(ctx context.Context, in *DeleteProductAttributeRequest, opts ...grpc.CallOption) (*DeleteProductAttributeResponse, error)
+	ListBrands(ctx context.Context, in *ListBrandsRequest, opts ...grpc.CallOption) (*ListBrandsResponse, error)
+	GetBrand(ctx context.Context, in *GetBrandRequest, opts ...grpc.CallOption) (*GetBrandResponse, error)
+	CreateBrand(ctx context.Context, in *CreateBrandRequest, opts ...grpc.CallOption) (*CreateBrandResponse, error)
+	UpdateBrand(ctx context.Context, in *UpdateBrandRequest, opts ...grpc.CallOption) (*UpdateBrandResponse, error)
+	DeleteBrand(ctx context.Context, in *DeleteBrandRequest, opts ...grpc.CallOption) (*DeleteBrandResponse, error)
 }
 
 type catalogServiceClient struct {
@@ -155,6 +195,206 @@ func (c *catalogServiceClient) DeleteCategory(ctx context.Context, in *DeleteCat
 	return out, nil
 }
 
+func (c *catalogServiceClient) ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductsResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListProducts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ListProductImages(ctx context.Context, in *ListProductImagesRequest, opts ...grpc.CallOption) (*ListProductImagesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductImagesResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListProductImages_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetProductImage(ctx context.Context, in *GetProductImageRequest, opts ...grpc.CallOption) (*GetProductImageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductImageResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetProductImage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateProductImage(ctx context.Context, in *CreateProductImageRequest, opts ...grpc.CallOption) (*CreateProductImageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateProductImageResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateProductImage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateProductImage(ctx context.Context, in *UpdateProductImageRequest, opts ...grpc.CallOption) (*UpdateProductImageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductImageResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateProductImage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteProductImage(ctx context.Context, in *DeleteProductImageRequest, opts ...grpc.CallOption) (*DeleteProductImageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductImageResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteProductImage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ListProductAttributes(ctx context.Context, in *ListProductAttributesRequest, opts ...grpc.CallOption) (*ListProductAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductAttributesResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListProductAttributes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetProductAttribute(ctx context.Context, in *GetProductAttributeRequest, opts ...grpc.CallOption) (*GetProductAttributeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductAttributeResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetProductAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateProductAttribute(ctx context.Context, in *CreateProductAttributeRequest, opts ...grpc.CallOption) (*CreateProductAttributeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateProductAttributeResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateProductAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateProductAttribute(ctx context.Context, in *UpdateProductAttributeRequest, opts ...grpc.CallOption) (*UpdateProductAttributeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductAttributeResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateProductAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteProductAttribute(ctx context.Context, in *DeleteProductAttributeRequest, opts ...grpc.CallOption) (*DeleteProductAttributeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductAttributeResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteProductAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ListBrands(ctx context.Context, in *ListBrandsRequest, opts ...grpc.CallOption) (*ListBrandsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBrandsResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListBrands_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetBrand(ctx context.Context, in *GetBrandRequest, opts ...grpc.CallOption) (*GetBrandResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBrandResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetBrand_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateBrand(ctx context.Context, in *CreateBrandRequest, opts ...grpc.CallOption) (*CreateBrandResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateBrandResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateBrand_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateBrand(ctx context.Context, in *UpdateBrandRequest, opts ...grpc.CallOption) (*UpdateBrandResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateBrandResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateBrand_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteBrand(ctx context.Context, in *DeleteBrandRequest, opts ...grpc.CallOption) (*DeleteBrandResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteBrandResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteBrand_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatalogServiceServer is the server API for CatalogService service.
 // All implementations must embed UnimplementedCatalogServiceServer
 // for forward compatibility.
@@ -169,6 +409,26 @@ type CatalogServiceServer interface {
 	CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	UpdateCategory(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
 	DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error)
+	ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error)
+	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
+	CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
+	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
+	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
+	ListProductImages(context.Context, *ListProductImagesRequest) (*ListProductImagesResponse, error)
+	GetProductImage(context.Context, *GetProductImageRequest) (*GetProductImageResponse, error)
+	CreateProductImage(context.Context, *CreateProductImageRequest) (*CreateProductImageResponse, error)
+	UpdateProductImage(context.Context, *UpdateProductImageRequest) (*UpdateProductImageResponse, error)
+	DeleteProductImage(context.Context, *DeleteProductImageRequest) (*DeleteProductImageResponse, error)
+	ListProductAttributes(context.Context, *ListProductAttributesRequest) (*ListProductAttributesResponse, error)
+	GetProductAttribute(context.Context, *GetProductAttributeRequest) (*GetProductAttributeResponse, error)
+	CreateProductAttribute(context.Context, *CreateProductAttributeRequest) (*CreateProductAttributeResponse, error)
+	UpdateProductAttribute(context.Context, *UpdateProductAttributeRequest) (*UpdateProductAttributeResponse, error)
+	DeleteProductAttribute(context.Context, *DeleteProductAttributeRequest) (*DeleteProductAttributeResponse, error)
+	ListBrands(context.Context, *ListBrandsRequest) (*ListBrandsResponse, error)
+	GetBrand(context.Context, *GetBrandRequest) (*GetBrandResponse, error)
+	CreateBrand(context.Context, *CreateBrandRequest) (*CreateBrandResponse, error)
+	UpdateBrand(context.Context, *UpdateBrandRequest) (*UpdateBrandResponse, error)
+	DeleteBrand(context.Context, *DeleteBrandRequest) (*DeleteBrandResponse, error)
 	mustEmbedUnimplementedCatalogServiceServer()
 }
 
@@ -208,6 +468,66 @@ func (UnimplementedCatalogServiceServer) UpdateCategory(context.Context, *Update
 }
 func (UnimplementedCatalogServiceServer) DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteCategory not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListProducts not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteProduct not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListProductImages(context.Context, *ListProductImagesRequest) (*ListProductImagesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListProductImages not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetProductImage(context.Context, *GetProductImageRequest) (*GetProductImageResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetProductImage not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateProductImage(context.Context, *CreateProductImageRequest) (*CreateProductImageResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateProductImage not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateProductImage(context.Context, *UpdateProductImageRequest) (*UpdateProductImageResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateProductImage not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteProductImage(context.Context, *DeleteProductImageRequest) (*DeleteProductImageResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteProductImage not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListProductAttributes(context.Context, *ListProductAttributesRequest) (*ListProductAttributesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListProductAttributes not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetProductAttribute(context.Context, *GetProductAttributeRequest) (*GetProductAttributeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetProductAttribute not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateProductAttribute(context.Context, *CreateProductAttributeRequest) (*CreateProductAttributeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateProductAttribute not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateProductAttribute(context.Context, *UpdateProductAttributeRequest) (*UpdateProductAttributeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateProductAttribute not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteProductAttribute(context.Context, *DeleteProductAttributeRequest) (*DeleteProductAttributeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteProductAttribute not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListBrands(context.Context, *ListBrandsRequest) (*ListBrandsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListBrands not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetBrand(context.Context, *GetBrandRequest) (*GetBrandResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBrand not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateBrand(context.Context, *CreateBrandRequest) (*CreateBrandResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateBrand not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateBrand(context.Context, *UpdateBrandRequest) (*UpdateBrandResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateBrand not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteBrand(context.Context, *DeleteBrandRequest) (*DeleteBrandResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteBrand not implemented")
 }
 func (UnimplementedCatalogServiceServer) mustEmbedUnimplementedCatalogServiceServer() {}
 func (UnimplementedCatalogServiceServer) testEmbeddedByValue()                        {}
@@ -410,6 +730,366 @@ func _CatalogService_DeleteCategory_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatalogService_ListProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListProducts(ctx, req.(*ListProductsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetProduct(ctx, req.(*GetProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateProduct(ctx, req.(*CreateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateProduct(ctx, req.(*UpdateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteProduct(ctx, req.(*DeleteProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ListProductImages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductImagesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListProductImages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListProductImages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListProductImages(ctx, req.(*ListProductImagesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetProductImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetProductImage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetProductImage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetProductImage(ctx, req.(*GetProductImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateProductImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProductImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateProductImage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateProductImage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateProductImage(ctx, req.(*CreateProductImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateProductImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateProductImage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateProductImage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateProductImage(ctx, req.(*UpdateProductImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteProductImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteProductImage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteProductImage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteProductImage(ctx, req.(*DeleteProductImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ListProductAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductAttributesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListProductAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListProductAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListProductAttributes(ctx, req.(*ListProductAttributesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetProductAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductAttributeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetProductAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetProductAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetProductAttribute(ctx, req.(*GetProductAttributeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateProductAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProductAttributeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateProductAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateProductAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateProductAttribute(ctx, req.(*CreateProductAttributeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateProductAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductAttributeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateProductAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateProductAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateProductAttribute(ctx, req.(*UpdateProductAttributeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteProductAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductAttributeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteProductAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteProductAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteProductAttribute(ctx, req.(*DeleteProductAttributeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ListBrands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBrandsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListBrands(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListBrands_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListBrands(ctx, req.(*ListBrandsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetBrand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBrandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetBrand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetBrand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetBrand(ctx, req.(*GetBrandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateBrand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBrandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateBrand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateBrand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateBrand(ctx, req.(*CreateBrandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateBrand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBrandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateBrand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateBrand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateBrand(ctx, req.(*UpdateBrandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteBrand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBrandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteBrand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteBrand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteBrand(ctx, req.(*DeleteBrandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CatalogService_ServiceDesc is the grpc.ServiceDesc for CatalogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -456,6 +1136,86 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCategory",
 			Handler:    _CatalogService_DeleteCategory_Handler,
+		},
+		{
+			MethodName: "ListProducts",
+			Handler:    _CatalogService_ListProducts_Handler,
+		},
+		{
+			MethodName: "GetProduct",
+			Handler:    _CatalogService_GetProduct_Handler,
+		},
+		{
+			MethodName: "CreateProduct",
+			Handler:    _CatalogService_CreateProduct_Handler,
+		},
+		{
+			MethodName: "UpdateProduct",
+			Handler:    _CatalogService_UpdateProduct_Handler,
+		},
+		{
+			MethodName: "DeleteProduct",
+			Handler:    _CatalogService_DeleteProduct_Handler,
+		},
+		{
+			MethodName: "ListProductImages",
+			Handler:    _CatalogService_ListProductImages_Handler,
+		},
+		{
+			MethodName: "GetProductImage",
+			Handler:    _CatalogService_GetProductImage_Handler,
+		},
+		{
+			MethodName: "CreateProductImage",
+			Handler:    _CatalogService_CreateProductImage_Handler,
+		},
+		{
+			MethodName: "UpdateProductImage",
+			Handler:    _CatalogService_UpdateProductImage_Handler,
+		},
+		{
+			MethodName: "DeleteProductImage",
+			Handler:    _CatalogService_DeleteProductImage_Handler,
+		},
+		{
+			MethodName: "ListProductAttributes",
+			Handler:    _CatalogService_ListProductAttributes_Handler,
+		},
+		{
+			MethodName: "GetProductAttribute",
+			Handler:    _CatalogService_GetProductAttribute_Handler,
+		},
+		{
+			MethodName: "CreateProductAttribute",
+			Handler:    _CatalogService_CreateProductAttribute_Handler,
+		},
+		{
+			MethodName: "UpdateProductAttribute",
+			Handler:    _CatalogService_UpdateProductAttribute_Handler,
+		},
+		{
+			MethodName: "DeleteProductAttribute",
+			Handler:    _CatalogService_DeleteProductAttribute_Handler,
+		},
+		{
+			MethodName: "ListBrands",
+			Handler:    _CatalogService_ListBrands_Handler,
+		},
+		{
+			MethodName: "GetBrand",
+			Handler:    _CatalogService_GetBrand_Handler,
+		},
+		{
+			MethodName: "CreateBrand",
+			Handler:    _CatalogService_CreateBrand_Handler,
+		},
+		{
+			MethodName: "UpdateBrand",
+			Handler:    _CatalogService_UpdateBrand_Handler,
+		},
+		{
+			MethodName: "DeleteBrand",
+			Handler:    _CatalogService_DeleteBrand_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

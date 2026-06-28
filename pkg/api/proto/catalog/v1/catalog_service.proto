@@ -60,6 +60,270 @@ message DeleteCategoryResponse {
   bool success = 1;
 }
 
+// ===== Product =====
+
+message ProductImage {
+  string id = 1;
+  string product_id = 2;
+  string url = 3;
+  string alt_text = 4;
+  int32 sort_order = 5;
+  bool is_primary = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message ProductAttribute {
+  string id = 1;
+  string product_id = 2;
+  string name = 3;
+  string value = 4;
+  int32 sort_order = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message Product {
+  string id = 1;
+  string category_id = 2;
+  string supplier_id = 3;
+  string name = 4;
+  string description = 5;
+  int64 price_cents = 6;
+  string sku = 7;
+  int32 stock = 8;
+  bool is_active = 9;
+  string created_at = 10;
+  string updated_at = 11;
+  repeated ProductImage images = 12;
+  string brand_id = 13;
+  repeated ProductAttribute attributes = 14;
+}
+
+message ListProductsRequest {
+  string category_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  bool include_inactive = 4;
+  string supplier_id = 5;
+  string brand_id = 6;
+}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}
+
+message CreateProductRequest {
+  string category_id = 1;
+  string supplier_id = 2;
+  string name = 3;
+  string description = 4;
+  int64 price_cents = 5;
+  string sku = 6;
+  int32 stock = 7;
+  bool is_active = 8;
+  string brand_id = 9;
+}
+
+message CreateProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string category_id = 2;
+  string supplier_id = 3;
+  string name = 4;
+  string description = 5;
+  int64 price_cents = 6;
+  string sku = 7;
+  int32 stock = 8;
+  bool is_active = 9;
+  string brand_id = 10;
+}
+
+message UpdateProductResponse {
+  Product product = 1;
+}
+
+message DeleteProductRequest {
+  string id = 1;
+}
+
+message DeleteProductResponse {
+  bool success = 1;
+}
+
+message ListProductImagesRequest {
+  string product_id = 1;
+}
+
+message ListProductImagesResponse {
+  repeated ProductImage images = 1;
+}
+
+message GetProductImageRequest {
+  string product_id = 1;
+  string id = 2;
+}
+
+message GetProductImageResponse {
+  ProductImage image = 1;
+}
+
+message CreateProductImageRequest {
+  string product_id = 1;
+  string url = 2;
+  string alt_text = 3;
+  int32 sort_order = 4;
+  bool is_primary = 5;
+}
+
+message CreateProductImageResponse {
+  ProductImage image = 1;
+}
+
+message UpdateProductImageRequest {
+  string product_id = 1;
+  string id = 2;
+  string url = 3;
+  string alt_text = 4;
+  int32 sort_order = 5;
+  bool is_primary = 6;
+}
+
+message UpdateProductImageResponse {
+  ProductImage image = 1;
+}
+
+message DeleteProductImageRequest {
+  string product_id = 1;
+  string id = 2;
+}
+
+message DeleteProductImageResponse {
+  bool success = 1;
+}
+
+message ListProductAttributesRequest {
+  string product_id = 1;
+}
+
+message ListProductAttributesResponse {
+  repeated ProductAttribute attributes = 1;
+}
+
+message GetProductAttributeRequest {
+  string product_id = 1;
+  string id = 2;
+}
+
+message GetProductAttributeResponse {
+  ProductAttribute attribute = 1;
+}
+
+message CreateProductAttributeRequest {
+  string product_id = 1;
+  string name = 2;
+  string value = 3;
+  int32 sort_order = 4;
+}
+
+message CreateProductAttributeResponse {
+  ProductAttribute attribute = 1;
+}
+
+message UpdateProductAttributeRequest {
+  string product_id = 1;
+  string id = 2;
+  string name = 3;
+  string value = 4;
+  int32 sort_order = 5;
+}
+
+message UpdateProductAttributeResponse {
+  ProductAttribute attribute = 1;
+}
+
+message DeleteProductAttributeRequest {
+  string product_id = 1;
+  string id = 2;
+}
+
+message DeleteProductAttributeResponse {
+  bool success = 1;
+}
+
+// ===== Brand =====
+
+message Brand {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+  bool is_active = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ListBrandsRequest {
+  bool include_inactive = 1;
+}
+
+message ListBrandsResponse {
+  repeated Brand brands = 1;
+}
+
+message GetBrandRequest {
+  string id = 1;
+}
+
+message GetBrandResponse {
+  Brand brand = 1;
+}
+
+message CreateBrandRequest {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+  bool is_active = 4;
+}
+
+message CreateBrandResponse {
+  Brand brand = 1;
+}
+
+message UpdateBrandRequest {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+  bool is_active = 5;
+}
+
+message UpdateBrandResponse {
+  Brand brand = 1;
+}
+
+message DeleteBrandRequest {
+  string id = 1;
+}
+
+message DeleteBrandResponse {
+  bool success = 1;
+}
+
 // ===== Supplier =====
 
 message Supplier {
@@ -171,5 +435,109 @@ service CatalogService {
 
   rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse) {
     option (google.api.http) = {delete: "/v1/categories/{id}"};
+  }
+
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+    option (google.api.http) = {get: "/v1/products"};
+  }
+
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
+    option (google.api.http) = {get: "/v1/products/{id}"};
+  }
+
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/products"
+      body: "*"
+    };
+  }
+
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {
+    option (google.api.http) = {
+      patch: "/v1/products/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {
+    option (google.api.http) = {delete: "/v1/products/{id}"};
+  }
+
+  rpc ListProductImages(ListProductImagesRequest) returns (ListProductImagesResponse) {
+    option (google.api.http) = {get: "/v1/products/{product_id}/images"};
+  }
+
+  rpc GetProductImage(GetProductImageRequest) returns (GetProductImageResponse) {
+    option (google.api.http) = {get: "/v1/products/{product_id}/images/{id}"};
+  }
+
+  rpc CreateProductImage(CreateProductImageRequest) returns (CreateProductImageResponse) {
+    option (google.api.http) = {
+      post: "/v1/products/{product_id}/images"
+      body: "*"
+    };
+  }
+
+  rpc UpdateProductImage(UpdateProductImageRequest) returns (UpdateProductImageResponse) {
+    option (google.api.http) = {
+      patch: "/v1/products/{product_id}/images/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteProductImage(DeleteProductImageRequest) returns (DeleteProductImageResponse) {
+    option (google.api.http) = {delete: "/v1/products/{product_id}/images/{id}"};
+  }
+
+  rpc ListProductAttributes(ListProductAttributesRequest) returns (ListProductAttributesResponse) {
+    option (google.api.http) = {get: "/v1/products/{product_id}/attributes"};
+  }
+
+  rpc GetProductAttribute(GetProductAttributeRequest) returns (GetProductAttributeResponse) {
+    option (google.api.http) = {get: "/v1/products/{product_id}/attributes/{id}"};
+  }
+
+  rpc CreateProductAttribute(CreateProductAttributeRequest) returns (CreateProductAttributeResponse) {
+    option (google.api.http) = {
+      post: "/v1/products/{product_id}/attributes"
+      body: "*"
+    };
+  }
+
+  rpc UpdateProductAttribute(UpdateProductAttributeRequest) returns (UpdateProductAttributeResponse) {
+    option (google.api.http) = {
+      patch: "/v1/products/{product_id}/attributes/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteProductAttribute(DeleteProductAttributeRequest) returns (DeleteProductAttributeResponse) {
+    option (google.api.http) = {delete: "/v1/products/{product_id}/attributes/{id}"};
+  }
+
+  rpc ListBrands(ListBrandsRequest) returns (ListBrandsResponse) {
+    option (google.api.http) = {get: "/v1/brands"};
+  }
+
+  rpc GetBrand(GetBrandRequest) returns (GetBrandResponse) {
+    option (google.api.http) = {get: "/v1/brands/{id}"};
+  }
+
+  rpc CreateBrand(CreateBrandRequest) returns (CreateBrandResponse) {
+    option (google.api.http) = {
+      post: "/v1/brands"
+      body: "*"
+    };
+  }
+
+  rpc UpdateBrand(UpdateBrandRequest) returns (UpdateBrandResponse) {
+    option (google.api.http) = {
+      patch: "/v1/brands/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteBrand(DeleteBrandRequest) returns (DeleteBrandResponse) {
+    option (google.api.http) = {delete: "/v1/brands/{id}"};
   }
 }

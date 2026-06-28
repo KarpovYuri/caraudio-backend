@@ -50,8 +50,9 @@ func main() {
 
 	supplierRepo := catalogdb.NewPostgresSupplierRepository(db)
 	categoryRepo := catalogdb.NewPostgresCategoryRepository(db)
+	productRepo := catalogdb.NewPostgresProductRepository(db)
 
-	catalogSvc := catalogservice.NewCatalogService(supplierRepo, categoryRepo)
+	catalogSvc := catalogservice.NewCatalogService(supplierRepo, categoryRepo, productRepo)
 
 	catalogGRPC := cataloggrpc.NewCatalogGRPCServer(
 		catalogSvc,
