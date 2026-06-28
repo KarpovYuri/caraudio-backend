@@ -11,10 +11,17 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const (
+	defaultListPageSize = 20
+	maxListPageSize     = 100
+)
+
 type CatalogGRPCServer struct {
 	catalogv1.UnimplementedCatalogServiceServer
-	catalogService services.CatalogService
-	jwtSecret      string
+	catalogService  services.CatalogService
+	jwtSecret       string
+	defaultPageSize int32
+	maxPageSize     int32
 }
 
 func NewCatalogGRPCServer(
@@ -22,8 +29,10 @@ func NewCatalogGRPCServer(
 	jwtSecret string,
 ) *CatalogGRPCServer {
 	return &CatalogGRPCServer{
-		catalogService: catalogService,
-		jwtSecret:      jwtSecret,
+		catalogService:  catalogService,
+		jwtSecret:       jwtSecret,
+		defaultPageSize: defaultListPageSize,
+		maxPageSize:     maxListPageSize,
 	}
 }
 
@@ -103,6 +112,143 @@ func (s *CatalogGRPCServer) DeleteCategory(
 	return &catalogv1.DeleteCategoryResponse{Success: true}, nil
 }
 
+func (s *CatalogGRPCServer) ListProducts(
+	ctx context.Context,
+	req *catalogv1.ListProductsRequest,
+) (*catalogv1.ListProductsResponse, error) {
+	page, pageSize := s.catalogService.NormalizePagination(
+		req.Page, req.PageSize, s.defaultPageSize, s.maxPageSize,
+	)
+
+	activeOnly := true
+	if req.IncludeInactive {
+		if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+			return nil, mapServiceError(err)
+		}
+		activeOnly = false
+	}
+
+	result, err := s.catalogService.ListProducts(ctx, domain.ProductListFilter{
+		CategoryID: req.CategoryId,
+		BrandID:    req.BrandId,
+		SupplierID: req.SupplierId,
+		ActiveOnly: activeOnly,
+		Page:       page,
+		PageSize:   pageSize,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+
+	products := make([]*catalogv1.Product, 0, len(result.Products))
+	for i := range result.Products {
+		products = append(products, toProtoProduct(&result.Products[i]))
+	}
+
+	return &catalogv1.ListProductsResponse{
+		Products: products,
+		Total:    result.Total,
+		Page:     page,
+		PageSize: pageSize,
+	}, nil
+}
+
+func (s *CatalogGRPCServer) GetProduct(
+	ctx context.Context,
+	req *catalogv1.GetProductRequest,
+) (*catalogv1.GetProductResponse, error) {
+	if req.Id == "" {
+		return nil, status.Error(codes.InvalidArgument, "product id is required")
+	}
+	admin := isAdmin(ctx, s.jwtSecret)
+	product, err := s.catalogService.GetProduct(ctx, req.Id)
+	if err != nil {
+		if admin {
+			product, err = s.catalogService.GetProductByID(ctx, req.Id)
+		}
+		if err != nil {
+			return nil, mapServiceError(err)
+		}
+	}
+	protoProduct := toProtoProduct(product)
+	attachProductImages(ctx, s, req.Id, admin, protoProduct)
+	attachProductAttributes(ctx, s, req.Id, admin, protoProduct)
+	return &catalogv1.GetProductResponse{Product: protoProduct}, nil
+}
+
+func (s *CatalogGRPCServer) CreateProduct(
+	ctx context.Context,
+	req *catalogv1.CreateProductRequest,
+) (*catalogv1.CreateProductResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	if req.Name == "" {
+		return nil, status.Error(codes.InvalidArgument, "product name is required")
+	}
+	product, err := s.catalogService.CreateProduct(
+		ctx,
+		req.CategoryId,
+		req.BrandId,
+		req.Name,
+		req.Description,
+		req.SupplierId,
+		req.PriceCents,
+		req.Sku,
+		req.Stock,
+		req.IsActive,
+	)
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.CreateProductResponse{Product: toProtoProduct(product)}, nil
+}
+
+func (s *CatalogGRPCServer) UpdateProduct(
+	ctx context.Context,
+	req *catalogv1.UpdateProductRequest,
+) (*catalogv1.UpdateProductResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	if req.Id == "" {
+		return nil, status.Error(codes.InvalidArgument, "product id is required")
+	}
+	product, err := s.catalogService.UpdateProduct(
+		ctx,
+		req.Id,
+		req.CategoryId,
+		req.BrandId,
+		req.Name,
+		req.Description,
+		req.SupplierId,
+		req.PriceCents,
+		req.Sku,
+		req.Stock,
+		req.IsActive,
+	)
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.UpdateProductResponse{Product: toProtoProduct(product)}, nil
+}
+
+func (s *CatalogGRPCServer) DeleteProduct(
+	ctx context.Context,
+	req *catalogv1.DeleteProductRequest,
+) (*catalogv1.DeleteProductResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	if req.Id == "" {
+		return nil, status.Error(codes.InvalidArgument, "product id is required")
+	}
+	if err := s.catalogService.DeleteProduct(ctx, req.Id); err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.DeleteProductResponse{Success: true}, nil
+}
+
 func toProtoCategory(category *domain.Category) *catalogv1.Category {
 	out := &catalogv1.Category{
 		Id:        category.ID,
@@ -113,6 +259,32 @@ func toProtoCategory(category *domain.Category) *catalogv1.Category {
 	}
 	if category.ParentID != nil {
 		out.ParentId = *category.ParentID
+	}
+	return out
+}
+
+func toProtoProduct(product *domain.Product) *catalogv1.Product {
+	out := &catalogv1.Product{
+		Id:          product.ID,
+		Name:        product.Name,
+		Description: product.Description,
+		PriceCents:  product.PriceCents,
+		Stock:       product.Stock,
+		IsActive:    product.IsActive,
+		CreatedAt:   product.CreatedAt.UTC().Format(time.RFC3339),
+		UpdatedAt:   product.UpdatedAt.UTC().Format(time.RFC3339),
+	}
+	if product.CategoryID != nil {
+		out.CategoryId = *product.CategoryID
+	}
+	if product.SupplierID != nil {
+		out.SupplierId = *product.SupplierID
+	}
+	if product.BrandID != nil {
+		out.BrandId = *product.BrandID
+	}
+	if product.SKU != nil {
+		out.Sku = *product.SKU
 	}
 	return out
 }

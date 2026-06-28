@@ -22,20 +22,51 @@ type CatalogService interface {
 	CreateCategory(ctx context.Context, name, slug, parentID string) (*domain.Category, error)
 	UpdateCategory(ctx context.Context, id, name, slug, parentID string) (*domain.Category, error)
 	DeleteCategory(ctx context.Context, id string) error
+
+	ListProducts(ctx context.Context, filter domain.ProductListFilter) (*domain.ProductListResult, error)
+	GetProduct(ctx context.Context, id string) (*domain.Product, error)
+	GetProductByID(ctx context.Context, id string) (*domain.Product, error)
+	CreateProduct(
+		ctx context.Context,
+		categoryID, brandID, name, description string,
+		supplierID int64,
+		priceCents int64,
+		sku string,
+		stock int32,
+		isActive bool,
+	) (*domain.Product, error)
+	UpdateProduct(
+		ctx context.Context,
+		id, categoryID, brandID, name, description string,
+		supplierID int64,
+		priceCents int64,
+		sku string,
+		stock int32,
+		isActive bool,
+	) (*domain.Product, error)
+	DeleteProduct(ctx context.Context, id string) error
+
+	NormalizePagination(page, pageSize, defaultSize, maxSize int32) (int32, int32)
 }
 
 type catalogService struct {
 	suppliers  postgres.SupplierRepository
 	categories postgres.CategoryRepository
+	products   postgres.ProductRepository
+	brands     postgres.BrandRepository
 }
 
 func NewCatalogService(
 	suppliers postgres.SupplierRepository,
 	categories postgres.CategoryRepository,
+	products postgres.ProductRepository,
+	brands postgres.BrandRepository,
 ) CatalogService {
 	return &catalogService{
 		suppliers:  suppliers,
 		categories: categories,
+		products:   products,
+		brands:     brands,
 	}
 }
 
@@ -126,10 +157,162 @@ func (s *catalogService) DeleteCategory(ctx context.Context, id string) error {
 	return s.categories.Delete(ctx, id)
 }
 
+func (s *catalogService) ListProducts(
+	ctx context.Context,
+	filter domain.ProductListFilter,
+) (*domain.ProductListResult, error) {
+	return s.products.List(ctx, filter)
+}
+
+func (s *catalogService) GetProduct(ctx context.Context, id string) (*domain.Product, error) {
+	product, err := s.products.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	if !product.IsActive {
+		return nil, domain.ErrProductNotFound
+	}
+	return product, nil
+}
+
+func (s *catalogService) GetProductByID(ctx context.Context, id string) (*domain.Product, error) {
+	return s.products.GetByID(ctx, id)
+}
+
+func (s *catalogService) CreateProduct(
+	ctx context.Context,
+	categoryID, brandID, name, description string,
+	supplierID int64,
+	priceCents int64,
+	sku string,
+	stock int32,
+	isActive bool,
+) (*domain.Product, error) {
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return nil, domain.ErrInvalidArgument
+	}
+	if priceCents < 0 || stock < 0 {
+		return nil, domain.ErrInvalidArgument
+	}
+
+	if categoryID != "" {
+		if _, err := s.categories.GetByID(ctx, categoryID); err != nil {
+			return nil, err
+		}
+	}
+	if err := s.validateSupplierID(ctx, supplierID); err != nil {
+		return nil, err
+	}
+	if err := s.validateBrandID(ctx, brandID); err != nil {
+		return nil, err
+	}
+
+	now := time.Now()
+	product := &domain.Product{
+		ID:          uuid.NewString(),
+		CategoryID:  stringPtrOrNil(categoryID),
+		BrandID:     stringPtrOrNil(brandID),
+		SupplierID:  int64PtrOrNil(supplierID),
+		Name:        name,
+		Description: description,
+		PriceCents:  priceCents,
+		SKU:         stringPtrOrNil(strings.TrimSpace(sku)),
+		Stock:       stock,
+		IsActive:    isActive,
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+
+	if err := s.products.Create(ctx, product); err != nil {
+		return nil, err
+	}
+	return product, nil
+}
+
+func (s *catalogService) UpdateProduct(
+	ctx context.Context,
+	id, categoryID, brandID, name, description string,
+	supplierID int64,
+	priceCents int64,
+	sku string,
+	stock int32,
+	isActive bool,
+) (*domain.Product, error) {
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return nil, domain.ErrInvalidArgument
+	}
+	if priceCents < 0 || stock < 0 {
+		return nil, domain.ErrInvalidArgument
+	}
+
+	if _, err := s.products.GetByID(ctx, id); err != nil {
+		return nil, err
+	}
+
+	if categoryID != "" {
+		if _, err := s.categories.GetByID(ctx, categoryID); err != nil {
+			return nil, err
+		}
+	}
+	if err := s.validateSupplierID(ctx, supplierID); err != nil {
+		return nil, err
+	}
+	if err := s.validateBrandID(ctx, brandID); err != nil {
+		return nil, err
+	}
+
+	now := time.Now()
+	product := &domain.Product{
+		ID:          id,
+		CategoryID:  stringPtrOrNil(categoryID),
+		BrandID:     stringPtrOrNil(brandID),
+		SupplierID:  int64PtrOrNil(supplierID),
+		Name:        name,
+		Description: description,
+		PriceCents:  priceCents,
+		SKU:         stringPtrOrNil(strings.TrimSpace(sku)),
+		Stock:       stock,
+		IsActive:    isActive,
+		UpdatedAt:   now,
+	}
+
+	if err := s.products.Update(ctx, product); err != nil {
+		return nil, err
+	}
+	return s.products.GetByID(ctx, id)
+}
+
+func (s *catalogService) DeleteProduct(ctx context.Context, id string) error {
+	return s.products.Delete(ctx, id)
+}
+
+func int64PtrOrNil(value int64) *int64 {
+	if value == 0 {
+		return nil
+	}
+	v := value
+	return &v
+}
+
 func stringPtrOrNil(value string) *string {
 	if value == "" {
 		return nil
 	}
 	v := value
 	return &v
+}
+
+func (s *catalogService) NormalizePagination(page, pageSize, defaultSize, maxSize int32) (int32, int32) {
+	if page < 1 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = defaultSize
+	}
+	if pageSize > maxSize {
+		pageSize = maxSize
+	}
+	return page, pageSize
 }
