@@ -19,36 +19,46 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CatalogService_ListSuppliers_FullMethodName          = "/catalog.v1.CatalogService/ListSuppliers"
-	CatalogService_GetSupplier_FullMethodName            = "/catalog.v1.CatalogService/GetSupplier"
-	CatalogService_CreateSupplier_FullMethodName         = "/catalog.v1.CatalogService/CreateSupplier"
-	CatalogService_UpdateSupplier_FullMethodName         = "/catalog.v1.CatalogService/UpdateSupplier"
-	CatalogService_DeleteSupplier_FullMethodName         = "/catalog.v1.CatalogService/DeleteSupplier"
-	CatalogService_ListCategories_FullMethodName         = "/catalog.v1.CatalogService/ListCategories"
-	CatalogService_GetCategory_FullMethodName            = "/catalog.v1.CatalogService/GetCategory"
-	CatalogService_CreateCategory_FullMethodName         = "/catalog.v1.CatalogService/CreateCategory"
-	CatalogService_UpdateCategory_FullMethodName         = "/catalog.v1.CatalogService/UpdateCategory"
-	CatalogService_DeleteCategory_FullMethodName         = "/catalog.v1.CatalogService/DeleteCategory"
-	CatalogService_ListProducts_FullMethodName           = "/catalog.v1.CatalogService/ListProducts"
-	CatalogService_GetProduct_FullMethodName             = "/catalog.v1.CatalogService/GetProduct"
-	CatalogService_CreateProduct_FullMethodName          = "/catalog.v1.CatalogService/CreateProduct"
-	CatalogService_UpdateProduct_FullMethodName          = "/catalog.v1.CatalogService/UpdateProduct"
-	CatalogService_DeleteProduct_FullMethodName          = "/catalog.v1.CatalogService/DeleteProduct"
-	CatalogService_ListProductImages_FullMethodName      = "/catalog.v1.CatalogService/ListProductImages"
-	CatalogService_GetProductImage_FullMethodName        = "/catalog.v1.CatalogService/GetProductImage"
-	CatalogService_CreateProductImage_FullMethodName     = "/catalog.v1.CatalogService/CreateProductImage"
-	CatalogService_UpdateProductImage_FullMethodName     = "/catalog.v1.CatalogService/UpdateProductImage"
-	CatalogService_DeleteProductImage_FullMethodName     = "/catalog.v1.CatalogService/DeleteProductImage"
-	CatalogService_ListProductAttributes_FullMethodName  = "/catalog.v1.CatalogService/ListProductAttributes"
-	CatalogService_GetProductAttribute_FullMethodName    = "/catalog.v1.CatalogService/GetProductAttribute"
-	CatalogService_CreateProductAttribute_FullMethodName = "/catalog.v1.CatalogService/CreateProductAttribute"
-	CatalogService_UpdateProductAttribute_FullMethodName = "/catalog.v1.CatalogService/UpdateProductAttribute"
-	CatalogService_DeleteProductAttribute_FullMethodName = "/catalog.v1.CatalogService/DeleteProductAttribute"
-	CatalogService_ListBrands_FullMethodName             = "/catalog.v1.CatalogService/ListBrands"
-	CatalogService_GetBrand_FullMethodName               = "/catalog.v1.CatalogService/GetBrand"
-	CatalogService_CreateBrand_FullMethodName            = "/catalog.v1.CatalogService/CreateBrand"
-	CatalogService_UpdateBrand_FullMethodName            = "/catalog.v1.CatalogService/UpdateBrand"
-	CatalogService_DeleteBrand_FullMethodName            = "/catalog.v1.CatalogService/DeleteBrand"
+	CatalogService_ListSuppliers_FullMethodName                 = "/catalog.v1.CatalogService/ListSuppliers"
+	CatalogService_GetSupplier_FullMethodName                   = "/catalog.v1.CatalogService/GetSupplier"
+	CatalogService_CreateSupplier_FullMethodName                = "/catalog.v1.CatalogService/CreateSupplier"
+	CatalogService_UpdateSupplier_FullMethodName                = "/catalog.v1.CatalogService/UpdateSupplier"
+	CatalogService_DeleteSupplier_FullMethodName                = "/catalog.v1.CatalogService/DeleteSupplier"
+	CatalogService_ListCategories_FullMethodName                = "/catalog.v1.CatalogService/ListCategories"
+	CatalogService_GetCategory_FullMethodName                   = "/catalog.v1.CatalogService/GetCategory"
+	CatalogService_CreateCategory_FullMethodName                = "/catalog.v1.CatalogService/CreateCategory"
+	CatalogService_UpdateCategory_FullMethodName                = "/catalog.v1.CatalogService/UpdateCategory"
+	CatalogService_DeleteCategory_FullMethodName                = "/catalog.v1.CatalogService/DeleteCategory"
+	CatalogService_ListProducts_FullMethodName                  = "/catalog.v1.CatalogService/ListProducts"
+	CatalogService_GetProduct_FullMethodName                    = "/catalog.v1.CatalogService/GetProduct"
+	CatalogService_CreateProduct_FullMethodName                 = "/catalog.v1.CatalogService/CreateProduct"
+	CatalogService_UpdateProduct_FullMethodName                 = "/catalog.v1.CatalogService/UpdateProduct"
+	CatalogService_DeleteProduct_FullMethodName                 = "/catalog.v1.CatalogService/DeleteProduct"
+	CatalogService_ListProductImages_FullMethodName             = "/catalog.v1.CatalogService/ListProductImages"
+	CatalogService_GetProductImage_FullMethodName               = "/catalog.v1.CatalogService/GetProductImage"
+	CatalogService_CreateProductImage_FullMethodName            = "/catalog.v1.CatalogService/CreateProductImage"
+	CatalogService_UpdateProductImage_FullMethodName            = "/catalog.v1.CatalogService/UpdateProductImage"
+	CatalogService_DeleteProductImage_FullMethodName            = "/catalog.v1.CatalogService/DeleteProductImage"
+	CatalogService_ListProductAttributes_FullMethodName         = "/catalog.v1.CatalogService/ListProductAttributes"
+	CatalogService_GetProductAttribute_FullMethodName           = "/catalog.v1.CatalogService/GetProductAttribute"
+	CatalogService_CreateProductAttribute_FullMethodName        = "/catalog.v1.CatalogService/CreateProductAttribute"
+	CatalogService_UpdateProductAttribute_FullMethodName        = "/catalog.v1.CatalogService/UpdateProductAttribute"
+	CatalogService_DeleteProductAttribute_FullMethodName        = "/catalog.v1.CatalogService/DeleteProductAttribute"
+	CatalogService_ListBrands_FullMethodName                    = "/catalog.v1.CatalogService/ListBrands"
+	CatalogService_GetBrand_FullMethodName                      = "/catalog.v1.CatalogService/GetBrand"
+	CatalogService_CreateBrand_FullMethodName                   = "/catalog.v1.CatalogService/CreateBrand"
+	CatalogService_UpdateBrand_FullMethodName                   = "/catalog.v1.CatalogService/UpdateBrand"
+	CatalogService_DeleteBrand_FullMethodName                   = "/catalog.v1.CatalogService/DeleteBrand"
+	CatalogService_ListSupplierCategoryMappings_FullMethodName  = "/catalog.v1.CatalogService/ListSupplierCategoryMappings"
+	CatalogService_GetSupplierCategoryMapping_FullMethodName    = "/catalog.v1.CatalogService/GetSupplierCategoryMapping"
+	CatalogService_CreateSupplierCategoryMapping_FullMethodName = "/catalog.v1.CatalogService/CreateSupplierCategoryMapping"
+	CatalogService_UpdateSupplierCategoryMapping_FullMethodName = "/catalog.v1.CatalogService/UpdateSupplierCategoryMapping"
+	CatalogService_DeleteSupplierCategoryMapping_FullMethodName = "/catalog.v1.CatalogService/DeleteSupplierCategoryMapping"
+	CatalogService_ListSupplierProductMappings_FullMethodName   = "/catalog.v1.CatalogService/ListSupplierProductMappings"
+	CatalogService_GetSupplierProductMapping_FullMethodName     = "/catalog.v1.CatalogService/GetSupplierProductMapping"
+	CatalogService_CreateSupplierProductMapping_FullMethodName  = "/catalog.v1.CatalogService/CreateSupplierProductMapping"
+	CatalogService_UpdateSupplierProductMapping_FullMethodName  = "/catalog.v1.CatalogService/UpdateSupplierProductMapping"
+	CatalogService_DeleteSupplierProductMapping_FullMethodName  = "/catalog.v1.CatalogService/DeleteSupplierProductMapping"
 )
 
 // CatalogServiceClient is the client API for CatalogService service.
@@ -85,6 +95,16 @@ type CatalogServiceClient interface {
 	CreateBrand(ctx context.Context, in *CreateBrandRequest, opts ...grpc.CallOption) (*CreateBrandResponse, error)
 	UpdateBrand(ctx context.Context, in *UpdateBrandRequest, opts ...grpc.CallOption) (*UpdateBrandResponse, error)
 	DeleteBrand(ctx context.Context, in *DeleteBrandRequest, opts ...grpc.CallOption) (*DeleteBrandResponse, error)
+	ListSupplierCategoryMappings(ctx context.Context, in *ListSupplierCategoryMappingsRequest, opts ...grpc.CallOption) (*ListSupplierCategoryMappingsResponse, error)
+	GetSupplierCategoryMapping(ctx context.Context, in *GetSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*GetSupplierCategoryMappingResponse, error)
+	CreateSupplierCategoryMapping(ctx context.Context, in *CreateSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*CreateSupplierCategoryMappingResponse, error)
+	UpdateSupplierCategoryMapping(ctx context.Context, in *UpdateSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*UpdateSupplierCategoryMappingResponse, error)
+	DeleteSupplierCategoryMapping(ctx context.Context, in *DeleteSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*DeleteSupplierCategoryMappingResponse, error)
+	ListSupplierProductMappings(ctx context.Context, in *ListSupplierProductMappingsRequest, opts ...grpc.CallOption) (*ListSupplierProductMappingsResponse, error)
+	GetSupplierProductMapping(ctx context.Context, in *GetSupplierProductMappingRequest, opts ...grpc.CallOption) (*GetSupplierProductMappingResponse, error)
+	CreateSupplierProductMapping(ctx context.Context, in *CreateSupplierProductMappingRequest, opts ...grpc.CallOption) (*CreateSupplierProductMappingResponse, error)
+	UpdateSupplierProductMapping(ctx context.Context, in *UpdateSupplierProductMappingRequest, opts ...grpc.CallOption) (*UpdateSupplierProductMappingResponse, error)
+	DeleteSupplierProductMapping(ctx context.Context, in *DeleteSupplierProductMappingRequest, opts ...grpc.CallOption) (*DeleteSupplierProductMappingResponse, error)
 }
 
 type catalogServiceClient struct {
@@ -395,6 +415,106 @@ func (c *catalogServiceClient) DeleteBrand(ctx context.Context, in *DeleteBrandR
 	return out, nil
 }
 
+func (c *catalogServiceClient) ListSupplierCategoryMappings(ctx context.Context, in *ListSupplierCategoryMappingsRequest, opts ...grpc.CallOption) (*ListSupplierCategoryMappingsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSupplierCategoryMappingsResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListSupplierCategoryMappings_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetSupplierCategoryMapping(ctx context.Context, in *GetSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*GetSupplierCategoryMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSupplierCategoryMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetSupplierCategoryMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateSupplierCategoryMapping(ctx context.Context, in *CreateSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*CreateSupplierCategoryMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSupplierCategoryMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateSupplierCategoryMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateSupplierCategoryMapping(ctx context.Context, in *UpdateSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*UpdateSupplierCategoryMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSupplierCategoryMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateSupplierCategoryMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteSupplierCategoryMapping(ctx context.Context, in *DeleteSupplierCategoryMappingRequest, opts ...grpc.CallOption) (*DeleteSupplierCategoryMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteSupplierCategoryMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteSupplierCategoryMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) ListSupplierProductMappings(ctx context.Context, in *ListSupplierProductMappingsRequest, opts ...grpc.CallOption) (*ListSupplierProductMappingsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSupplierProductMappingsResponse)
+	err := c.cc.Invoke(ctx, CatalogService_ListSupplierProductMappings_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetSupplierProductMapping(ctx context.Context, in *GetSupplierProductMappingRequest, opts ...grpc.CallOption) (*GetSupplierProductMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSupplierProductMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_GetSupplierProductMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) CreateSupplierProductMapping(ctx context.Context, in *CreateSupplierProductMappingRequest, opts ...grpc.CallOption) (*CreateSupplierProductMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSupplierProductMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_CreateSupplierProductMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateSupplierProductMapping(ctx context.Context, in *UpdateSupplierProductMappingRequest, opts ...grpc.CallOption) (*UpdateSupplierProductMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSupplierProductMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_UpdateSupplierProductMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteSupplierProductMapping(ctx context.Context, in *DeleteSupplierProductMappingRequest, opts ...grpc.CallOption) (*DeleteSupplierProductMappingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteSupplierProductMappingResponse)
+	err := c.cc.Invoke(ctx, CatalogService_DeleteSupplierProductMapping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatalogServiceServer is the server API for CatalogService service.
 // All implementations must embed UnimplementedCatalogServiceServer
 // for forward compatibility.
@@ -429,6 +549,16 @@ type CatalogServiceServer interface {
 	CreateBrand(context.Context, *CreateBrandRequest) (*CreateBrandResponse, error)
 	UpdateBrand(context.Context, *UpdateBrandRequest) (*UpdateBrandResponse, error)
 	DeleteBrand(context.Context, *DeleteBrandRequest) (*DeleteBrandResponse, error)
+	ListSupplierCategoryMappings(context.Context, *ListSupplierCategoryMappingsRequest) (*ListSupplierCategoryMappingsResponse, error)
+	GetSupplierCategoryMapping(context.Context, *GetSupplierCategoryMappingRequest) (*GetSupplierCategoryMappingResponse, error)
+	CreateSupplierCategoryMapping(context.Context, *CreateSupplierCategoryMappingRequest) (*CreateSupplierCategoryMappingResponse, error)
+	UpdateSupplierCategoryMapping(context.Context, *UpdateSupplierCategoryMappingRequest) (*UpdateSupplierCategoryMappingResponse, error)
+	DeleteSupplierCategoryMapping(context.Context, *DeleteSupplierCategoryMappingRequest) (*DeleteSupplierCategoryMappingResponse, error)
+	ListSupplierProductMappings(context.Context, *ListSupplierProductMappingsRequest) (*ListSupplierProductMappingsResponse, error)
+	GetSupplierProductMapping(context.Context, *GetSupplierProductMappingRequest) (*GetSupplierProductMappingResponse, error)
+	CreateSupplierProductMapping(context.Context, *CreateSupplierProductMappingRequest) (*CreateSupplierProductMappingResponse, error)
+	UpdateSupplierProductMapping(context.Context, *UpdateSupplierProductMappingRequest) (*UpdateSupplierProductMappingResponse, error)
+	DeleteSupplierProductMapping(context.Context, *DeleteSupplierProductMappingRequest) (*DeleteSupplierProductMappingResponse, error)
 	mustEmbedUnimplementedCatalogServiceServer()
 }
 
@@ -528,6 +658,36 @@ func (UnimplementedCatalogServiceServer) UpdateBrand(context.Context, *UpdateBra
 }
 func (UnimplementedCatalogServiceServer) DeleteBrand(context.Context, *DeleteBrandRequest) (*DeleteBrandResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteBrand not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListSupplierCategoryMappings(context.Context, *ListSupplierCategoryMappingsRequest) (*ListSupplierCategoryMappingsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSupplierCategoryMappings not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetSupplierCategoryMapping(context.Context, *GetSupplierCategoryMappingRequest) (*GetSupplierCategoryMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetSupplierCategoryMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateSupplierCategoryMapping(context.Context, *CreateSupplierCategoryMappingRequest) (*CreateSupplierCategoryMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateSupplierCategoryMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateSupplierCategoryMapping(context.Context, *UpdateSupplierCategoryMappingRequest) (*UpdateSupplierCategoryMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateSupplierCategoryMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteSupplierCategoryMapping(context.Context, *DeleteSupplierCategoryMappingRequest) (*DeleteSupplierCategoryMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteSupplierCategoryMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) ListSupplierProductMappings(context.Context, *ListSupplierProductMappingsRequest) (*ListSupplierProductMappingsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSupplierProductMappings not implemented")
+}
+func (UnimplementedCatalogServiceServer) GetSupplierProductMapping(context.Context, *GetSupplierProductMappingRequest) (*GetSupplierProductMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetSupplierProductMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) CreateSupplierProductMapping(context.Context, *CreateSupplierProductMappingRequest) (*CreateSupplierProductMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateSupplierProductMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) UpdateSupplierProductMapping(context.Context, *UpdateSupplierProductMappingRequest) (*UpdateSupplierProductMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateSupplierProductMapping not implemented")
+}
+func (UnimplementedCatalogServiceServer) DeleteSupplierProductMapping(context.Context, *DeleteSupplierProductMappingRequest) (*DeleteSupplierProductMappingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteSupplierProductMapping not implemented")
 }
 func (UnimplementedCatalogServiceServer) mustEmbedUnimplementedCatalogServiceServer() {}
 func (UnimplementedCatalogServiceServer) testEmbeddedByValue()                        {}
@@ -1090,6 +1250,186 @@ func _CatalogService_DeleteBrand_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatalogService_ListSupplierCategoryMappings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSupplierCategoryMappingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListSupplierCategoryMappings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListSupplierCategoryMappings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListSupplierCategoryMappings(ctx, req.(*ListSupplierCategoryMappingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetSupplierCategoryMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSupplierCategoryMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetSupplierCategoryMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetSupplierCategoryMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetSupplierCategoryMapping(ctx, req.(*GetSupplierCategoryMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateSupplierCategoryMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSupplierCategoryMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateSupplierCategoryMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateSupplierCategoryMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateSupplierCategoryMapping(ctx, req.(*CreateSupplierCategoryMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateSupplierCategoryMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSupplierCategoryMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateSupplierCategoryMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateSupplierCategoryMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateSupplierCategoryMapping(ctx, req.(*UpdateSupplierCategoryMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteSupplierCategoryMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSupplierCategoryMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteSupplierCategoryMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteSupplierCategoryMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteSupplierCategoryMapping(ctx, req.(*DeleteSupplierCategoryMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_ListSupplierProductMappings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSupplierProductMappingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).ListSupplierProductMappings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_ListSupplierProductMappings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).ListSupplierProductMappings(ctx, req.(*ListSupplierProductMappingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetSupplierProductMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSupplierProductMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetSupplierProductMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_GetSupplierProductMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetSupplierProductMapping(ctx, req.(*GetSupplierProductMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_CreateSupplierProductMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSupplierProductMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateSupplierProductMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_CreateSupplierProductMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateSupplierProductMapping(ctx, req.(*CreateSupplierProductMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateSupplierProductMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSupplierProductMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateSupplierProductMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_UpdateSupplierProductMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateSupplierProductMapping(ctx, req.(*UpdateSupplierProductMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteSupplierProductMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSupplierProductMappingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteSupplierProductMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CatalogService_DeleteSupplierProductMapping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteSupplierProductMapping(ctx, req.(*DeleteSupplierProductMappingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CatalogService_ServiceDesc is the grpc.ServiceDesc for CatalogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1216,6 +1556,46 @@ var CatalogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteBrand",
 			Handler:    _CatalogService_DeleteBrand_Handler,
+		},
+		{
+			MethodName: "ListSupplierCategoryMappings",
+			Handler:    _CatalogService_ListSupplierCategoryMappings_Handler,
+		},
+		{
+			MethodName: "GetSupplierCategoryMapping",
+			Handler:    _CatalogService_GetSupplierCategoryMapping_Handler,
+		},
+		{
+			MethodName: "CreateSupplierCategoryMapping",
+			Handler:    _CatalogService_CreateSupplierCategoryMapping_Handler,
+		},
+		{
+			MethodName: "UpdateSupplierCategoryMapping",
+			Handler:    _CatalogService_UpdateSupplierCategoryMapping_Handler,
+		},
+		{
+			MethodName: "DeleteSupplierCategoryMapping",
+			Handler:    _CatalogService_DeleteSupplierCategoryMapping_Handler,
+		},
+		{
+			MethodName: "ListSupplierProductMappings",
+			Handler:    _CatalogService_ListSupplierProductMappings_Handler,
+		},
+		{
+			MethodName: "GetSupplierProductMapping",
+			Handler:    _CatalogService_GetSupplierProductMapping_Handler,
+		},
+		{
+			MethodName: "CreateSupplierProductMapping",
+			Handler:    _CatalogService_CreateSupplierProductMapping_Handler,
+		},
+		{
+			MethodName: "UpdateSupplierProductMapping",
+			Handler:    _CatalogService_UpdateSupplierProductMapping_Handler,
+		},
+		{
+			MethodName: "DeleteSupplierProductMapping",
+			Handler:    _CatalogService_DeleteSupplierProductMapping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

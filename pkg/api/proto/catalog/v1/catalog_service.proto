@@ -384,6 +384,133 @@ message DeleteSupplierResponse {
   bool success = 1;
 }
 
+// ===== Supplier mappings =====
+
+message SupplierCategoryMapping {
+  string id = 1;
+  string category_id = 2;
+  int64 supplier_id = 3;
+  string external_id = 4;
+  string external_name = 5;
+  string notes = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+message ListSupplierCategoryMappingsRequest {
+  int64 supplier_id = 1;
+  string category_id = 2;
+}
+
+message ListSupplierCategoryMappingsResponse {
+  repeated SupplierCategoryMapping mappings = 1;
+}
+
+message GetSupplierCategoryMappingRequest {
+  string id = 1;
+}
+
+message GetSupplierCategoryMappingResponse {
+  SupplierCategoryMapping mapping = 1;
+}
+
+message CreateSupplierCategoryMappingRequest {
+  string category_id = 1;
+  int64 supplier_id = 2;
+  string external_id = 3;
+  string external_name = 4;
+  string notes = 5;
+}
+
+message CreateSupplierCategoryMappingResponse {
+  SupplierCategoryMapping mapping = 1;
+}
+
+message UpdateSupplierCategoryMappingRequest {
+  string id = 1;
+  string category_id = 2;
+  int64 supplier_id = 3;
+  string external_id = 4;
+  string external_name = 5;
+  string notes = 6;
+}
+
+message UpdateSupplierCategoryMappingResponse {
+  SupplierCategoryMapping mapping = 1;
+}
+
+message DeleteSupplierCategoryMappingRequest {
+  string id = 1;
+}
+
+message DeleteSupplierCategoryMappingResponse {
+  bool success = 1;
+}
+
+message SupplierProductMapping {
+  string id = 1;
+  string product_id = 2;
+  int64 supplier_id = 3;
+  string external_id = 4;
+  string external_sku = 5;
+  string external_name = 6;
+  string notes = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message ListSupplierProductMappingsRequest {
+  int64 supplier_id = 1;
+  string product_id = 2;
+}
+
+message ListSupplierProductMappingsResponse {
+  repeated SupplierProductMapping mappings = 1;
+}
+
+message GetSupplierProductMappingRequest {
+  string id = 1;
+}
+
+message GetSupplierProductMappingResponse {
+  SupplierProductMapping mapping = 1;
+}
+
+message CreateSupplierProductMappingRequest {
+  string product_id = 1;
+  int64 supplier_id = 2;
+  string external_id = 3;
+  string external_sku = 4;
+  string external_name = 5;
+  string notes = 6;
+}
+
+message CreateSupplierProductMappingResponse {
+  SupplierProductMapping mapping = 1;
+}
+
+message UpdateSupplierProductMappingRequest {
+  string id = 1;
+  string product_id = 2;
+  int64 supplier_id = 3;
+  string external_id = 4;
+  string external_sku = 5;
+  string external_name = 6;
+  string notes = 7;
+}
+
+message UpdateSupplierProductMappingResponse {
+  SupplierProductMapping mapping = 1;
+}
+
+message DeleteSupplierProductMappingRequest {
+  string id = 1;
+}
+
+message DeleteSupplierProductMappingResponse {
+  bool success = 1;
+}
+
 service CatalogService {
   rpc ListSuppliers(ListSuppliersRequest) returns (ListSuppliersResponse) {
     option (google.api.http) = {get: "/v1/suppliers"};
@@ -540,4 +667,57 @@ service CatalogService {
   rpc DeleteBrand(DeleteBrandRequest) returns (DeleteBrandResponse) {
     option (google.api.http) = {delete: "/v1/brands/{id}"};
   }
+
+  rpc ListSupplierCategoryMappings(ListSupplierCategoryMappingsRequest) returns (ListSupplierCategoryMappingsResponse) {
+    option (google.api.http) = {get: "/v1/supplier-category-mappings"};
+  }
+
+  rpc GetSupplierCategoryMapping(GetSupplierCategoryMappingRequest) returns (GetSupplierCategoryMappingResponse) {
+    option (google.api.http) = {get: "/v1/supplier-category-mappings/{id}"};
+  }
+
+  rpc CreateSupplierCategoryMapping(CreateSupplierCategoryMappingRequest) returns (CreateSupplierCategoryMappingResponse) {
+    option (google.api.http) = {
+      post: "/v1/supplier-category-mappings"
+      body: "*"
+    };
+  }
+
+  rpc UpdateSupplierCategoryMapping(UpdateSupplierCategoryMappingRequest) returns (UpdateSupplierCategoryMappingResponse) {
+    option (google.api.http) = {
+      patch: "/v1/supplier-category-mappings/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteSupplierCategoryMapping(DeleteSupplierCategoryMappingRequest) returns (DeleteSupplierCategoryMappingResponse) {
+    option (google.api.http) = {delete: "/v1/supplier-category-mappings/{id}"};
+  }
+
+  rpc ListSupplierProductMappings(ListSupplierProductMappingsRequest) returns (ListSupplierProductMappingsResponse) {
+    option (google.api.http) = {get: "/v1/supplier-product-mappings"};
+  }
+
+  rpc GetSupplierProductMapping(GetSupplierProductMappingRequest) returns (GetSupplierProductMappingResponse) {
+    option (google.api.http) = {get: "/v1/supplier-product-mappings/{id}"};
+  }
+
+  rpc CreateSupplierProductMapping(CreateSupplierProductMappingRequest) returns (CreateSupplierProductMappingResponse) {
+    option (google.api.http) = {
+      post: "/v1/supplier-product-mappings"
+      body: "*"
+    };
+  }
+
+  rpc UpdateSupplierProductMapping(UpdateSupplierProductMappingRequest) returns (UpdateSupplierProductMappingResponse) {
+    option (google.api.http) = {
+      patch: "/v1/supplier-product-mappings/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteSupplierProductMapping(DeleteSupplierProductMappingRequest) returns (DeleteSupplierProductMappingResponse) {
+    option (google.api.http) = {delete: "/v1/supplier-product-mappings/{id}"};
+  }
+
 }

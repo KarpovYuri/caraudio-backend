@@ -54,8 +54,10 @@ func main() {
 	brandRepo := catalogdb.NewPostgresBrandRepository(db)
 	productImageRepo := catalogdb.NewPostgresProductImageRepository(db)
 	productAttrRepo := catalogdb.NewPostgresProductAttributeRepository(db)
+	categoryMappingRepo := catalogdb.NewPostgresSupplierCategoryMappingRepository(db)
+	productMappingRepo := catalogdb.NewPostgresSupplierProductMappingRepository(db)
 
-	catalogSvc := catalogservice.NewCatalogService(supplierRepo, categoryRepo, productRepo, brandRepo, productImageRepo, productAttrRepo)
+	catalogSvc := catalogservice.NewCatalogService(supplierRepo, categoryRepo, productRepo, brandRepo, productImageRepo, productAttrRepo, categoryMappingRepo, productMappingRepo)
 
 	catalogGRPC := cataloggrpc.NewCatalogGRPCServer(
 		catalogSvc,

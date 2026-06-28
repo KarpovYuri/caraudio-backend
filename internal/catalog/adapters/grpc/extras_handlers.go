@@ -209,3 +209,189 @@ func attachProductAttributes(ctx context.Context, s *CatalogGRPCServer, productI
 		proto.Attributes = append(proto.Attributes, toProtoProductAttribute(&attrs[i]))
 	}
 }
+
+// --- Supplier category mappings ---
+
+func (s *CatalogGRPCServer) ListSupplierCategoryMappings(
+	ctx context.Context,
+	req *catalogv1.ListSupplierCategoryMappingsRequest,
+) (*catalogv1.ListSupplierCategoryMappingsResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	list, err := s.catalogService.ListSupplierCategoryMappings(ctx, domain.SupplierCategoryMappingFilter{
+		SupplierID: req.SupplierId, CategoryID: req.CategoryId,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	out := make([]*catalogv1.SupplierCategoryMapping, 0, len(list))
+	for i := range list {
+		out = append(out, toProtoSupplierCategoryMapping(&list[i]))
+	}
+	return &catalogv1.ListSupplierCategoryMappingsResponse{Mappings: out}, nil
+}
+
+func (s *CatalogGRPCServer) GetSupplierCategoryMapping(
+	ctx context.Context,
+	req *catalogv1.GetSupplierCategoryMappingRequest,
+) (*catalogv1.GetSupplierCategoryMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.GetSupplierCategoryMapping(ctx, req.Id)
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.GetSupplierCategoryMappingResponse{Mapping: toProtoSupplierCategoryMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) CreateSupplierCategoryMapping(
+	ctx context.Context,
+	req *catalogv1.CreateSupplierCategoryMappingRequest,
+) (*catalogv1.CreateSupplierCategoryMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.CreateSupplierCategoryMapping(ctx, domain.SupplierCategoryMappingInput{
+		CategoryID: req.CategoryId, SupplierID: req.SupplierId,
+		ExternalID: req.ExternalId, ExternalName: req.ExternalName, Notes: req.Notes,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.CreateSupplierCategoryMappingResponse{Mapping: toProtoSupplierCategoryMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) UpdateSupplierCategoryMapping(
+	ctx context.Context,
+	req *catalogv1.UpdateSupplierCategoryMappingRequest,
+) (*catalogv1.UpdateSupplierCategoryMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.UpdateSupplierCategoryMapping(ctx, req.Id, domain.SupplierCategoryMappingInput{
+		CategoryID: req.CategoryId, SupplierID: req.SupplierId,
+		ExternalID: req.ExternalId, ExternalName: req.ExternalName, Notes: req.Notes,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.UpdateSupplierCategoryMappingResponse{Mapping: toProtoSupplierCategoryMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) DeleteSupplierCategoryMapping(
+	ctx context.Context,
+	req *catalogv1.DeleteSupplierCategoryMappingRequest,
+) (*catalogv1.DeleteSupplierCategoryMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	if err := s.catalogService.DeleteSupplierCategoryMapping(ctx, req.Id); err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.DeleteSupplierCategoryMappingResponse{Success: true}, nil
+}
+
+func toProtoSupplierCategoryMapping(m *domain.SupplierCategoryMapping) *catalogv1.SupplierCategoryMapping {
+	return &catalogv1.SupplierCategoryMapping{
+		Id: m.ID, CategoryId: m.CategoryID, SupplierId: m.SupplierID,
+		ExternalId: m.ExternalID, ExternalName: m.ExternalName, Notes: m.Notes,
+		CreatedAt: m.CreatedAt.UTC().Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.UTC().Format(time.RFC3339),
+	}
+}
+
+// --- Supplier product mappings ---
+
+func (s *CatalogGRPCServer) ListSupplierProductMappings(
+	ctx context.Context,
+	req *catalogv1.ListSupplierProductMappingsRequest,
+) (*catalogv1.ListSupplierProductMappingsResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	list, err := s.catalogService.ListSupplierProductMappings(ctx, domain.SupplierProductMappingFilter{
+		SupplierID: req.SupplierId, ProductID: req.ProductId,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	out := make([]*catalogv1.SupplierProductMapping, 0, len(list))
+	for i := range list {
+		out = append(out, toProtoSupplierProductMapping(&list[i]))
+	}
+	return &catalogv1.ListSupplierProductMappingsResponse{Mappings: out}, nil
+}
+
+func (s *CatalogGRPCServer) GetSupplierProductMapping(
+	ctx context.Context,
+	req *catalogv1.GetSupplierProductMappingRequest,
+) (*catalogv1.GetSupplierProductMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.GetSupplierProductMapping(ctx, req.Id)
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.GetSupplierProductMappingResponse{Mapping: toProtoSupplierProductMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) CreateSupplierProductMapping(
+	ctx context.Context,
+	req *catalogv1.CreateSupplierProductMappingRequest,
+) (*catalogv1.CreateSupplierProductMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.CreateSupplierProductMapping(ctx, domain.SupplierProductMappingInput{
+		ProductID: req.ProductId, SupplierID: req.SupplierId,
+		ExternalID: req.ExternalId, ExternalSKU: req.ExternalSku,
+		ExternalName: req.ExternalName, Notes: req.Notes,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.CreateSupplierProductMappingResponse{Mapping: toProtoSupplierProductMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) UpdateSupplierProductMapping(
+	ctx context.Context,
+	req *catalogv1.UpdateSupplierProductMappingRequest,
+) (*catalogv1.UpdateSupplierProductMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	m, err := s.catalogService.UpdateSupplierProductMapping(ctx, req.Id, domain.SupplierProductMappingInput{
+		ProductID: req.ProductId, SupplierID: req.SupplierId,
+		ExternalID: req.ExternalId, ExternalSKU: req.ExternalSku,
+		ExternalName: req.ExternalName, Notes: req.Notes,
+	})
+	if err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.UpdateSupplierProductMappingResponse{Mapping: toProtoSupplierProductMapping(m)}, nil
+}
+
+func (s *CatalogGRPCServer) DeleteSupplierProductMapping(
+	ctx context.Context,
+	req *catalogv1.DeleteSupplierProductMappingRequest,
+) (*catalogv1.DeleteSupplierProductMappingResponse, error) {
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
+	if err := s.catalogService.DeleteSupplierProductMapping(ctx, req.Id); err != nil {
+		return nil, mapServiceError(err)
+	}
+	return &catalogv1.DeleteSupplierProductMappingResponse{Success: true}, nil
+}
+
+func toProtoSupplierProductMapping(m *domain.SupplierProductMapping) *catalogv1.SupplierProductMapping {
+	return &catalogv1.SupplierProductMapping{
+		Id: m.ID, ProductId: m.ProductID, SupplierId: m.SupplierID,
+		ExternalId: m.ExternalID, ExternalSku: m.ExternalSKU, ExternalName: m.ExternalName, Notes: m.Notes,
+		CreatedAt: m.CreatedAt.UTC().Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.UTC().Format(time.RFC3339),
+	}
+}

@@ -3790,6 +3790,1270 @@ func (x *DeleteSupplierResponse) GetSuccess() bool {
 	return false
 }
 
+type SupplierCategoryMapping struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,5,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,6,opt,name=notes,proto3" json:"notes,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SupplierCategoryMapping) Reset() {
+	*x = SupplierCategoryMapping{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[66]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SupplierCategoryMapping) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SupplierCategoryMapping) ProtoMessage() {}
+
+func (x *SupplierCategoryMapping) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[66]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SupplierCategoryMapping.ProtoReflect.Descriptor instead.
+func (*SupplierCategoryMapping) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{66}
+}
+
+func (x *SupplierCategoryMapping) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *SupplierCategoryMapping) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *SupplierCategoryMapping) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type ListSupplierCategoryMappingsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SupplierId    int64                  `protobuf:"varint,1,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSupplierCategoryMappingsRequest) Reset() {
+	*x = ListSupplierCategoryMappingsRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[67]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSupplierCategoryMappingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSupplierCategoryMappingsRequest) ProtoMessage() {}
+
+func (x *ListSupplierCategoryMappingsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[67]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSupplierCategoryMappingsRequest.ProtoReflect.Descriptor instead.
+func (*ListSupplierCategoryMappingsRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{67}
+}
+
+func (x *ListSupplierCategoryMappingsRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *ListSupplierCategoryMappingsRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+type ListSupplierCategoryMappingsResponse struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Mappings      []*SupplierCategoryMapping `protobuf:"bytes,1,rep,name=mappings,proto3" json:"mappings,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSupplierCategoryMappingsResponse) Reset() {
+	*x = ListSupplierCategoryMappingsResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[68]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSupplierCategoryMappingsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSupplierCategoryMappingsResponse) ProtoMessage() {}
+
+func (x *ListSupplierCategoryMappingsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[68]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSupplierCategoryMappingsResponse.ProtoReflect.Descriptor instead.
+func (*ListSupplierCategoryMappingsResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *ListSupplierCategoryMappingsResponse) GetMappings() []*SupplierCategoryMapping {
+	if x != nil {
+		return x.Mappings
+	}
+	return nil
+}
+
+type GetSupplierCategoryMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSupplierCategoryMappingRequest) Reset() {
+	*x = GetSupplierCategoryMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[69]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSupplierCategoryMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSupplierCategoryMappingRequest) ProtoMessage() {}
+
+func (x *GetSupplierCategoryMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[69]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSupplierCategoryMappingRequest.ProtoReflect.Descriptor instead.
+func (*GetSupplierCategoryMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{69}
+}
+
+func (x *GetSupplierCategoryMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetSupplierCategoryMappingResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Mapping       *SupplierCategoryMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSupplierCategoryMappingResponse) Reset() {
+	*x = GetSupplierCategoryMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[70]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSupplierCategoryMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSupplierCategoryMappingResponse) ProtoMessage() {}
+
+func (x *GetSupplierCategoryMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[70]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSupplierCategoryMappingResponse.ProtoReflect.Descriptor instead.
+func (*GetSupplierCategoryMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{70}
+}
+
+func (x *GetSupplierCategoryMappingResponse) GetMapping() *SupplierCategoryMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type CreateSupplierCategoryMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,2,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,4,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,5,opt,name=notes,proto3" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSupplierCategoryMappingRequest) Reset() {
+	*x = CreateSupplierCategoryMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[71]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSupplierCategoryMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSupplierCategoryMappingRequest) ProtoMessage() {}
+
+func (x *CreateSupplierCategoryMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[71]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSupplierCategoryMappingRequest.ProtoReflect.Descriptor instead.
+func (*CreateSupplierCategoryMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{71}
+}
+
+func (x *CreateSupplierCategoryMappingRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *CreateSupplierCategoryMappingRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *CreateSupplierCategoryMappingRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *CreateSupplierCategoryMappingRequest) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *CreateSupplierCategoryMappingRequest) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+type CreateSupplierCategoryMappingResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Mapping       *SupplierCategoryMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSupplierCategoryMappingResponse) Reset() {
+	*x = CreateSupplierCategoryMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[72]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSupplierCategoryMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSupplierCategoryMappingResponse) ProtoMessage() {}
+
+func (x *CreateSupplierCategoryMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[72]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSupplierCategoryMappingResponse.ProtoReflect.Descriptor instead.
+func (*CreateSupplierCategoryMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{72}
+}
+
+func (x *CreateSupplierCategoryMappingResponse) GetMapping() *SupplierCategoryMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type UpdateSupplierCategoryMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,5,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,6,opt,name=notes,proto3" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) Reset() {
+	*x = UpdateSupplierCategoryMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[73]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSupplierCategoryMappingRequest) ProtoMessage() {}
+
+func (x *UpdateSupplierCategoryMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[73]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSupplierCategoryMappingRequest.ProtoReflect.Descriptor instead.
+func (*UpdateSupplierCategoryMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{73}
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetCategoryId() string {
+	if x != nil {
+		return x.CategoryId
+	}
+	return ""
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *UpdateSupplierCategoryMappingRequest) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+type UpdateSupplierCategoryMappingResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Mapping       *SupplierCategoryMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSupplierCategoryMappingResponse) Reset() {
+	*x = UpdateSupplierCategoryMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[74]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSupplierCategoryMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSupplierCategoryMappingResponse) ProtoMessage() {}
+
+func (x *UpdateSupplierCategoryMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[74]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSupplierCategoryMappingResponse.ProtoReflect.Descriptor instead.
+func (*UpdateSupplierCategoryMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{74}
+}
+
+func (x *UpdateSupplierCategoryMappingResponse) GetMapping() *SupplierCategoryMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type DeleteSupplierCategoryMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSupplierCategoryMappingRequest) Reset() {
+	*x = DeleteSupplierCategoryMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[75]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSupplierCategoryMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSupplierCategoryMappingRequest) ProtoMessage() {}
+
+func (x *DeleteSupplierCategoryMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[75]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSupplierCategoryMappingRequest.ProtoReflect.Descriptor instead.
+func (*DeleteSupplierCategoryMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{75}
+}
+
+func (x *DeleteSupplierCategoryMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteSupplierCategoryMappingResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSupplierCategoryMappingResponse) Reset() {
+	*x = DeleteSupplierCategoryMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[76]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSupplierCategoryMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSupplierCategoryMappingResponse) ProtoMessage() {}
+
+func (x *DeleteSupplierCategoryMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[76]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSupplierCategoryMappingResponse.ProtoReflect.Descriptor instead.
+func (*DeleteSupplierCategoryMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{76}
+}
+
+func (x *DeleteSupplierCategoryMappingResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type SupplierProductMapping struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId     string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalSku   string                 `protobuf:"bytes,5,opt,name=external_sku,json=externalSku,proto3" json:"external_sku,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,6,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,7,opt,name=notes,proto3" json:"notes,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SupplierProductMapping) Reset() {
+	*x = SupplierProductMapping{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[77]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SupplierProductMapping) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SupplierProductMapping) ProtoMessage() {}
+
+func (x *SupplierProductMapping) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[77]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SupplierProductMapping.ProtoReflect.Descriptor instead.
+func (*SupplierProductMapping) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{77}
+}
+
+func (x *SupplierProductMapping) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *SupplierProductMapping) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetExternalSku() string {
+	if x != nil {
+		return x.ExternalSku
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *SupplierProductMapping) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+type ListSupplierProductMappingsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SupplierId    int64                  `protobuf:"varint,1,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ProductId     string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSupplierProductMappingsRequest) Reset() {
+	*x = ListSupplierProductMappingsRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[78]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSupplierProductMappingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSupplierProductMappingsRequest) ProtoMessage() {}
+
+func (x *ListSupplierProductMappingsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[78]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSupplierProductMappingsRequest.ProtoReflect.Descriptor instead.
+func (*ListSupplierProductMappingsRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{78}
+}
+
+func (x *ListSupplierProductMappingsRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *ListSupplierProductMappingsRequest) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+type ListSupplierProductMappingsResponse struct {
+	state         protoimpl.MessageState    `protogen:"open.v1"`
+	Mappings      []*SupplierProductMapping `protobuf:"bytes,1,rep,name=mappings,proto3" json:"mappings,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSupplierProductMappingsResponse) Reset() {
+	*x = ListSupplierProductMappingsResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[79]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSupplierProductMappingsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSupplierProductMappingsResponse) ProtoMessage() {}
+
+func (x *ListSupplierProductMappingsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[79]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSupplierProductMappingsResponse.ProtoReflect.Descriptor instead.
+func (*ListSupplierProductMappingsResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{79}
+}
+
+func (x *ListSupplierProductMappingsResponse) GetMappings() []*SupplierProductMapping {
+	if x != nil {
+		return x.Mappings
+	}
+	return nil
+}
+
+type GetSupplierProductMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSupplierProductMappingRequest) Reset() {
+	*x = GetSupplierProductMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[80]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSupplierProductMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSupplierProductMappingRequest) ProtoMessage() {}
+
+func (x *GetSupplierProductMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[80]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSupplierProductMappingRequest.ProtoReflect.Descriptor instead.
+func (*GetSupplierProductMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{80}
+}
+
+func (x *GetSupplierProductMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetSupplierProductMappingResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Mapping       *SupplierProductMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSupplierProductMappingResponse) Reset() {
+	*x = GetSupplierProductMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[81]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSupplierProductMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSupplierProductMappingResponse) ProtoMessage() {}
+
+func (x *GetSupplierProductMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[81]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSupplierProductMappingResponse.ProtoReflect.Descriptor instead.
+func (*GetSupplierProductMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{81}
+}
+
+func (x *GetSupplierProductMappingResponse) GetMapping() *SupplierProductMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type CreateSupplierProductMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,2,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,3,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalSku   string                 `protobuf:"bytes,4,opt,name=external_sku,json=externalSku,proto3" json:"external_sku,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,5,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,6,opt,name=notes,proto3" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSupplierProductMappingRequest) Reset() {
+	*x = CreateSupplierProductMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[82]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSupplierProductMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSupplierProductMappingRequest) ProtoMessage() {}
+
+func (x *CreateSupplierProductMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[82]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSupplierProductMappingRequest.ProtoReflect.Descriptor instead.
+func (*CreateSupplierProductMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{82}
+}
+
+func (x *CreateSupplierProductMappingRequest) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *CreateSupplierProductMappingRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *CreateSupplierProductMappingRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *CreateSupplierProductMappingRequest) GetExternalSku() string {
+	if x != nil {
+		return x.ExternalSku
+	}
+	return ""
+}
+
+func (x *CreateSupplierProductMappingRequest) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *CreateSupplierProductMappingRequest) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+type CreateSupplierProductMappingResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Mapping       *SupplierProductMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSupplierProductMappingResponse) Reset() {
+	*x = CreateSupplierProductMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[83]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSupplierProductMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSupplierProductMappingResponse) ProtoMessage() {}
+
+func (x *CreateSupplierProductMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[83]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSupplierProductMappingResponse.ProtoReflect.Descriptor instead.
+func (*CreateSupplierProductMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{83}
+}
+
+func (x *CreateSupplierProductMappingResponse) GetMapping() *SupplierProductMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type UpdateSupplierProductMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId     string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	ExternalId    string                 `protobuf:"bytes,4,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
+	ExternalSku   string                 `protobuf:"bytes,5,opt,name=external_sku,json=externalSku,proto3" json:"external_sku,omitempty"`
+	ExternalName  string                 `protobuf:"bytes,6,opt,name=external_name,json=externalName,proto3" json:"external_name,omitempty"`
+	Notes         string                 `protobuf:"bytes,7,opt,name=notes,proto3" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSupplierProductMappingRequest) Reset() {
+	*x = UpdateSupplierProductMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[84]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSupplierProductMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSupplierProductMappingRequest) ProtoMessage() {}
+
+func (x *UpdateSupplierProductMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[84]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSupplierProductMappingRequest.ProtoReflect.Descriptor instead.
+func (*UpdateSupplierProductMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{84}
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetSupplierId() int64 {
+	if x != nil {
+		return x.SupplierId
+	}
+	return 0
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetExternalId() string {
+	if x != nil {
+		return x.ExternalId
+	}
+	return ""
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetExternalSku() string {
+	if x != nil {
+		return x.ExternalSku
+	}
+	return ""
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetExternalName() string {
+	if x != nil {
+		return x.ExternalName
+	}
+	return ""
+}
+
+func (x *UpdateSupplierProductMappingRequest) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+type UpdateSupplierProductMappingResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Mapping       *SupplierProductMapping `protobuf:"bytes,1,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSupplierProductMappingResponse) Reset() {
+	*x = UpdateSupplierProductMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[85]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSupplierProductMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSupplierProductMappingResponse) ProtoMessage() {}
+
+func (x *UpdateSupplierProductMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[85]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSupplierProductMappingResponse.ProtoReflect.Descriptor instead.
+func (*UpdateSupplierProductMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{85}
+}
+
+func (x *UpdateSupplierProductMappingResponse) GetMapping() *SupplierProductMapping {
+	if x != nil {
+		return x.Mapping
+	}
+	return nil
+}
+
+type DeleteSupplierProductMappingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSupplierProductMappingRequest) Reset() {
+	*x = DeleteSupplierProductMappingRequest{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[86]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSupplierProductMappingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSupplierProductMappingRequest) ProtoMessage() {}
+
+func (x *DeleteSupplierProductMappingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[86]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSupplierProductMappingRequest.ProtoReflect.Descriptor instead.
+func (*DeleteSupplierProductMappingRequest) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{86}
+}
+
+func (x *DeleteSupplierProductMappingRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteSupplierProductMappingResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSupplierProductMappingResponse) Reset() {
+	*x = DeleteSupplierProductMappingResponse{}
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[87]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSupplierProductMappingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSupplierProductMappingResponse) ProtoMessage() {}
+
+func (x *DeleteSupplierProductMappingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catalog_v1_catalog_service_proto_msgTypes[87]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSupplierProductMappingResponse.ProtoReflect.Descriptor instead.
+func (*DeleteSupplierProductMappingResponse) Descriptor() ([]byte, []int) {
+	return file_catalog_v1_catalog_service_proto_rawDescGZIP(), []int{87}
+}
+
+func (x *DeleteSupplierProductMappingResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_catalog_v1_catalog_service_proto protoreflect.FileDescriptor
 
 const file_catalog_v1_catalog_service_proto_rawDesc = "" +
@@ -4087,7 +5351,114 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\x15DeleteSupplierRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"2\n" +
 	"\x16DeleteSupplierResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xae\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x85\x02\n" +
+	"\x17SupplierCategoryMapping\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vcategory_id\x18\x02 \x01(\tR\n" +
+	"categoryId\x12\x1f\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12#\n" +
+	"\rexternal_name\x18\x05 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\x06 \x01(\tR\x05notes\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\tR\tupdatedAt\"g\n" +
+	"#ListSupplierCategoryMappingsRequest\x12\x1f\n" +
+	"\vsupplier_id\x18\x01 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vcategory_id\x18\x02 \x01(\tR\n" +
+	"categoryId\"g\n" +
+	"$ListSupplierCategoryMappingsResponse\x12?\n" +
+	"\bmappings\x18\x01 \x03(\v2#.catalog.v1.SupplierCategoryMappingR\bmappings\"3\n" +
+	"!GetSupplierCategoryMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"c\n" +
+	"\"GetSupplierCategoryMappingResponse\x12=\n" +
+	"\amapping\x18\x01 \x01(\v2#.catalog.v1.SupplierCategoryMappingR\amapping\"\xc4\x01\n" +
+	"$CreateSupplierCategoryMappingRequest\x12\x1f\n" +
+	"\vcategory_id\x18\x01 \x01(\tR\n" +
+	"categoryId\x12\x1f\n" +
+	"\vsupplier_id\x18\x02 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12#\n" +
+	"\rexternal_name\x18\x04 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\x05 \x01(\tR\x05notes\"f\n" +
+	"%CreateSupplierCategoryMappingResponse\x12=\n" +
+	"\amapping\x18\x01 \x01(\v2#.catalog.v1.SupplierCategoryMappingR\amapping\"\xd4\x01\n" +
+	"$UpdateSupplierCategoryMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
+	"\vcategory_id\x18\x02 \x01(\tR\n" +
+	"categoryId\x12\x1f\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12#\n" +
+	"\rexternal_name\x18\x05 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\x06 \x01(\tR\x05notes\"f\n" +
+	"%UpdateSupplierCategoryMappingResponse\x12=\n" +
+	"\amapping\x18\x01 \x01(\v2#.catalog.v1.SupplierCategoryMappingR\amapping\"6\n" +
+	"$DeleteSupplierCategoryMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"A\n" +
+	"%DeleteSupplierCategoryMappingResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xa5\x02\n" +
+	"\x16SupplierProductMapping\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1f\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12!\n" +
+	"\fexternal_sku\x18\x05 \x01(\tR\vexternalSku\x12#\n" +
+	"\rexternal_name\x18\x06 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\a \x01(\tR\x05notes\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\b \x01(\tR\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\tR\tupdatedAt\"d\n" +
+	"\"ListSupplierProductMappingsRequest\x12\x1f\n" +
+	"\vsupplier_id\x18\x01 \x01(\x03R\n" +
+	"supplierId\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x02 \x01(\tR\tproductId\"e\n" +
+	"#ListSupplierProductMappingsResponse\x12>\n" +
+	"\bmappings\x18\x01 \x03(\v2\".catalog.v1.SupplierProductMappingR\bmappings\"2\n" +
+	" GetSupplierProductMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"a\n" +
+	"!GetSupplierProductMappingResponse\x12<\n" +
+	"\amapping\x18\x01 \x01(\v2\".catalog.v1.SupplierProductMappingR\amapping\"\xe4\x01\n" +
+	"#CreateSupplierProductMappingRequest\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x12\x1f\n" +
+	"\vsupplier_id\x18\x02 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x03 \x01(\tR\n" +
+	"externalId\x12!\n" +
+	"\fexternal_sku\x18\x04 \x01(\tR\vexternalSku\x12#\n" +
+	"\rexternal_name\x18\x05 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\x06 \x01(\tR\x05notes\"d\n" +
+	"$CreateSupplierProductMappingResponse\x12<\n" +
+	"\amapping\x18\x01 \x01(\v2\".catalog.v1.SupplierProductMappingR\amapping\"\xf4\x01\n" +
+	"#UpdateSupplierProductMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1f\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
+	"supplierId\x12\x1f\n" +
+	"\vexternal_id\x18\x04 \x01(\tR\n" +
+	"externalId\x12!\n" +
+	"\fexternal_sku\x18\x05 \x01(\tR\vexternalSku\x12#\n" +
+	"\rexternal_name\x18\x06 \x01(\tR\fexternalName\x12\x14\n" +
+	"\x05notes\x18\a \x01(\tR\x05notes\"d\n" +
+	"$UpdateSupplierProductMappingResponse\x12<\n" +
+	"\amapping\x18\x01 \x01(\v2\".catalog.v1.SupplierProductMappingR\amapping\"5\n" +
+	"#DeleteSupplierProductMappingRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"@\n" +
+	"$DeleteSupplierProductMappingResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\x82+\n" +
 	"\x0eCatalogService\x12k\n" +
 	"\rListSuppliers\x12 .catalog.v1.ListSuppliersRequest\x1a!.catalog.v1.ListSuppliersResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/suppliers\x12j\n" +
 	"\vGetSupplier\x12\x1e.catalog.v1.GetSupplierRequest\x1a\x1f.catalog.v1.GetSupplierResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/suppliers/{id}\x12q\n" +
@@ -4122,7 +5493,17 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\vCreateBrand\x12\x1e.catalog.v1.CreateBrandRequest\x1a\x1f.catalog.v1.CreateBrandResponse\"\x15\x82\xd3\xe4\x93\x02\x0f:\x01*\"\n" +
 	"/v1/brands\x12j\n" +
 	"\vUpdateBrand\x12\x1e.catalog.v1.UpdateBrandRequest\x1a\x1f.catalog.v1.UpdateBrandResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*2\x0f/v1/brands/{id}\x12g\n" +
-	"\vDeleteBrand\x12\x1e.catalog.v1.DeleteBrandRequest\x1a\x1f.catalog.v1.DeleteBrandResponse\"\x17\x82\xd3\xe4\x93\x02\x11*\x0f/v1/brands/{id}BKZIgithub.com/KarpovYuri/caraudio-backend/pkg/api/proto/catalog/v1;catalogv1b\x06proto3"
+	"\vDeleteBrand\x12\x1e.catalog.v1.DeleteBrandRequest\x1a\x1f.catalog.v1.DeleteBrandResponse\"\x17\x82\xd3\xe4\x93\x02\x11*\x0f/v1/brands/{id}\x12\xa9\x01\n" +
+	"\x1cListSupplierCategoryMappings\x12/.catalog.v1.ListSupplierCategoryMappingsRequest\x1a0.catalog.v1.ListSupplierCategoryMappingsResponse\"&\x82\xd3\xe4\x93\x02 \x12\x1e/v1/supplier-category-mappings\x12\xa8\x01\n" +
+	"\x1aGetSupplierCategoryMapping\x12-.catalog.v1.GetSupplierCategoryMappingRequest\x1a..catalog.v1.GetSupplierCategoryMappingResponse\"+\x82\xd3\xe4\x93\x02%\x12#/v1/supplier-category-mappings/{id}\x12\xaf\x01\n" +
+	"\x1dCreateSupplierCategoryMapping\x120.catalog.v1.CreateSupplierCategoryMappingRequest\x1a1.catalog.v1.CreateSupplierCategoryMappingResponse\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/v1/supplier-category-mappings\x12\xb4\x01\n" +
+	"\x1dUpdateSupplierCategoryMapping\x120.catalog.v1.UpdateSupplierCategoryMappingRequest\x1a1.catalog.v1.UpdateSupplierCategoryMappingResponse\".\x82\xd3\xe4\x93\x02(:\x01*2#/v1/supplier-category-mappings/{id}\x12\xb1\x01\n" +
+	"\x1dDeleteSupplierCategoryMapping\x120.catalog.v1.DeleteSupplierCategoryMappingRequest\x1a1.catalog.v1.DeleteSupplierCategoryMappingResponse\"+\x82\xd3\xe4\x93\x02%*#/v1/supplier-category-mappings/{id}\x12\xa5\x01\n" +
+	"\x1bListSupplierProductMappings\x12..catalog.v1.ListSupplierProductMappingsRequest\x1a/.catalog.v1.ListSupplierProductMappingsResponse\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/v1/supplier-product-mappings\x12\xa4\x01\n" +
+	"\x19GetSupplierProductMapping\x12,.catalog.v1.GetSupplierProductMappingRequest\x1a-.catalog.v1.GetSupplierProductMappingResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/v1/supplier-product-mappings/{id}\x12\xab\x01\n" +
+	"\x1cCreateSupplierProductMapping\x12/.catalog.v1.CreateSupplierProductMappingRequest\x1a0.catalog.v1.CreateSupplierProductMappingResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/v1/supplier-product-mappings\x12\xb0\x01\n" +
+	"\x1cUpdateSupplierProductMapping\x12/.catalog.v1.UpdateSupplierProductMappingRequest\x1a0.catalog.v1.UpdateSupplierProductMappingResponse\"-\x82\xd3\xe4\x93\x02':\x01*2\"/v1/supplier-product-mappings/{id}\x12\xad\x01\n" +
+	"\x1cDeleteSupplierProductMapping\x12/.catalog.v1.DeleteSupplierProductMappingRequest\x1a0.catalog.v1.DeleteSupplierProductMappingResponse\"*\x82\xd3\xe4\x93\x02$*\"/v1/supplier-product-mappings/{id}BKZIgithub.com/KarpovYuri/caraudio-backend/pkg/api/proto/catalog/v1;catalogv1b\x06proto3"
 
 var (
 	file_catalog_v1_catalog_service_proto_rawDescOnce sync.Once
@@ -4136,74 +5517,96 @@ func file_catalog_v1_catalog_service_proto_rawDescGZIP() []byte {
 	return file_catalog_v1_catalog_service_proto_rawDescData
 }
 
-var file_catalog_v1_catalog_service_proto_msgTypes = make([]protoimpl.MessageInfo, 66)
+var file_catalog_v1_catalog_service_proto_msgTypes = make([]protoimpl.MessageInfo, 88)
 var file_catalog_v1_catalog_service_proto_goTypes = []any{
-	(*Category)(nil),                       // 0: catalog.v1.Category
-	(*ListCategoriesRequest)(nil),          // 1: catalog.v1.ListCategoriesRequest
-	(*ListCategoriesResponse)(nil),         // 2: catalog.v1.ListCategoriesResponse
-	(*GetCategoryRequest)(nil),             // 3: catalog.v1.GetCategoryRequest
-	(*GetCategoryResponse)(nil),            // 4: catalog.v1.GetCategoryResponse
-	(*CreateCategoryRequest)(nil),          // 5: catalog.v1.CreateCategoryRequest
-	(*CreateCategoryResponse)(nil),         // 6: catalog.v1.CreateCategoryResponse
-	(*UpdateCategoryRequest)(nil),          // 7: catalog.v1.UpdateCategoryRequest
-	(*UpdateCategoryResponse)(nil),         // 8: catalog.v1.UpdateCategoryResponse
-	(*DeleteCategoryRequest)(nil),          // 9: catalog.v1.DeleteCategoryRequest
-	(*DeleteCategoryResponse)(nil),         // 10: catalog.v1.DeleteCategoryResponse
-	(*ProductImage)(nil),                   // 11: catalog.v1.ProductImage
-	(*ProductAttribute)(nil),               // 12: catalog.v1.ProductAttribute
-	(*Product)(nil),                        // 13: catalog.v1.Product
-	(*ListProductsRequest)(nil),            // 14: catalog.v1.ListProductsRequest
-	(*ListProductsResponse)(nil),           // 15: catalog.v1.ListProductsResponse
-	(*GetProductRequest)(nil),              // 16: catalog.v1.GetProductRequest
-	(*GetProductResponse)(nil),             // 17: catalog.v1.GetProductResponse
-	(*CreateProductRequest)(nil),           // 18: catalog.v1.CreateProductRequest
-	(*CreateProductResponse)(nil),          // 19: catalog.v1.CreateProductResponse
-	(*UpdateProductRequest)(nil),           // 20: catalog.v1.UpdateProductRequest
-	(*UpdateProductResponse)(nil),          // 21: catalog.v1.UpdateProductResponse
-	(*DeleteProductRequest)(nil),           // 22: catalog.v1.DeleteProductRequest
-	(*DeleteProductResponse)(nil),          // 23: catalog.v1.DeleteProductResponse
-	(*ListProductImagesRequest)(nil),       // 24: catalog.v1.ListProductImagesRequest
-	(*ListProductImagesResponse)(nil),      // 25: catalog.v1.ListProductImagesResponse
-	(*GetProductImageRequest)(nil),         // 26: catalog.v1.GetProductImageRequest
-	(*GetProductImageResponse)(nil),        // 27: catalog.v1.GetProductImageResponse
-	(*CreateProductImageRequest)(nil),      // 28: catalog.v1.CreateProductImageRequest
-	(*CreateProductImageResponse)(nil),     // 29: catalog.v1.CreateProductImageResponse
-	(*UpdateProductImageRequest)(nil),      // 30: catalog.v1.UpdateProductImageRequest
-	(*UpdateProductImageResponse)(nil),     // 31: catalog.v1.UpdateProductImageResponse
-	(*DeleteProductImageRequest)(nil),      // 32: catalog.v1.DeleteProductImageRequest
-	(*DeleteProductImageResponse)(nil),     // 33: catalog.v1.DeleteProductImageResponse
-	(*ListProductAttributesRequest)(nil),   // 34: catalog.v1.ListProductAttributesRequest
-	(*ListProductAttributesResponse)(nil),  // 35: catalog.v1.ListProductAttributesResponse
-	(*GetProductAttributeRequest)(nil),     // 36: catalog.v1.GetProductAttributeRequest
-	(*GetProductAttributeResponse)(nil),    // 37: catalog.v1.GetProductAttributeResponse
-	(*CreateProductAttributeRequest)(nil),  // 38: catalog.v1.CreateProductAttributeRequest
-	(*CreateProductAttributeResponse)(nil), // 39: catalog.v1.CreateProductAttributeResponse
-	(*UpdateProductAttributeRequest)(nil),  // 40: catalog.v1.UpdateProductAttributeRequest
-	(*UpdateProductAttributeResponse)(nil), // 41: catalog.v1.UpdateProductAttributeResponse
-	(*DeleteProductAttributeRequest)(nil),  // 42: catalog.v1.DeleteProductAttributeRequest
-	(*DeleteProductAttributeResponse)(nil), // 43: catalog.v1.DeleteProductAttributeResponse
-	(*Brand)(nil),                          // 44: catalog.v1.Brand
-	(*ListBrandsRequest)(nil),              // 45: catalog.v1.ListBrandsRequest
-	(*ListBrandsResponse)(nil),             // 46: catalog.v1.ListBrandsResponse
-	(*GetBrandRequest)(nil),                // 47: catalog.v1.GetBrandRequest
-	(*GetBrandResponse)(nil),               // 48: catalog.v1.GetBrandResponse
-	(*CreateBrandRequest)(nil),             // 49: catalog.v1.CreateBrandRequest
-	(*CreateBrandResponse)(nil),            // 50: catalog.v1.CreateBrandResponse
-	(*UpdateBrandRequest)(nil),             // 51: catalog.v1.UpdateBrandRequest
-	(*UpdateBrandResponse)(nil),            // 52: catalog.v1.UpdateBrandResponse
-	(*DeleteBrandRequest)(nil),             // 53: catalog.v1.DeleteBrandRequest
-	(*DeleteBrandResponse)(nil),            // 54: catalog.v1.DeleteBrandResponse
-	(*Supplier)(nil),                       // 55: catalog.v1.Supplier
-	(*ListSuppliersRequest)(nil),           // 56: catalog.v1.ListSuppliersRequest
-	(*ListSuppliersResponse)(nil),          // 57: catalog.v1.ListSuppliersResponse
-	(*GetSupplierRequest)(nil),             // 58: catalog.v1.GetSupplierRequest
-	(*GetSupplierResponse)(nil),            // 59: catalog.v1.GetSupplierResponse
-	(*CreateSupplierRequest)(nil),          // 60: catalog.v1.CreateSupplierRequest
-	(*CreateSupplierResponse)(nil),         // 61: catalog.v1.CreateSupplierResponse
-	(*UpdateSupplierRequest)(nil),          // 62: catalog.v1.UpdateSupplierRequest
-	(*UpdateSupplierResponse)(nil),         // 63: catalog.v1.UpdateSupplierResponse
-	(*DeleteSupplierRequest)(nil),          // 64: catalog.v1.DeleteSupplierRequest
-	(*DeleteSupplierResponse)(nil),         // 65: catalog.v1.DeleteSupplierResponse
+	(*Category)(nil),                              // 0: catalog.v1.Category
+	(*ListCategoriesRequest)(nil),                 // 1: catalog.v1.ListCategoriesRequest
+	(*ListCategoriesResponse)(nil),                // 2: catalog.v1.ListCategoriesResponse
+	(*GetCategoryRequest)(nil),                    // 3: catalog.v1.GetCategoryRequest
+	(*GetCategoryResponse)(nil),                   // 4: catalog.v1.GetCategoryResponse
+	(*CreateCategoryRequest)(nil),                 // 5: catalog.v1.CreateCategoryRequest
+	(*CreateCategoryResponse)(nil),                // 6: catalog.v1.CreateCategoryResponse
+	(*UpdateCategoryRequest)(nil),                 // 7: catalog.v1.UpdateCategoryRequest
+	(*UpdateCategoryResponse)(nil),                // 8: catalog.v1.UpdateCategoryResponse
+	(*DeleteCategoryRequest)(nil),                 // 9: catalog.v1.DeleteCategoryRequest
+	(*DeleteCategoryResponse)(nil),                // 10: catalog.v1.DeleteCategoryResponse
+	(*ProductImage)(nil),                          // 11: catalog.v1.ProductImage
+	(*ProductAttribute)(nil),                      // 12: catalog.v1.ProductAttribute
+	(*Product)(nil),                               // 13: catalog.v1.Product
+	(*ListProductsRequest)(nil),                   // 14: catalog.v1.ListProductsRequest
+	(*ListProductsResponse)(nil),                  // 15: catalog.v1.ListProductsResponse
+	(*GetProductRequest)(nil),                     // 16: catalog.v1.GetProductRequest
+	(*GetProductResponse)(nil),                    // 17: catalog.v1.GetProductResponse
+	(*CreateProductRequest)(nil),                  // 18: catalog.v1.CreateProductRequest
+	(*CreateProductResponse)(nil),                 // 19: catalog.v1.CreateProductResponse
+	(*UpdateProductRequest)(nil),                  // 20: catalog.v1.UpdateProductRequest
+	(*UpdateProductResponse)(nil),                 // 21: catalog.v1.UpdateProductResponse
+	(*DeleteProductRequest)(nil),                  // 22: catalog.v1.DeleteProductRequest
+	(*DeleteProductResponse)(nil),                 // 23: catalog.v1.DeleteProductResponse
+	(*ListProductImagesRequest)(nil),              // 24: catalog.v1.ListProductImagesRequest
+	(*ListProductImagesResponse)(nil),             // 25: catalog.v1.ListProductImagesResponse
+	(*GetProductImageRequest)(nil),                // 26: catalog.v1.GetProductImageRequest
+	(*GetProductImageResponse)(nil),               // 27: catalog.v1.GetProductImageResponse
+	(*CreateProductImageRequest)(nil),             // 28: catalog.v1.CreateProductImageRequest
+	(*CreateProductImageResponse)(nil),            // 29: catalog.v1.CreateProductImageResponse
+	(*UpdateProductImageRequest)(nil),             // 30: catalog.v1.UpdateProductImageRequest
+	(*UpdateProductImageResponse)(nil),            // 31: catalog.v1.UpdateProductImageResponse
+	(*DeleteProductImageRequest)(nil),             // 32: catalog.v1.DeleteProductImageRequest
+	(*DeleteProductImageResponse)(nil),            // 33: catalog.v1.DeleteProductImageResponse
+	(*ListProductAttributesRequest)(nil),          // 34: catalog.v1.ListProductAttributesRequest
+	(*ListProductAttributesResponse)(nil),         // 35: catalog.v1.ListProductAttributesResponse
+	(*GetProductAttributeRequest)(nil),            // 36: catalog.v1.GetProductAttributeRequest
+	(*GetProductAttributeResponse)(nil),           // 37: catalog.v1.GetProductAttributeResponse
+	(*CreateProductAttributeRequest)(nil),         // 38: catalog.v1.CreateProductAttributeRequest
+	(*CreateProductAttributeResponse)(nil),        // 39: catalog.v1.CreateProductAttributeResponse
+	(*UpdateProductAttributeRequest)(nil),         // 40: catalog.v1.UpdateProductAttributeRequest
+	(*UpdateProductAttributeResponse)(nil),        // 41: catalog.v1.UpdateProductAttributeResponse
+	(*DeleteProductAttributeRequest)(nil),         // 42: catalog.v1.DeleteProductAttributeRequest
+	(*DeleteProductAttributeResponse)(nil),        // 43: catalog.v1.DeleteProductAttributeResponse
+	(*Brand)(nil),                                 // 44: catalog.v1.Brand
+	(*ListBrandsRequest)(nil),                     // 45: catalog.v1.ListBrandsRequest
+	(*ListBrandsResponse)(nil),                    // 46: catalog.v1.ListBrandsResponse
+	(*GetBrandRequest)(nil),                       // 47: catalog.v1.GetBrandRequest
+	(*GetBrandResponse)(nil),                      // 48: catalog.v1.GetBrandResponse
+	(*CreateBrandRequest)(nil),                    // 49: catalog.v1.CreateBrandRequest
+	(*CreateBrandResponse)(nil),                   // 50: catalog.v1.CreateBrandResponse
+	(*UpdateBrandRequest)(nil),                    // 51: catalog.v1.UpdateBrandRequest
+	(*UpdateBrandResponse)(nil),                   // 52: catalog.v1.UpdateBrandResponse
+	(*DeleteBrandRequest)(nil),                    // 53: catalog.v1.DeleteBrandRequest
+	(*DeleteBrandResponse)(nil),                   // 54: catalog.v1.DeleteBrandResponse
+	(*Supplier)(nil),                              // 55: catalog.v1.Supplier
+	(*ListSuppliersRequest)(nil),                  // 56: catalog.v1.ListSuppliersRequest
+	(*ListSuppliersResponse)(nil),                 // 57: catalog.v1.ListSuppliersResponse
+	(*GetSupplierRequest)(nil),                    // 58: catalog.v1.GetSupplierRequest
+	(*GetSupplierResponse)(nil),                   // 59: catalog.v1.GetSupplierResponse
+	(*CreateSupplierRequest)(nil),                 // 60: catalog.v1.CreateSupplierRequest
+	(*CreateSupplierResponse)(nil),                // 61: catalog.v1.CreateSupplierResponse
+	(*UpdateSupplierRequest)(nil),                 // 62: catalog.v1.UpdateSupplierRequest
+	(*UpdateSupplierResponse)(nil),                // 63: catalog.v1.UpdateSupplierResponse
+	(*DeleteSupplierRequest)(nil),                 // 64: catalog.v1.DeleteSupplierRequest
+	(*DeleteSupplierResponse)(nil),                // 65: catalog.v1.DeleteSupplierResponse
+	(*SupplierCategoryMapping)(nil),               // 66: catalog.v1.SupplierCategoryMapping
+	(*ListSupplierCategoryMappingsRequest)(nil),   // 67: catalog.v1.ListSupplierCategoryMappingsRequest
+	(*ListSupplierCategoryMappingsResponse)(nil),  // 68: catalog.v1.ListSupplierCategoryMappingsResponse
+	(*GetSupplierCategoryMappingRequest)(nil),     // 69: catalog.v1.GetSupplierCategoryMappingRequest
+	(*GetSupplierCategoryMappingResponse)(nil),    // 70: catalog.v1.GetSupplierCategoryMappingResponse
+	(*CreateSupplierCategoryMappingRequest)(nil),  // 71: catalog.v1.CreateSupplierCategoryMappingRequest
+	(*CreateSupplierCategoryMappingResponse)(nil), // 72: catalog.v1.CreateSupplierCategoryMappingResponse
+	(*UpdateSupplierCategoryMappingRequest)(nil),  // 73: catalog.v1.UpdateSupplierCategoryMappingRequest
+	(*UpdateSupplierCategoryMappingResponse)(nil), // 74: catalog.v1.UpdateSupplierCategoryMappingResponse
+	(*DeleteSupplierCategoryMappingRequest)(nil),  // 75: catalog.v1.DeleteSupplierCategoryMappingRequest
+	(*DeleteSupplierCategoryMappingResponse)(nil), // 76: catalog.v1.DeleteSupplierCategoryMappingResponse
+	(*SupplierProductMapping)(nil),                // 77: catalog.v1.SupplierProductMapping
+	(*ListSupplierProductMappingsRequest)(nil),    // 78: catalog.v1.ListSupplierProductMappingsRequest
+	(*ListSupplierProductMappingsResponse)(nil),   // 79: catalog.v1.ListSupplierProductMappingsResponse
+	(*GetSupplierProductMappingRequest)(nil),      // 80: catalog.v1.GetSupplierProductMappingRequest
+	(*GetSupplierProductMappingResponse)(nil),     // 81: catalog.v1.GetSupplierProductMappingResponse
+	(*CreateSupplierProductMappingRequest)(nil),   // 82: catalog.v1.CreateSupplierProductMappingRequest
+	(*CreateSupplierProductMappingResponse)(nil),  // 83: catalog.v1.CreateSupplierProductMappingResponse
+	(*UpdateSupplierProductMappingRequest)(nil),   // 84: catalog.v1.UpdateSupplierProductMappingRequest
+	(*UpdateSupplierProductMappingResponse)(nil),  // 85: catalog.v1.UpdateSupplierProductMappingResponse
+	(*DeleteSupplierProductMappingRequest)(nil),   // 86: catalog.v1.DeleteSupplierProductMappingRequest
+	(*DeleteSupplierProductMappingResponse)(nil),  // 87: catalog.v1.DeleteSupplierProductMappingResponse
 }
 var file_catalog_v1_catalog_service_proto_depIdxs = []int32{
 	0,  // 0: catalog.v1.ListCategoriesResponse.categories:type_name -> catalog.v1.Category
@@ -4232,71 +5635,99 @@ var file_catalog_v1_catalog_service_proto_depIdxs = []int32{
 	55, // 23: catalog.v1.GetSupplierResponse.supplier:type_name -> catalog.v1.Supplier
 	55, // 24: catalog.v1.CreateSupplierResponse.supplier:type_name -> catalog.v1.Supplier
 	55, // 25: catalog.v1.UpdateSupplierResponse.supplier:type_name -> catalog.v1.Supplier
-	56, // 26: catalog.v1.CatalogService.ListSuppliers:input_type -> catalog.v1.ListSuppliersRequest
-	58, // 27: catalog.v1.CatalogService.GetSupplier:input_type -> catalog.v1.GetSupplierRequest
-	60, // 28: catalog.v1.CatalogService.CreateSupplier:input_type -> catalog.v1.CreateSupplierRequest
-	62, // 29: catalog.v1.CatalogService.UpdateSupplier:input_type -> catalog.v1.UpdateSupplierRequest
-	64, // 30: catalog.v1.CatalogService.DeleteSupplier:input_type -> catalog.v1.DeleteSupplierRequest
-	1,  // 31: catalog.v1.CatalogService.ListCategories:input_type -> catalog.v1.ListCategoriesRequest
-	3,  // 32: catalog.v1.CatalogService.GetCategory:input_type -> catalog.v1.GetCategoryRequest
-	5,  // 33: catalog.v1.CatalogService.CreateCategory:input_type -> catalog.v1.CreateCategoryRequest
-	7,  // 34: catalog.v1.CatalogService.UpdateCategory:input_type -> catalog.v1.UpdateCategoryRequest
-	9,  // 35: catalog.v1.CatalogService.DeleteCategory:input_type -> catalog.v1.DeleteCategoryRequest
-	14, // 36: catalog.v1.CatalogService.ListProducts:input_type -> catalog.v1.ListProductsRequest
-	16, // 37: catalog.v1.CatalogService.GetProduct:input_type -> catalog.v1.GetProductRequest
-	18, // 38: catalog.v1.CatalogService.CreateProduct:input_type -> catalog.v1.CreateProductRequest
-	20, // 39: catalog.v1.CatalogService.UpdateProduct:input_type -> catalog.v1.UpdateProductRequest
-	22, // 40: catalog.v1.CatalogService.DeleteProduct:input_type -> catalog.v1.DeleteProductRequest
-	24, // 41: catalog.v1.CatalogService.ListProductImages:input_type -> catalog.v1.ListProductImagesRequest
-	26, // 42: catalog.v1.CatalogService.GetProductImage:input_type -> catalog.v1.GetProductImageRequest
-	28, // 43: catalog.v1.CatalogService.CreateProductImage:input_type -> catalog.v1.CreateProductImageRequest
-	30, // 44: catalog.v1.CatalogService.UpdateProductImage:input_type -> catalog.v1.UpdateProductImageRequest
-	32, // 45: catalog.v1.CatalogService.DeleteProductImage:input_type -> catalog.v1.DeleteProductImageRequest
-	34, // 46: catalog.v1.CatalogService.ListProductAttributes:input_type -> catalog.v1.ListProductAttributesRequest
-	36, // 47: catalog.v1.CatalogService.GetProductAttribute:input_type -> catalog.v1.GetProductAttributeRequest
-	38, // 48: catalog.v1.CatalogService.CreateProductAttribute:input_type -> catalog.v1.CreateProductAttributeRequest
-	40, // 49: catalog.v1.CatalogService.UpdateProductAttribute:input_type -> catalog.v1.UpdateProductAttributeRequest
-	42, // 50: catalog.v1.CatalogService.DeleteProductAttribute:input_type -> catalog.v1.DeleteProductAttributeRequest
-	45, // 51: catalog.v1.CatalogService.ListBrands:input_type -> catalog.v1.ListBrandsRequest
-	47, // 52: catalog.v1.CatalogService.GetBrand:input_type -> catalog.v1.GetBrandRequest
-	49, // 53: catalog.v1.CatalogService.CreateBrand:input_type -> catalog.v1.CreateBrandRequest
-	51, // 54: catalog.v1.CatalogService.UpdateBrand:input_type -> catalog.v1.UpdateBrandRequest
-	53, // 55: catalog.v1.CatalogService.DeleteBrand:input_type -> catalog.v1.DeleteBrandRequest
-	57, // 56: catalog.v1.CatalogService.ListSuppliers:output_type -> catalog.v1.ListSuppliersResponse
-	59, // 57: catalog.v1.CatalogService.GetSupplier:output_type -> catalog.v1.GetSupplierResponse
-	61, // 58: catalog.v1.CatalogService.CreateSupplier:output_type -> catalog.v1.CreateSupplierResponse
-	63, // 59: catalog.v1.CatalogService.UpdateSupplier:output_type -> catalog.v1.UpdateSupplierResponse
-	65, // 60: catalog.v1.CatalogService.DeleteSupplier:output_type -> catalog.v1.DeleteSupplierResponse
-	2,  // 61: catalog.v1.CatalogService.ListCategories:output_type -> catalog.v1.ListCategoriesResponse
-	4,  // 62: catalog.v1.CatalogService.GetCategory:output_type -> catalog.v1.GetCategoryResponse
-	6,  // 63: catalog.v1.CatalogService.CreateCategory:output_type -> catalog.v1.CreateCategoryResponse
-	8,  // 64: catalog.v1.CatalogService.UpdateCategory:output_type -> catalog.v1.UpdateCategoryResponse
-	10, // 65: catalog.v1.CatalogService.DeleteCategory:output_type -> catalog.v1.DeleteCategoryResponse
-	15, // 66: catalog.v1.CatalogService.ListProducts:output_type -> catalog.v1.ListProductsResponse
-	17, // 67: catalog.v1.CatalogService.GetProduct:output_type -> catalog.v1.GetProductResponse
-	19, // 68: catalog.v1.CatalogService.CreateProduct:output_type -> catalog.v1.CreateProductResponse
-	21, // 69: catalog.v1.CatalogService.UpdateProduct:output_type -> catalog.v1.UpdateProductResponse
-	23, // 70: catalog.v1.CatalogService.DeleteProduct:output_type -> catalog.v1.DeleteProductResponse
-	25, // 71: catalog.v1.CatalogService.ListProductImages:output_type -> catalog.v1.ListProductImagesResponse
-	27, // 72: catalog.v1.CatalogService.GetProductImage:output_type -> catalog.v1.GetProductImageResponse
-	29, // 73: catalog.v1.CatalogService.CreateProductImage:output_type -> catalog.v1.CreateProductImageResponse
-	31, // 74: catalog.v1.CatalogService.UpdateProductImage:output_type -> catalog.v1.UpdateProductImageResponse
-	33, // 75: catalog.v1.CatalogService.DeleteProductImage:output_type -> catalog.v1.DeleteProductImageResponse
-	35, // 76: catalog.v1.CatalogService.ListProductAttributes:output_type -> catalog.v1.ListProductAttributesResponse
-	37, // 77: catalog.v1.CatalogService.GetProductAttribute:output_type -> catalog.v1.GetProductAttributeResponse
-	39, // 78: catalog.v1.CatalogService.CreateProductAttribute:output_type -> catalog.v1.CreateProductAttributeResponse
-	41, // 79: catalog.v1.CatalogService.UpdateProductAttribute:output_type -> catalog.v1.UpdateProductAttributeResponse
-	43, // 80: catalog.v1.CatalogService.DeleteProductAttribute:output_type -> catalog.v1.DeleteProductAttributeResponse
-	46, // 81: catalog.v1.CatalogService.ListBrands:output_type -> catalog.v1.ListBrandsResponse
-	48, // 82: catalog.v1.CatalogService.GetBrand:output_type -> catalog.v1.GetBrandResponse
-	50, // 83: catalog.v1.CatalogService.CreateBrand:output_type -> catalog.v1.CreateBrandResponse
-	52, // 84: catalog.v1.CatalogService.UpdateBrand:output_type -> catalog.v1.UpdateBrandResponse
-	54, // 85: catalog.v1.CatalogService.DeleteBrand:output_type -> catalog.v1.DeleteBrandResponse
-	56, // [56:86] is the sub-list for method output_type
-	26, // [26:56] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	66, // 26: catalog.v1.ListSupplierCategoryMappingsResponse.mappings:type_name -> catalog.v1.SupplierCategoryMapping
+	66, // 27: catalog.v1.GetSupplierCategoryMappingResponse.mapping:type_name -> catalog.v1.SupplierCategoryMapping
+	66, // 28: catalog.v1.CreateSupplierCategoryMappingResponse.mapping:type_name -> catalog.v1.SupplierCategoryMapping
+	66, // 29: catalog.v1.UpdateSupplierCategoryMappingResponse.mapping:type_name -> catalog.v1.SupplierCategoryMapping
+	77, // 30: catalog.v1.ListSupplierProductMappingsResponse.mappings:type_name -> catalog.v1.SupplierProductMapping
+	77, // 31: catalog.v1.GetSupplierProductMappingResponse.mapping:type_name -> catalog.v1.SupplierProductMapping
+	77, // 32: catalog.v1.CreateSupplierProductMappingResponse.mapping:type_name -> catalog.v1.SupplierProductMapping
+	77, // 33: catalog.v1.UpdateSupplierProductMappingResponse.mapping:type_name -> catalog.v1.SupplierProductMapping
+	56, // 34: catalog.v1.CatalogService.ListSuppliers:input_type -> catalog.v1.ListSuppliersRequest
+	58, // 35: catalog.v1.CatalogService.GetSupplier:input_type -> catalog.v1.GetSupplierRequest
+	60, // 36: catalog.v1.CatalogService.CreateSupplier:input_type -> catalog.v1.CreateSupplierRequest
+	62, // 37: catalog.v1.CatalogService.UpdateSupplier:input_type -> catalog.v1.UpdateSupplierRequest
+	64, // 38: catalog.v1.CatalogService.DeleteSupplier:input_type -> catalog.v1.DeleteSupplierRequest
+	1,  // 39: catalog.v1.CatalogService.ListCategories:input_type -> catalog.v1.ListCategoriesRequest
+	3,  // 40: catalog.v1.CatalogService.GetCategory:input_type -> catalog.v1.GetCategoryRequest
+	5,  // 41: catalog.v1.CatalogService.CreateCategory:input_type -> catalog.v1.CreateCategoryRequest
+	7,  // 42: catalog.v1.CatalogService.UpdateCategory:input_type -> catalog.v1.UpdateCategoryRequest
+	9,  // 43: catalog.v1.CatalogService.DeleteCategory:input_type -> catalog.v1.DeleteCategoryRequest
+	14, // 44: catalog.v1.CatalogService.ListProducts:input_type -> catalog.v1.ListProductsRequest
+	16, // 45: catalog.v1.CatalogService.GetProduct:input_type -> catalog.v1.GetProductRequest
+	18, // 46: catalog.v1.CatalogService.CreateProduct:input_type -> catalog.v1.CreateProductRequest
+	20, // 47: catalog.v1.CatalogService.UpdateProduct:input_type -> catalog.v1.UpdateProductRequest
+	22, // 48: catalog.v1.CatalogService.DeleteProduct:input_type -> catalog.v1.DeleteProductRequest
+	24, // 49: catalog.v1.CatalogService.ListProductImages:input_type -> catalog.v1.ListProductImagesRequest
+	26, // 50: catalog.v1.CatalogService.GetProductImage:input_type -> catalog.v1.GetProductImageRequest
+	28, // 51: catalog.v1.CatalogService.CreateProductImage:input_type -> catalog.v1.CreateProductImageRequest
+	30, // 52: catalog.v1.CatalogService.UpdateProductImage:input_type -> catalog.v1.UpdateProductImageRequest
+	32, // 53: catalog.v1.CatalogService.DeleteProductImage:input_type -> catalog.v1.DeleteProductImageRequest
+	34, // 54: catalog.v1.CatalogService.ListProductAttributes:input_type -> catalog.v1.ListProductAttributesRequest
+	36, // 55: catalog.v1.CatalogService.GetProductAttribute:input_type -> catalog.v1.GetProductAttributeRequest
+	38, // 56: catalog.v1.CatalogService.CreateProductAttribute:input_type -> catalog.v1.CreateProductAttributeRequest
+	40, // 57: catalog.v1.CatalogService.UpdateProductAttribute:input_type -> catalog.v1.UpdateProductAttributeRequest
+	42, // 58: catalog.v1.CatalogService.DeleteProductAttribute:input_type -> catalog.v1.DeleteProductAttributeRequest
+	45, // 59: catalog.v1.CatalogService.ListBrands:input_type -> catalog.v1.ListBrandsRequest
+	47, // 60: catalog.v1.CatalogService.GetBrand:input_type -> catalog.v1.GetBrandRequest
+	49, // 61: catalog.v1.CatalogService.CreateBrand:input_type -> catalog.v1.CreateBrandRequest
+	51, // 62: catalog.v1.CatalogService.UpdateBrand:input_type -> catalog.v1.UpdateBrandRequest
+	53, // 63: catalog.v1.CatalogService.DeleteBrand:input_type -> catalog.v1.DeleteBrandRequest
+	67, // 64: catalog.v1.CatalogService.ListSupplierCategoryMappings:input_type -> catalog.v1.ListSupplierCategoryMappingsRequest
+	69, // 65: catalog.v1.CatalogService.GetSupplierCategoryMapping:input_type -> catalog.v1.GetSupplierCategoryMappingRequest
+	71, // 66: catalog.v1.CatalogService.CreateSupplierCategoryMapping:input_type -> catalog.v1.CreateSupplierCategoryMappingRequest
+	73, // 67: catalog.v1.CatalogService.UpdateSupplierCategoryMapping:input_type -> catalog.v1.UpdateSupplierCategoryMappingRequest
+	75, // 68: catalog.v1.CatalogService.DeleteSupplierCategoryMapping:input_type -> catalog.v1.DeleteSupplierCategoryMappingRequest
+	78, // 69: catalog.v1.CatalogService.ListSupplierProductMappings:input_type -> catalog.v1.ListSupplierProductMappingsRequest
+	80, // 70: catalog.v1.CatalogService.GetSupplierProductMapping:input_type -> catalog.v1.GetSupplierProductMappingRequest
+	82, // 71: catalog.v1.CatalogService.CreateSupplierProductMapping:input_type -> catalog.v1.CreateSupplierProductMappingRequest
+	84, // 72: catalog.v1.CatalogService.UpdateSupplierProductMapping:input_type -> catalog.v1.UpdateSupplierProductMappingRequest
+	86, // 73: catalog.v1.CatalogService.DeleteSupplierProductMapping:input_type -> catalog.v1.DeleteSupplierProductMappingRequest
+	57, // 74: catalog.v1.CatalogService.ListSuppliers:output_type -> catalog.v1.ListSuppliersResponse
+	59, // 75: catalog.v1.CatalogService.GetSupplier:output_type -> catalog.v1.GetSupplierResponse
+	61, // 76: catalog.v1.CatalogService.CreateSupplier:output_type -> catalog.v1.CreateSupplierResponse
+	63, // 77: catalog.v1.CatalogService.UpdateSupplier:output_type -> catalog.v1.UpdateSupplierResponse
+	65, // 78: catalog.v1.CatalogService.DeleteSupplier:output_type -> catalog.v1.DeleteSupplierResponse
+	2,  // 79: catalog.v1.CatalogService.ListCategories:output_type -> catalog.v1.ListCategoriesResponse
+	4,  // 80: catalog.v1.CatalogService.GetCategory:output_type -> catalog.v1.GetCategoryResponse
+	6,  // 81: catalog.v1.CatalogService.CreateCategory:output_type -> catalog.v1.CreateCategoryResponse
+	8,  // 82: catalog.v1.CatalogService.UpdateCategory:output_type -> catalog.v1.UpdateCategoryResponse
+	10, // 83: catalog.v1.CatalogService.DeleteCategory:output_type -> catalog.v1.DeleteCategoryResponse
+	15, // 84: catalog.v1.CatalogService.ListProducts:output_type -> catalog.v1.ListProductsResponse
+	17, // 85: catalog.v1.CatalogService.GetProduct:output_type -> catalog.v1.GetProductResponse
+	19, // 86: catalog.v1.CatalogService.CreateProduct:output_type -> catalog.v1.CreateProductResponse
+	21, // 87: catalog.v1.CatalogService.UpdateProduct:output_type -> catalog.v1.UpdateProductResponse
+	23, // 88: catalog.v1.CatalogService.DeleteProduct:output_type -> catalog.v1.DeleteProductResponse
+	25, // 89: catalog.v1.CatalogService.ListProductImages:output_type -> catalog.v1.ListProductImagesResponse
+	27, // 90: catalog.v1.CatalogService.GetProductImage:output_type -> catalog.v1.GetProductImageResponse
+	29, // 91: catalog.v1.CatalogService.CreateProductImage:output_type -> catalog.v1.CreateProductImageResponse
+	31, // 92: catalog.v1.CatalogService.UpdateProductImage:output_type -> catalog.v1.UpdateProductImageResponse
+	33, // 93: catalog.v1.CatalogService.DeleteProductImage:output_type -> catalog.v1.DeleteProductImageResponse
+	35, // 94: catalog.v1.CatalogService.ListProductAttributes:output_type -> catalog.v1.ListProductAttributesResponse
+	37, // 95: catalog.v1.CatalogService.GetProductAttribute:output_type -> catalog.v1.GetProductAttributeResponse
+	39, // 96: catalog.v1.CatalogService.CreateProductAttribute:output_type -> catalog.v1.CreateProductAttributeResponse
+	41, // 97: catalog.v1.CatalogService.UpdateProductAttribute:output_type -> catalog.v1.UpdateProductAttributeResponse
+	43, // 98: catalog.v1.CatalogService.DeleteProductAttribute:output_type -> catalog.v1.DeleteProductAttributeResponse
+	46, // 99: catalog.v1.CatalogService.ListBrands:output_type -> catalog.v1.ListBrandsResponse
+	48, // 100: catalog.v1.CatalogService.GetBrand:output_type -> catalog.v1.GetBrandResponse
+	50, // 101: catalog.v1.CatalogService.CreateBrand:output_type -> catalog.v1.CreateBrandResponse
+	52, // 102: catalog.v1.CatalogService.UpdateBrand:output_type -> catalog.v1.UpdateBrandResponse
+	54, // 103: catalog.v1.CatalogService.DeleteBrand:output_type -> catalog.v1.DeleteBrandResponse
+	68, // 104: catalog.v1.CatalogService.ListSupplierCategoryMappings:output_type -> catalog.v1.ListSupplierCategoryMappingsResponse
+	70, // 105: catalog.v1.CatalogService.GetSupplierCategoryMapping:output_type -> catalog.v1.GetSupplierCategoryMappingResponse
+	72, // 106: catalog.v1.CatalogService.CreateSupplierCategoryMapping:output_type -> catalog.v1.CreateSupplierCategoryMappingResponse
+	74, // 107: catalog.v1.CatalogService.UpdateSupplierCategoryMapping:output_type -> catalog.v1.UpdateSupplierCategoryMappingResponse
+	76, // 108: catalog.v1.CatalogService.DeleteSupplierCategoryMapping:output_type -> catalog.v1.DeleteSupplierCategoryMappingResponse
+	79, // 109: catalog.v1.CatalogService.ListSupplierProductMappings:output_type -> catalog.v1.ListSupplierProductMappingsResponse
+	81, // 110: catalog.v1.CatalogService.GetSupplierProductMapping:output_type -> catalog.v1.GetSupplierProductMappingResponse
+	83, // 111: catalog.v1.CatalogService.CreateSupplierProductMapping:output_type -> catalog.v1.CreateSupplierProductMappingResponse
+	85, // 112: catalog.v1.CatalogService.UpdateSupplierProductMapping:output_type -> catalog.v1.UpdateSupplierProductMappingResponse
+	87, // 113: catalog.v1.CatalogService.DeleteSupplierProductMapping:output_type -> catalog.v1.DeleteSupplierProductMappingResponse
+	74, // [74:114] is the sub-list for method output_type
+	34, // [34:74] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_catalog_v1_catalog_service_proto_init() }
@@ -4310,7 +5741,7 @@ func file_catalog_v1_catalog_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_catalog_v1_catalog_service_proto_rawDesc), len(file_catalog_v1_catalog_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   66,
+			NumMessages:   88,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
