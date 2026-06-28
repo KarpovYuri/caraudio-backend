@@ -59,15 +59,22 @@ type CatalogService interface {
 	UpdateBrand(ctx context.Context, id string, input domain.BrandInput) (*domain.Brand, error)
 	DeleteBrand(ctx context.Context, id string) error
 
+	ListProductAttributes(ctx context.Context, productID string, adminAccess bool) ([]domain.ProductAttribute, error)
+	GetProductAttribute(ctx context.Context, productID, attrID string, adminAccess bool) (*domain.ProductAttribute, error)
+	CreateProductAttribute(ctx context.Context, productID string, input domain.ProductAttributeInput) (*domain.ProductAttribute, error)
+	UpdateProductAttribute(ctx context.Context, productID, attrID string, input domain.ProductAttributeInput) (*domain.ProductAttribute, error)
+	DeleteProductAttribute(ctx context.Context, productID, attrID string) error
+
 	NormalizePagination(page, pageSize, defaultSize, maxSize int32) (int32, int32)
 }
 
 type catalogService struct {
-	suppliers     postgres.SupplierRepository
-	categories    postgres.CategoryRepository
-	products      postgres.ProductRepository
-	brands        postgres.BrandRepository
-	productImages postgres.ProductImageRepository
+	suppliers         postgres.SupplierRepository
+	categories        postgres.CategoryRepository
+	products          postgres.ProductRepository
+	brands            postgres.BrandRepository
+	productImages     postgres.ProductImageRepository
+	productAttributes postgres.ProductAttributeRepository
 }
 
 func NewCatalogService(
@@ -76,13 +83,15 @@ func NewCatalogService(
 	products postgres.ProductRepository,
 	brands postgres.BrandRepository,
 	productImages postgres.ProductImageRepository,
+	productAttributes postgres.ProductAttributeRepository,
 ) CatalogService {
 	return &catalogService{
-		suppliers:     suppliers,
-		categories:    categories,
-		products:      products,
-		brands:        brands,
-		productImages: productImages,
+		suppliers:         suppliers,
+		categories:        categories,
+		products:          products,
+		brands:            brands,
+		productImages:     productImages,
+		productAttributes: productAttributes,
 	}
 }
 
