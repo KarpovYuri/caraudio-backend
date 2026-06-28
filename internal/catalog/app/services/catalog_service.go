@@ -46,14 +46,28 @@ type CatalogService interface {
 	) (*domain.Product, error)
 	DeleteProduct(ctx context.Context, id string) error
 
+	ListProductImages(ctx context.Context, productID string, adminAccess bool) ([]domain.ProductImage, error)
+	GetProductImage(ctx context.Context, productID, imageID string, adminAccess bool) (*domain.ProductImage, error)
+	CreateProductImage(ctx context.Context, productID string, input domain.ProductImageInput) (*domain.ProductImage, error)
+	UpdateProductImage(ctx context.Context, productID, imageID string, input domain.ProductImageInput) (*domain.ProductImage, error)
+	DeleteProductImage(ctx context.Context, productID, imageID string) error
+
+	ListBrands(ctx context.Context, activeOnly bool) ([]domain.Brand, error)
+	GetBrand(ctx context.Context, id string) (*domain.Brand, error)
+	GetBrandByID(ctx context.Context, id string) (*domain.Brand, error)
+	CreateBrand(ctx context.Context, input domain.BrandInput) (*domain.Brand, error)
+	UpdateBrand(ctx context.Context, id string, input domain.BrandInput) (*domain.Brand, error)
+	DeleteBrand(ctx context.Context, id string) error
+
 	NormalizePagination(page, pageSize, defaultSize, maxSize int32) (int32, int32)
 }
 
 type catalogService struct {
-	suppliers  postgres.SupplierRepository
-	categories postgres.CategoryRepository
-	products   postgres.ProductRepository
-	brands     postgres.BrandRepository
+	suppliers     postgres.SupplierRepository
+	categories    postgres.CategoryRepository
+	products      postgres.ProductRepository
+	brands        postgres.BrandRepository
+	productImages postgres.ProductImageRepository
 }
 
 func NewCatalogService(
@@ -61,12 +75,14 @@ func NewCatalogService(
 	categories postgres.CategoryRepository,
 	products postgres.ProductRepository,
 	brands postgres.BrandRepository,
+	productImages postgres.ProductImageRepository,
 ) CatalogService {
 	return &catalogService{
-		suppliers:  suppliers,
-		categories: categories,
-		products:   products,
-		brands:     brands,
+		suppliers:     suppliers,
+		categories:    categories,
+		products:      products,
+		brands:        brands,
+		productImages: productImages,
 	}
 }
 
