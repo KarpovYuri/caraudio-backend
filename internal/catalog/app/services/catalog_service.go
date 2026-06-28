@@ -28,7 +28,8 @@ type CatalogService interface {
 	GetProductByID(ctx context.Context, id string) (*domain.Product, error)
 	CreateProduct(
 		ctx context.Context,
-		categoryID, brandID, supplierID, name, description string,
+		categoryID, brandID, name, description string,
+		supplierID int64,
 		priceCents int64,
 		sku string,
 		stock int32,
@@ -36,7 +37,8 @@ type CatalogService interface {
 	) (*domain.Product, error)
 	UpdateProduct(
 		ctx context.Context,
-		id, categoryID, brandID, supplierID, name, description string,
+		id, categoryID, brandID, name, description string,
+		supplierID int64,
 		priceCents int64,
 		sku string,
 		stock int32,
@@ -179,7 +181,8 @@ func (s *catalogService) GetProductByID(ctx context.Context, id string) (*domain
 
 func (s *catalogService) CreateProduct(
 	ctx context.Context,
-	categoryID, brandID, supplierID, name, description string,
+	categoryID, brandID, name, description string,
+	supplierID int64,
 	priceCents int64,
 	sku string,
 	stock int32,
@@ -210,7 +213,7 @@ func (s *catalogService) CreateProduct(
 		ID:          uuid.NewString(),
 		CategoryID:  stringPtrOrNil(categoryID),
 		BrandID:     stringPtrOrNil(brandID),
-		SupplierID:  stringPtrOrNil(supplierID),
+		SupplierID:  int64PtrOrNil(supplierID),
 		Name:        name,
 		Description: description,
 		PriceCents:  priceCents,
@@ -229,7 +232,8 @@ func (s *catalogService) CreateProduct(
 
 func (s *catalogService) UpdateProduct(
 	ctx context.Context,
-	id, categoryID, brandID, supplierID, name, description string,
+	id, categoryID, brandID, name, description string,
+	supplierID int64,
 	priceCents int64,
 	sku string,
 	stock int32,
@@ -264,7 +268,7 @@ func (s *catalogService) UpdateProduct(
 		ID:          id,
 		CategoryID:  stringPtrOrNil(categoryID),
 		BrandID:     stringPtrOrNil(brandID),
-		SupplierID:  stringPtrOrNil(supplierID),
+		SupplierID:  int64PtrOrNil(supplierID),
 		Name:        name,
 		Description: description,
 		PriceCents:  priceCents,
@@ -282,6 +286,14 @@ func (s *catalogService) UpdateProduct(
 
 func (s *catalogService) DeleteProduct(ctx context.Context, id string) error {
 	return s.products.Delete(ctx, id)
+}
+
+func int64PtrOrNil(value int64) *int64 {
+	if value == 0 {
+		return nil
+	}
+	v := value
+	return &v
 }
 
 func stringPtrOrNil(value string) *string {

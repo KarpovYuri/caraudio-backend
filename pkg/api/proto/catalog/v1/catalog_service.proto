@@ -86,7 +86,7 @@ message ProductAttribute {
 message Product {
   string id = 1;
   string category_id = 2;
-  string supplier_id = 3;
+  int64 supplier_id = 3;
   string name = 4;
   string description = 5;
   int64 price_cents = 6;
@@ -105,7 +105,7 @@ message ListProductsRequest {
   int32 page = 2;
   int32 page_size = 3;
   bool include_inactive = 4;
-  string supplier_id = 5;
+  int64 supplier_id = 5;
   string brand_id = 6;
 }
 
@@ -126,7 +126,7 @@ message GetProductResponse {
 
 message CreateProductRequest {
   string category_id = 1;
-  string supplier_id = 2;
+  int64 supplier_id = 2;
   string name = 3;
   string description = 4;
   int64 price_cents = 5;
@@ -143,7 +143,7 @@ message CreateProductResponse {
 message UpdateProductRequest {
   string id = 1;
   string category_id = 2;
-  string supplier_id = 3;
+  int64 supplier_id = 3;
   string name = 4;
   string description = 5;
   int64 price_cents = 6;

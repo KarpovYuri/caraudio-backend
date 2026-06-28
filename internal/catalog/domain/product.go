@@ -6,7 +6,7 @@ type Product struct {
 	ID          string    `db:"id"`
 	CategoryID  *string   `db:"category_id"`
 	BrandID     *string   `db:"brand_id"`
-	SupplierID  *string   `db:"supplier_id"`
+	SupplierID  *int64    `db:"supplier_id"`
 	Name        string    `db:"name"`
 	Description string    `db:"description"`
 	PriceCents  int64     `db:"price_cents"`
@@ -20,7 +20,7 @@ type Product struct {
 type ProductListFilter struct {
 	CategoryID string
 	BrandID    string
-	SupplierID string
+	SupplierID int64
 	ActiveOnly bool
 	Page       int32
 	PageSize   int32

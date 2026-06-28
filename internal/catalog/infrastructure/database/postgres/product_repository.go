@@ -17,7 +17,7 @@ type ProductRepository interface {
 	List(ctx context.Context, filter domain.ProductListFilter) (*domain.ProductListResult, error)
 	Update(ctx context.Context, product *domain.Product) error
 	Delete(ctx context.Context, id string) error
-	CountBySupplier(ctx context.Context, supplierID string) (int64, error)
+	CountBySupplier(ctx context.Context, supplierID int64) (int64, error)
 	CountByBrand(ctx context.Context, brandID string) (int64, error)
 }
 
@@ -72,7 +72,7 @@ func (r *postgresProductRepository) List(
 		args = append(args, filter.BrandID)
 		where = append(where, fmt.Sprintf("brand_id = $%d", len(args)))
 	}
-	if filter.SupplierID != "" {
+	if filter.SupplierID != 0 {
 		args = append(args, filter.SupplierID)
 		where = append(where, fmt.Sprintf("supplier_id = $%d", len(args)))
 	}
@@ -158,7 +158,7 @@ func (r *postgresProductRepository) CountByBrand(ctx context.Context, brandID st
 	return count, nil
 }
 
-func (r *postgresProductRepository) CountBySupplier(ctx context.Context, supplierID string) (int64, error) {
+func (r *postgresProductRepository) CountBySupplier(ctx context.Context, supplierID int64) (int64, error) {
 	var count int64
 	err := r.db.GetContext(ctx, &count,
 		`SELECT COUNT(*) FROM products WHERE supplier_id = $1`, supplierID)

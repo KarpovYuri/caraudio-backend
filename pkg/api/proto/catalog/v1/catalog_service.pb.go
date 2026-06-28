@@ -774,7 +774,7 @@ type Product struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	CategoryId    string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	SupplierId    string                 `protobuf:"bytes,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
 	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	PriceCents    int64                  `protobuf:"varint,6,opt,name=price_cents,json=priceCents,proto3" json:"price_cents,omitempty"`
@@ -834,11 +834,11 @@ func (x *Product) GetCategoryId() string {
 	return ""
 }
 
-func (x *Product) GetSupplierId() string {
+func (x *Product) GetSupplierId() int64 {
 	if x != nil {
 		return x.SupplierId
 	}
-	return ""
+	return 0
 }
 
 func (x *Product) GetName() string {
@@ -924,7 +924,7 @@ type ListProductsRequest struct {
 	Page            int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize        int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	IncludeInactive bool                   `protobuf:"varint,4,opt,name=include_inactive,json=includeInactive,proto3" json:"include_inactive,omitempty"`
-	SupplierId      string                 `protobuf:"bytes,5,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	SupplierId      int64                  `protobuf:"varint,5,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
 	BrandId         string                 `protobuf:"bytes,6,opt,name=brand_id,json=brandId,proto3" json:"brand_id,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -988,11 +988,11 @@ func (x *ListProductsRequest) GetIncludeInactive() bool {
 	return false
 }
 
-func (x *ListProductsRequest) GetSupplierId() string {
+func (x *ListProductsRequest) GetSupplierId() int64 {
 	if x != nil {
 		return x.SupplierId
 	}
-	return ""
+	return 0
 }
 
 func (x *ListProductsRequest) GetBrandId() string {
@@ -1161,7 +1161,7 @@ func (x *GetProductResponse) GetProduct() *Product {
 type CreateProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	SupplierId    string                 `protobuf:"bytes,2,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,2,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	PriceCents    int64                  `protobuf:"varint,5,opt,name=price_cents,json=priceCents,proto3" json:"price_cents,omitempty"`
@@ -1210,11 +1210,11 @@ func (x *CreateProductRequest) GetCategoryId() string {
 	return ""
 }
 
-func (x *CreateProductRequest) GetSupplierId() string {
+func (x *CreateProductRequest) GetSupplierId() int64 {
 	if x != nil {
 		return x.SupplierId
 	}
-	return ""
+	return 0
 }
 
 func (x *CreateProductRequest) GetName() string {
@@ -1314,7 +1314,7 @@ type UpdateProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	CategoryId    string                 `protobuf:"bytes,2,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	SupplierId    string                 `protobuf:"bytes,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
+	SupplierId    int64                  `protobuf:"varint,3,opt,name=supplier_id,json=supplierId,proto3" json:"supplier_id,omitempty"`
 	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	PriceCents    int64                  `protobuf:"varint,6,opt,name=price_cents,json=priceCents,proto3" json:"price_cents,omitempty"`
@@ -1370,11 +1370,11 @@ func (x *UpdateProductRequest) GetCategoryId() string {
 	return ""
 }
 
-func (x *UpdateProductRequest) GetSupplierId() string {
+func (x *UpdateProductRequest) GetSupplierId() int64 {
 	if x != nil {
 		return x.SupplierId
 	}
-	return ""
+	return 0
 }
 
 func (x *UpdateProductRequest) GetName() string {
@@ -3861,7 +3861,7 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
 	"\vcategory_id\x18\x02 \x01(\tR\n" +
 	"categoryId\x12\x1f\n" +
-	"\vsupplier_id\x18\x03 \x01(\tR\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
 	"supplierId\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x1f\n" +
@@ -3886,7 +3886,7 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12)\n" +
 	"\x10include_inactive\x18\x04 \x01(\bR\x0fincludeInactive\x12\x1f\n" +
-	"\vsupplier_id\x18\x05 \x01(\tR\n" +
+	"\vsupplier_id\x18\x05 \x01(\x03R\n" +
 	"supplierId\x12\x19\n" +
 	"\bbrand_id\x18\x06 \x01(\tR\abrandId\"\x8e\x01\n" +
 	"\x14ListProductsResponse\x12/\n" +
@@ -3901,7 +3901,7 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\x14CreateProductRequest\x12\x1f\n" +
 	"\vcategory_id\x18\x01 \x01(\tR\n" +
 	"categoryId\x12\x1f\n" +
-	"\vsupplier_id\x18\x02 \x01(\tR\n" +
+	"\vsupplier_id\x18\x02 \x01(\x03R\n" +
 	"supplierId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1f\n" +
@@ -3917,7 +3917,7 @@ const file_catalog_v1_catalog_service_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
 	"\vcategory_id\x18\x02 \x01(\tR\n" +
 	"categoryId\x12\x1f\n" +
-	"\vsupplier_id\x18\x03 \x01(\tR\n" +
+	"\vsupplier_id\x18\x03 \x01(\x03R\n" +
 	"supplierId\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x1f\n" +

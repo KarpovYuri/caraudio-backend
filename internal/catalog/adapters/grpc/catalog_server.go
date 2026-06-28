@@ -11,10 +11,17 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const (
+	defaultListPageSize = 20
+	maxListPageSize     = 100
+)
+
 type CatalogGRPCServer struct {
 	catalogv1.UnimplementedCatalogServiceServer
-	catalogService services.CatalogService
-	jwtSecret      string
+	catalogService  services.CatalogService
+	jwtSecret       string
+	defaultPageSize int32
+	maxPageSize     int32
 }
 
 func NewCatalogGRPCServer(
@@ -22,8 +29,10 @@ func NewCatalogGRPCServer(
 	jwtSecret string,
 ) *CatalogGRPCServer {
 	return &CatalogGRPCServer{
-		catalogService: catalogService,
-		jwtSecret:      jwtSecret,
+		catalogService:  catalogService,
+		jwtSecret:       jwtSecret,
+		defaultPageSize: defaultListPageSize,
+		maxPageSize:     maxListPageSize,
 	}
 }
 
@@ -181,9 +190,9 @@ func (s *CatalogGRPCServer) CreateProduct(
 		ctx,
 		req.CategoryId,
 		req.BrandId,
-		req.SupplierId,
 		req.Name,
 		req.Description,
+		req.SupplierId,
 		req.PriceCents,
 		req.Sku,
 		req.Stock,
@@ -210,9 +219,9 @@ func (s *CatalogGRPCServer) UpdateProduct(
 		req.Id,
 		req.CategoryId,
 		req.BrandId,
-		req.SupplierId,
 		req.Name,
 		req.Description,
+		req.SupplierId,
 		req.PriceCents,
 		req.Sku,
 		req.Stock,
