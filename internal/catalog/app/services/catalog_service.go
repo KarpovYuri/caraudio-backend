@@ -65,6 +65,18 @@ type CatalogService interface {
 	UpdateProductAttribute(ctx context.Context, productID, attrID string, input domain.ProductAttributeInput) (*domain.ProductAttribute, error)
 	DeleteProductAttribute(ctx context.Context, productID, attrID string) error
 
+	ListSupplierCategoryMappings(ctx context.Context, filter domain.SupplierCategoryMappingFilter) ([]domain.SupplierCategoryMapping, error)
+	GetSupplierCategoryMapping(ctx context.Context, id string) (*domain.SupplierCategoryMapping, error)
+	CreateSupplierCategoryMapping(ctx context.Context, input domain.SupplierCategoryMappingInput) (*domain.SupplierCategoryMapping, error)
+	UpdateSupplierCategoryMapping(ctx context.Context, id string, input domain.SupplierCategoryMappingInput) (*domain.SupplierCategoryMapping, error)
+	DeleteSupplierCategoryMapping(ctx context.Context, id string) error
+
+	ListSupplierProductMappings(ctx context.Context, filter domain.SupplierProductMappingFilter) ([]domain.SupplierProductMapping, error)
+	GetSupplierProductMapping(ctx context.Context, id string) (*domain.SupplierProductMapping, error)
+	CreateSupplierProductMapping(ctx context.Context, input domain.SupplierProductMappingInput) (*domain.SupplierProductMapping, error)
+	UpdateSupplierProductMapping(ctx context.Context, id string, input domain.SupplierProductMappingInput) (*domain.SupplierProductMapping, error)
+	DeleteSupplierProductMapping(ctx context.Context, id string) error
+
 	NormalizePagination(page, pageSize, defaultSize, maxSize int32) (int32, int32)
 }
 
@@ -75,6 +87,8 @@ type catalogService struct {
 	brands            postgres.BrandRepository
 	productImages     postgres.ProductImageRepository
 	productAttributes postgres.ProductAttributeRepository
+	categoryMappings  postgres.SupplierCategoryMappingRepository
+	productMappings   postgres.SupplierProductMappingRepository
 }
 
 func NewCatalogService(
@@ -84,6 +98,8 @@ func NewCatalogService(
 	brands postgres.BrandRepository,
 	productImages postgres.ProductImageRepository,
 	productAttributes postgres.ProductAttributeRepository,
+	categoryMappings postgres.SupplierCategoryMappingRepository,
+	productMappings postgres.SupplierProductMappingRepository,
 ) CatalogService {
 	return &catalogService{
 		suppliers:         suppliers,
@@ -92,6 +108,8 @@ func NewCatalogService(
 		brands:            brands,
 		productImages:     productImages,
 		productAttributes: productAttributes,
+		categoryMappings:  categoryMappings,
+		productMappings:   productMappings,
 	}
 }
 
