@@ -29,6 +29,8 @@ func (s *catalogService) CreateSupplier(
 	supplier := &domain.Supplier{
 		Name:      name,
 		Code:      stringPtrOrNil(strings.TrimSpace(input.Code)),
+		Logo:      strings.TrimSpace(input.Logo),
+		ApiUrl:    strings.TrimSpace(input.ApiUrl),
 		IsActive:  input.IsActive,
 		CreatedAt: now,
 		UpdatedAt: now,
@@ -58,6 +60,8 @@ func (s *catalogService) UpdateSupplier(
 		ID:        id,
 		Name:      name,
 		Code:      stringPtrOrNil(strings.TrimSpace(input.Code)),
+		Logo:      strings.TrimSpace(input.Logo),
+		ApiUrl:    strings.TrimSpace(input.ApiUrl),
 		IsActive:  input.IsActive,
 		UpdatedAt: time.Now(),
 	}
