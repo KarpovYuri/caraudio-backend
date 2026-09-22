@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -21,7 +22,16 @@ type Config struct {
 	HTTPWriteTimeout time.Duration  `mapstructure:"http_write_timeout"`
 	HTTPIdleTimeout  time.Duration  `mapstructure:"http_idle_timeout"`
 	ShutdownTimeout  time.Duration  `mapstructure:"shutdown_timeout"`
+	Uploads          UploadsConfig  `mapstructure:"uploads"`
 	Database         DatabaseConfig `mapstructure:"database"`
+}
+
+type UploadsConfig struct {
+	Dir           string `mapstructure:"dir"`
+	PublicPath    string `mapstructure:"public_path"`
+	PublicBaseURL string `mapstructure:"public_base_url"`
+	MaxLogoBytes  int64  `mapstructure:"max_logo_bytes"`
+	MaxLogoSide   int    `mapstructure:"max_logo_side"`
 }
 
 type DatabaseConfig struct {
@@ -113,6 +123,25 @@ func applyEnvOverrides(cfg *Config) {
 			cfg.ShutdownTimeout = d
 		}
 	}
+	if v := os.Getenv("CATALOG_UPLOADS_DIR"); v != "" {
+		cfg.Uploads.Dir = v
+	}
+	if v := os.Getenv("CATALOG_UPLOADS_PUBLIC_PATH"); v != "" {
+		cfg.Uploads.PublicPath = v
+	}
+	if v := os.Getenv("CATALOG_UPLOADS_PUBLIC_BASE_URL"); v != "" {
+		cfg.Uploads.PublicBaseURL = v
+	}
+	if v := os.Getenv("CATALOG_UPLOADS_MAX_LOGO_BYTES"); v != "" {
+		if n, err := strconv.ParseInt(v, 10, 64); err == nil {
+			cfg.Uploads.MaxLogoBytes = n
+		}
+	}
+	if v := os.Getenv("CATALOG_UPLOADS_MAX_LOGO_SIDE"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil {
+			cfg.Uploads.MaxLogoSide = n
+		}
+	}
 }
 
 func validate(cfg *Config) error {
@@ -157,6 +186,18 @@ func validate(cfg *Config) error {
 	}
 	if cfg.Database.SSLMode == "" {
 		cfg.Database.SSLMode = "disable"
+	}
+	if cfg.Uploads.Dir == "" {
+		cfg.Uploads.Dir = "./uploads"
+	}
+	if cfg.Uploads.PublicPath == "" {
+		cfg.Uploads.PublicPath = "/static"
+	}
+	if cfg.Uploads.MaxLogoBytes <= 0 {
+		cfg.Uploads.MaxLogoBytes = 10 << 20 // 10 MiB
+	}
+	if cfg.Uploads.MaxLogoSide <= 0 {
+		cfg.Uploads.MaxLogoSide = 512
 	}
 	return nil
 }

@@ -15,6 +15,7 @@ type CatalogService interface {
 	GetSupplier(ctx context.Context, id int64) (*domain.Supplier, error)
 	CreateSupplier(ctx context.Context, input domain.SupplierInput) (*domain.Supplier, error)
 	UpdateSupplier(ctx context.Context, id int64, input domain.SupplierInput) (*domain.Supplier, error)
+	UpdateSupplierLogo(ctx context.Context, id int64, logoURL string) (*domain.Supplier, error)
 	DeleteSupplier(ctx context.Context, id int64) error
 
 	ListCategories(ctx context.Context) ([]domain.Category, error)

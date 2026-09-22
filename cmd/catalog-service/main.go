@@ -13,9 +13,11 @@ import (
 	"time"
 
 	cataloggrpc "github.com/KarpovYuri/caraudio-backend/internal/catalog/adapters/grpc"
+	cataloghttp "github.com/KarpovYuri/caraudio-backend/internal/catalog/adapters/http"
 	catalogservice "github.com/KarpovYuri/caraudio-backend/internal/catalog/app/services"
 	catalogconfig "github.com/KarpovYuri/caraudio-backend/internal/catalog/config"
 	catalogdb "github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/database/postgres"
+	"github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/storage"
 	catalogv1 "github.com/KarpovYuri/caraudio-backend/pkg/api/proto/catalog/v1"
 	"github.com/google/uuid"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -59,6 +61,19 @@ func main() {
 
 	catalogSvc := catalogservice.NewCatalogService(supplierRepo, categoryRepo, productRepo, brandRepo, productImageRepo, productAttrRepo, categoryMappingRepo, productMappingRepo)
 
+	fileStorage, err := storage.NewLocalStorage(cfg.Uploads.Dir, cfg.Uploads.PublicPath, cfg.Uploads.PublicBaseURL)
+	if err != nil {
+		logger.Error("failed to init uploads storage", "error", err)
+		os.Exit(1)
+	}
+	logoHandler := cataloghttp.NewSupplierLogoHandler(
+		catalogSvc,
+		fileStorage,
+		cfg.JWTSecret,
+		cfg.Uploads.MaxLogoBytes,
+		cfg.Uploads.MaxLogoSide,
+	)
+
 	catalogGRPC := cataloggrpc.NewCatalogGRPCServer(
 		catalogSvc,
 		cfg.JWTSecret,
@@ -98,10 +113,19 @@ func main() {
 		os.Exit(1)
 	}
 
+	rootMux := http.NewServeMux()
+	staticPrefix := strings.TrimRight(cfg.Uploads.PublicPath, "/") + "/"
+	rootMux.Handle(staticPrefix, http.StripPrefix(
+		strings.TrimRight(cfg.Uploads.PublicPath, "/"),
+		cataloghttp.SecureStatic(http.FileServer(http.Dir(fileStorage.RootDir()))),
+	))
+	rootMux.HandleFunc("POST /v1/suppliers/{id}/logo", logoHandler.Upload)
+	rootMux.Handle("/", mux)
+
 	shutdownCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	httpHandler := allowCORS(withRequestID(withAccessLog(mux, logger), logger), cfg.AllowedOrigins)
+	httpHandler := allowCORS(withRequestID(withAccessLog(rootMux, logger), logger), cfg.AllowedOrigins)
 
 	httpServer := &http.Server{
 		Addr:         cfg.HTTPPort,

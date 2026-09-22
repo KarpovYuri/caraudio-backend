@@ -21,3 +21,6 @@ vendor/
 
 # Local environment variables
 .env
+
+# Uploaded files
+uploads/

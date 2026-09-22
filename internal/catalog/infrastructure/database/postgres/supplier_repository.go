@@ -28,13 +28,21 @@ func NewPostgresSupplierRepository(db *sqlx.DB) SupplierRepository {
 
 func (r *postgresSupplierRepository) Create(ctx context.Context, supplier *domain.Supplier) error {
 	query := `INSERT INTO suppliers (name, code, logo, api_url, is_active, created_at, updated_at) 
-              VALUES (:name, :code, :logo, :api_url, :is_active, :created_at, :updated_at)`
-	_, err := r.db.NamedExecContext(ctx, query, supplier)
+              VALUES (:name, :code, :logo, :api_url, :is_active, :created_at, :updated_at)
+              RETURNING id`
+	rows, err := r.db.NamedQueryContext(ctx, query, supplier)
 	if err != nil {
 		if isUniqueViolation(err) {
 			return domain.ErrAlreadyExists
 		}
 		return fmt.Errorf("failed to create supplier: %w", err)
+	}
+	defer rows.Close()
+	if !rows.Next() {
+		return fmt.Errorf("failed to create supplier: no id returned")
+	}
+	if err := rows.Scan(&supplier.ID); err != nil {
+		return fmt.Errorf("failed to scan supplier id: %w", err)
 	}
 	return nil
 }
