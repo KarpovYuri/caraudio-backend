@@ -8,6 +8,13 @@ http_write_timeout: 15s
 http_idle_timeout: 60s
 shutdown_timeout: 15s
 
+uploads:
+  dir: "./uploads"
+  public_path: "/static"
+  public_base_url: "http://localhost:8081"
+  max_logo_bytes: 10485760
+  max_logo_side: 512
+
 database:
   host: ""
   port: 5433

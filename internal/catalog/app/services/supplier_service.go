@@ -72,6 +72,29 @@ func (s *catalogService) UpdateSupplier(
 	return s.suppliers.GetByID(ctx, id)
 }
 
+func (s *catalogService) UpdateSupplierLogo(
+	ctx context.Context,
+	id int64,
+	logoURL string,
+) (*domain.Supplier, error) {
+	logoURL = strings.TrimSpace(logoURL)
+	if logoURL == "" {
+		return nil, domain.ErrInvalidArgument
+	}
+
+	supplier, err := s.suppliers.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	supplier.Logo = logoURL
+	supplier.UpdatedAt = time.Now()
+	if err := s.suppliers.Update(ctx, supplier); err != nil {
+		return nil, err
+	}
+	return s.suppliers.GetByID(ctx, id)
+}
+
 func (s *catalogService) DeleteSupplier(ctx context.Context, id int64) error {
 	/* // Проверка на наличие продуктов у поставщика временно отключена
 	   count, err := s.products.CountBySupplier(ctx, id)
