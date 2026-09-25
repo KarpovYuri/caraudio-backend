@@ -22,11 +22,17 @@ func (s *CatalogGRPCServer) ListSuppliers(
 		req.Page, req.PageSize, 10, s.maxPageSize,
 	)
 
-	result, err := s.catalogService.ListSuppliers(ctx, domain.SupplierListFilter{
+	filter := domain.SupplierListFilter{
 		Page:     page,
 		PageSize: pageSize,
 		Search:   req.Search,
-	})
+	}
+	if req.IsActive != nil {
+		isActive := req.GetIsActive()
+		filter.IsActive = &isActive
+	}
+
+	result, err := s.catalogService.ListSuppliers(ctx, filter)
 	if err != nil {
 		return nil, mapServiceError(err)
 	}

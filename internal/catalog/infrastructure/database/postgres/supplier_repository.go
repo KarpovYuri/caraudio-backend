@@ -64,8 +64,8 @@ func (r *postgresSupplierRepository) List(
 	ctx context.Context,
 	filter domain.SupplierListFilter,
 ) (*domain.SupplierListResult, error) {
-	where := make([]string, 0, 1)
-	args := make([]interface{}, 0, 3)
+	where := make([]string, 0, 2)
+	args := make([]interface{}, 0, 4)
 
 	if search := strings.TrimSpace(filter.Search); search != "" {
 		args = append(args, "%"+escapeLikePattern(search)+"%")
@@ -73,6 +73,10 @@ func (r *postgresSupplierRepository) List(
 			"(name ILIKE $%d ESCAPE '\\' OR COALESCE(code, '') ILIKE $%d ESCAPE '\\')",
 			len(args), len(args),
 		))
+	}
+	if filter.IsActive != nil {
+		args = append(args, *filter.IsActive)
+		where = append(where, fmt.Sprintf("is_active = $%d", len(args)))
 	}
 
 	whereSQL := ""

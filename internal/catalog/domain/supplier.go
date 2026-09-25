@@ -25,6 +25,7 @@ type SupplierListFilter struct {
 	Page     int32
 	PageSize int32
 	Search   string
+	IsActive *bool
 }
 
 type SupplierListResult struct {
