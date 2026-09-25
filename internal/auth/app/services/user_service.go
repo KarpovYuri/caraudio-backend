@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -12,6 +13,7 @@ import (
 )
 
 type UserService interface {
+	ListUsers(ctx context.Context, filter domain.UserListFilter) (*domain.UserListResult, error)
 	CreateUser(ctx context.Context, login, password, role string) (*domain.User, error)
 	UpdateUser(ctx context.Context, id, login, password, role string) (*domain.User, error)
 	DeleteUser(ctx context.Context, id string) error
@@ -24,6 +26,15 @@ type userService struct {
 
 func NewUserService(userRepo postgres.UserRepository) UserService {
 	return &userService{userRepo: userRepo}
+}
+
+func (s *userService) ListUsers(
+	ctx context.Context,
+	filter domain.UserListFilter,
+) (*domain.UserListResult, error) {
+	filter.Search = strings.TrimSpace(filter.Search)
+	filter.Role = strings.TrimSpace(filter.Role)
+	return s.userRepo.ListUsers(ctx, filter)
 }
 
 func (s *userService) CreateUser(

@@ -17,3 +17,15 @@ type User struct {
 	CreatedAt time.Time `db:"created_at"`
 	UpdatedAt time.Time `db:"updated_at"`
 }
+
+type UserListFilter struct {
+	Page     int32
+	PageSize int32
+	Search   string
+	Role     string
+}
+
+type UserListResult struct {
+	Users []User
+	Total int32
+}

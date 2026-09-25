@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/domain"
 	"github.com/jmoiron/sqlx"
@@ -15,6 +16,7 @@ type UserRepository interface {
 	CreateUser(ctx context.Context, user *domain.User) error
 	GetUserByLogin(ctx context.Context, login string) (*domain.User, error)
 	GetUserByID(ctx context.Context, id string) (*domain.User, error)
+	ListUsers(ctx context.Context, filter domain.UserListFilter) (*domain.UserListResult, error)
 	UpdateUser(ctx context.Context, user *domain.User) error
 	DeleteUser(ctx context.Context, id string) error
 }
@@ -65,6 +67,49 @@ func (r *postgresUserRepository) GetUserByID(ctx context.Context, id string) (*d
 		return nil, fmt.Errorf("failed to get user by ID: %w", err)
 	}
 	return &user, nil
+}
+
+func (r *postgresUserRepository) ListUsers(
+	ctx context.Context,
+	filter domain.UserListFilter,
+) (*domain.UserListResult, error) {
+	where := make([]string, 0, 2)
+	args := make([]interface{}, 0, 4)
+
+	if search := strings.TrimSpace(filter.Search); search != "" {
+		args = append(args, "%"+escapeLikePattern(search)+"%")
+		where = append(where, fmt.Sprintf("login ILIKE $%d ESCAPE '\\'", len(args)))
+	}
+	if role := strings.TrimSpace(filter.Role); role != "" {
+		args = append(args, role)
+		where = append(where, fmt.Sprintf("role = $%d", len(args)))
+	}
+
+	whereSQL := ""
+	if len(where) > 0 {
+		whereSQL = " WHERE " + strings.Join(where, " AND ")
+	}
+
+	var total int32
+	if err := r.db.GetContext(ctx, &total, `SELECT COUNT(*) FROM users`+whereSQL, args...); err != nil {
+		return nil, fmt.Errorf("failed to count users: %w", err)
+	}
+
+	offset := (filter.Page - 1) * filter.PageSize
+	args = append(args, filter.PageSize, offset)
+	query := `SELECT id, login, password, role, created_at, updated_at FROM users` + whereSQL +
+		fmt.Sprintf(" ORDER BY login ASC LIMIT $%d OFFSET $%d", len(args)-1, len(args))
+
+	var users []domain.User
+	if err := r.db.SelectContext(ctx, &users, query, args...); err != nil {
+		return nil, fmt.Errorf("failed to list users: %w", err)
+	}
+	return &domain.UserListResult{Users: users, Total: total}, nil
+}
+
+func escapeLikePattern(s string) string {
+	replacer := strings.NewReplacer(`\`, `\\`, `%`, `\%`, `_`, `\_`)
+	return replacer.Replace(s)
 }
 
 func (r *postgresUserRepository) UpdateUser(ctx context.Context, user *domain.User) error {
