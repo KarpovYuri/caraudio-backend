@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/KarpovYuri/caraudio-backend/internal/catalog/domain"
 	"github.com/jmoiron/sqlx"
@@ -13,7 +14,7 @@ import (
 type SupplierRepository interface {
 	Create(ctx context.Context, supplier *domain.Supplier) error
 	GetByID(ctx context.Context, id int64) (*domain.Supplier, error)
-	List(ctx context.Context) ([]domain.Supplier, error)
+	List(ctx context.Context, filter domain.SupplierListFilter) (*domain.SupplierListResult, error)
 	Update(ctx context.Context, supplier *domain.Supplier) error
 	Delete(ctx context.Context, id int64) error
 }
@@ -59,14 +60,50 @@ func (r *postgresSupplierRepository) GetByID(ctx context.Context, id int64) (*do
 	return &supplier, nil
 }
 
-func (r *postgresSupplierRepository) List(ctx context.Context) ([]domain.Supplier, error) {
-	query := supplierSelectSQL + " ORDER BY name ASC"
+func (r *postgresSupplierRepository) List(
+	ctx context.Context,
+	filter domain.SupplierListFilter,
+) (*domain.SupplierListResult, error) {
+	where := make([]string, 0, 2)
+	args := make([]interface{}, 0, 4)
+
+	if search := strings.TrimSpace(filter.Search); search != "" {
+		args = append(args, "%"+escapeLikePattern(search)+"%")
+		where = append(where, fmt.Sprintf(
+			"(name ILIKE $%d ESCAPE '\\' OR COALESCE(code, '') ILIKE $%d ESCAPE '\\')",
+			len(args), len(args),
+		))
+	}
+	if filter.IsActive != nil {
+		args = append(args, *filter.IsActive)
+		where = append(where, fmt.Sprintf("is_active = $%d", len(args)))
+	}
+
+	whereSQL := ""
+	if len(where) > 0 {
+		whereSQL = " WHERE " + strings.Join(where, " AND ")
+	}
+
+	var total int32
+	if err := r.db.GetContext(ctx, &total, `SELECT COUNT(*) FROM suppliers`+whereSQL, args...); err != nil {
+		return nil, fmt.Errorf("failed to count suppliers: %w", err)
+	}
+
+	offset := (filter.Page - 1) * filter.PageSize
+	args = append(args, filter.PageSize, offset)
+	query := supplierSelectSQL + whereSQL +
+		fmt.Sprintf(" ORDER BY name ASC LIMIT $%d OFFSET $%d", len(args)-1, len(args))
 
 	var suppliers []domain.Supplier
-	if err := r.db.SelectContext(ctx, &suppliers, query); err != nil {
+	if err := r.db.SelectContext(ctx, &suppliers, query, args...); err != nil {
 		return nil, fmt.Errorf("failed to list suppliers: %w", err)
 	}
-	return suppliers, nil
+	return &domain.SupplierListResult{Suppliers: suppliers, Total: total}, nil
+}
+
+func escapeLikePattern(s string) string {
+	replacer := strings.NewReplacer(`\`, `\\`, `%`, `\%`, `_`, `\_`)
+	return replacer.Replace(s)
 }
 
 func (r *postgresSupplierRepository) Update(ctx context.Context, supplier *domain.Supplier) error {

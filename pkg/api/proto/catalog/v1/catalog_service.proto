@@ -337,10 +337,19 @@ message Supplier {
   string updated_at = 8;
 }
 
-message ListSuppliersRequest {}
+message ListSuppliersRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3;
+  // When unset — all suppliers; when set — filter by is_active.
+  optional bool is_active = 4;
+}
 
 message ListSuppliersResponse {
   repeated Supplier suppliers = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
 }
 
 message GetSupplierRequest {

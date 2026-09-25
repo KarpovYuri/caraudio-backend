@@ -11,7 +11,7 @@ import (
 )
 
 type CatalogService interface {
-	ListSuppliers(ctx context.Context) ([]domain.Supplier, error)
+	ListSuppliers(ctx context.Context, filter domain.SupplierListFilter) (*domain.SupplierListResult, error)
 	GetSupplier(ctx context.Context, id int64) (*domain.Supplier, error)
 	CreateSupplier(ctx context.Context, input domain.SupplierInput) (*domain.Supplier, error)
 	UpdateSupplier(ctx context.Context, id int64, input domain.SupplierInput) (*domain.Supplier, error)
