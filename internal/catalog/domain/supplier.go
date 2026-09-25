@@ -21,16 +21,12 @@ type SupplierInput struct {
 	IsActive bool   `json:"is_active"`
 }
 
-//type (
-//	SupplierListFilter struct {
-//		Query      string
-//		ActiveOnly bool
-//		Page       int32
-//		PageSize   int32
-//	}
-//)
-//
-//type SupplierListResult struct {
-//	Suppliers []Supplier
-//	Total     int32
-//}
+type SupplierListFilter struct {
+	Page     int32
+	PageSize int32
+}
+
+type SupplierListResult struct {
+	Suppliers []Supplier
+	Total     int32
+}

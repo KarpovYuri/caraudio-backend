@@ -8,8 +8,11 @@ import (
 	"github.com/KarpovYuri/caraudio-backend/internal/catalog/domain"
 )
 
-func (s *catalogService) ListSuppliers(ctx context.Context) ([]domain.Supplier, error) {
-	return s.suppliers.List(ctx)
+func (s *catalogService) ListSuppliers(
+	ctx context.Context,
+	filter domain.SupplierListFilter,
+) (*domain.SupplierListResult, error) {
+	return s.suppliers.List(ctx, filter)
 }
 
 func (s *catalogService) GetSupplier(ctx context.Context, id int64) (*domain.Supplier, error) {

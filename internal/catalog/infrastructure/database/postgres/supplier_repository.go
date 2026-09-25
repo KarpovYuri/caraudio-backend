@@ -13,7 +13,7 @@ import (
 type SupplierRepository interface {
 	Create(ctx context.Context, supplier *domain.Supplier) error
 	GetByID(ctx context.Context, id int64) (*domain.Supplier, error)
-	List(ctx context.Context) ([]domain.Supplier, error)
+	List(ctx context.Context, filter domain.SupplierListFilter) (*domain.SupplierListResult, error)
 	Update(ctx context.Context, supplier *domain.Supplier) error
 	Delete(ctx context.Context, id int64) error
 }
@@ -59,14 +59,23 @@ func (r *postgresSupplierRepository) GetByID(ctx context.Context, id int64) (*do
 	return &supplier, nil
 }
 
-func (r *postgresSupplierRepository) List(ctx context.Context) ([]domain.Supplier, error) {
-	query := supplierSelectSQL + " ORDER BY name ASC"
+func (r *postgresSupplierRepository) List(
+	ctx context.Context,
+	filter domain.SupplierListFilter,
+) (*domain.SupplierListResult, error) {
+	var total int32
+	if err := r.db.GetContext(ctx, &total, `SELECT COUNT(*) FROM suppliers`); err != nil {
+		return nil, fmt.Errorf("failed to count suppliers: %w", err)
+	}
+
+	offset := (filter.Page - 1) * filter.PageSize
+	query := supplierSelectSQL + " ORDER BY name ASC LIMIT $1 OFFSET $2"
 
 	var suppliers []domain.Supplier
-	if err := r.db.SelectContext(ctx, &suppliers, query); err != nil {
+	if err := r.db.SelectContext(ctx, &suppliers, query, filter.PageSize, offset); err != nil {
 		return nil, fmt.Errorf("failed to list suppliers: %w", err)
 	}
-	return suppliers, nil
+	return &domain.SupplierListResult{Suppliers: suppliers, Total: total}, nil
 }
 
 func (r *postgresSupplierRepository) Update(ctx context.Context, supplier *domain.Supplier) error {
