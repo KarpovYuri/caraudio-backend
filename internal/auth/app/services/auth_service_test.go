@@ -39,6 +39,13 @@ func (f *fakeUserRepo) GetUserByID(ctx context.Context, id string) (*domain.User
 	return f.getUserByIDFn(ctx, id)
 }
 
+func (f *fakeUserRepo) ListUsers(
+	_ context.Context,
+	_ domain.UserListFilter,
+) (*domain.UserListResult, error) {
+	return &domain.UserListResult{}, nil
+}
+
 func (f *fakeUserRepo) UpdateUser(ctx context.Context, user *domain.User) error {
 	if f.updateUserFn == nil {
 		return nil
