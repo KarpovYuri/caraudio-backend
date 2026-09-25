@@ -25,6 +25,7 @@ func (s *CatalogGRPCServer) ListSuppliers(
 	result, err := s.catalogService.ListSuppliers(ctx, domain.SupplierListFilter{
 		Page:     page,
 		PageSize: pageSize,
+		Search:   req.Search,
 	})
 	if err != nil {
 		return nil, mapServiceError(err)

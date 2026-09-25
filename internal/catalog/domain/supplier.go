@@ -24,6 +24,7 @@ type SupplierInput struct {
 type SupplierListFilter struct {
 	Page     int32
 	PageSize int32
+	Search   string
 }
 
 type SupplierListResult struct {

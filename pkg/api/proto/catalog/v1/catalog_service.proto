@@ -340,6 +340,7 @@ message Supplier {
 message ListSuppliersRequest {
   int32 page = 1;
   int32 page_size = 2;
+  string search = 3;
 }
 
 message ListSuppliersResponse {

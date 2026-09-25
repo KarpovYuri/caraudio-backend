@@ -12,6 +12,7 @@ func (s *catalogService) ListSuppliers(
 	ctx context.Context,
 	filter domain.SupplierListFilter,
 ) (*domain.SupplierListResult, error) {
+	filter.Search = strings.TrimSpace(filter.Search)
 	return s.suppliers.List(ctx, filter)
 }
 
