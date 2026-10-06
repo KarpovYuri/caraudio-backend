@@ -30,8 +30,8 @@ func NewPostgresUserRepository(db *sqlx.DB) UserRepository {
 }
 
 func (r *postgresUserRepository) CreateUser(ctx context.Context, user *domain.User) error {
-	query := `INSERT INTO users (id, login, password, role, created_at, updated_at)
-              VALUES (:id, :login, :password, :role, :created_at, :updated_at)`
+	query := `INSERT INTO users (id, login, password, role, avatar, created_at, updated_at)
+              VALUES (:id, :login, :password, :role, :avatar, :created_at, :updated_at)`
 	_, err := r.db.NamedExecContext(ctx, query, user)
 	if err != nil {
 		var pqErr *pq.Error
@@ -45,7 +45,7 @@ func (r *postgresUserRepository) CreateUser(ctx context.Context, user *domain.Us
 
 func (r *postgresUserRepository) GetUserByLogin(ctx context.Context, login string) (*domain.User, error) {
 	var user domain.User
-	query := `SELECT id, login, password, role, created_at, updated_at FROM users WHERE login = $1`
+	query := `SELECT id, login, password, role, avatar, created_at, updated_at FROM users WHERE login = $1`
 	err := r.db.GetContext(ctx, &user, query, login)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -58,7 +58,7 @@ func (r *postgresUserRepository) GetUserByLogin(ctx context.Context, login strin
 
 func (r *postgresUserRepository) GetUserByID(ctx context.Context, id string) (*domain.User, error) {
 	var user domain.User
-	query := `SELECT id, login, password, role, created_at, updated_at FROM users WHERE id = $1`
+	query := `SELECT id, login, password, role, avatar, created_at, updated_at FROM users WHERE id = $1`
 	err := r.db.GetContext(ctx, &user, query, id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -97,7 +97,7 @@ func (r *postgresUserRepository) ListUsers(
 
 	offset := (filter.Page - 1) * filter.PageSize
 	args = append(args, filter.PageSize, offset)
-	query := `SELECT id, login, password, role, created_at, updated_at FROM users` + whereSQL +
+	query := `SELECT id, login, password, role, avatar, created_at, updated_at FROM users` + whereSQL +
 		fmt.Sprintf(" ORDER BY login ASC LIMIT $%d OFFSET $%d", len(args)-1, len(args))
 
 	var users []domain.User
@@ -114,7 +114,7 @@ func escapeLikePattern(s string) string {
 
 func (r *postgresUserRepository) UpdateUser(ctx context.Context, user *domain.User) error {
 	query := `UPDATE users
-              SET login = :login, password = :password, role = :role, updated_at = :updated_at
+              SET login = :login, password = :password, role = :role, avatar = :avatar, updated_at = :updated_at
               WHERE id = :id`
 	result, err := r.db.NamedExecContext(ctx, query, user)
 	if err != nil {

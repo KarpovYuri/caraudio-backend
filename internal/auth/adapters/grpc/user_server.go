@@ -36,9 +36,9 @@ func (s *UserGRPCServer) ListUsers(
 	ctx context.Context,
 	req *authv1.ListUsersRequest,
 ) (*authv1.ListUsersResponse, error) {
-	//if err := requireAdmin(ctx, s.authService); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.authService); err != nil {
+		return nil, mapServiceError(err)
+	}
 
 	page, pageSize := normalizePagination(req.Page, req.PageSize)
 
@@ -69,9 +69,9 @@ func (s *UserGRPCServer) CreateUser(
 	ctx context.Context,
 	req *authv1.CreateUserRequest,
 ) (*authv1.CreateUserResponse, error) {
-	//if err := requireAdmin(ctx, s.authService); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.authService); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Login == "" || req.Password == "" {
 		return nil, status.Error(codes.InvalidArgument, "login and password are required")
 	}
@@ -88,9 +88,9 @@ func (s *UserGRPCServer) UpdateUser(
 	ctx context.Context,
 	req *authv1.UpdateUserRequest,
 ) (*authv1.UpdateUserResponse, error) {
-	//if err := requireAdmin(ctx, s.authService); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.authService); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Id == "" {
 		return nil, status.Error(codes.InvalidArgument, "user id is required")
 	}
@@ -107,9 +107,9 @@ func (s *UserGRPCServer) DeleteUser(
 	ctx context.Context,
 	req *authv1.DeleteUserRequest,
 ) (*authv1.DeleteUserResponse, error) {
-	//if err := requireAdmin(ctx, s.authService); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.authService); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Id == "" {
 		return nil, status.Error(codes.InvalidArgument, "user id is required")
 	}
@@ -125,9 +125,9 @@ func (s *UserGRPCServer) GetUser(
 	ctx context.Context,
 	req *authv1.GetUserRequest,
 ) (*authv1.GetUserResponse, error) {
-	//if err := requireAdmin(ctx, s.authService); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.authService); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Id == "" {
 		return nil, status.Error(codes.InvalidArgument, "user id is required")
 	}
@@ -145,6 +145,7 @@ func toProtoUser(user *domain.User) *authv1.User {
 		Id:        user.ID,
 		Login:     user.Login,
 		Role:      user.Role,
+		Avatar:    user.Avatar,
 		CreatedAt: user.CreatedAt.UTC().Format(time.RFC3339),
 		UpdatedAt: user.UpdatedAt.UTC().Format(time.RFC3339),
 	}

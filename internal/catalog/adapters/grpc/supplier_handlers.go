@@ -14,9 +14,9 @@ func (s *CatalogGRPCServer) ListSuppliers(
 	ctx context.Context,
 	req *catalogv1.ListSuppliersRequest,
 ) (*catalogv1.ListSuppliersResponse, error) {
-	//if err := requireAdmin(ctx, s.jwtSecret); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
 
 	page, pageSize := s.catalogService.NormalizePagination(
 		req.Page, req.PageSize, 10, s.maxPageSize,
@@ -71,9 +71,9 @@ func (s *CatalogGRPCServer) CreateSupplier(
 	ctx context.Context,
 	req *catalogv1.CreateSupplierRequest,
 ) (*catalogv1.CreateSupplierResponse, error) {
-	//if err := requireAdmin(ctx, s.jwtSecret); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Name == "" {
 		return nil, status.Error(codes.InvalidArgument, "supplier name is required")
 	}
@@ -88,9 +88,9 @@ func (s *CatalogGRPCServer) UpdateSupplier(
 	ctx context.Context,
 	req *catalogv1.UpdateSupplierRequest,
 ) (*catalogv1.UpdateSupplierResponse, error) {
-	//if err := requireAdmin(ctx, s.jwtSecret); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Id == 0 {
 		return nil, status.Error(codes.InvalidArgument, "supplier id is required")
 	}
@@ -108,9 +108,9 @@ func (s *CatalogGRPCServer) DeleteSupplier(
 	ctx context.Context,
 	req *catalogv1.DeleteSupplierRequest,
 ) (*catalogv1.DeleteSupplierResponse, error) {
-	//if err := requireAdmin(ctx, s.jwtSecret); err != nil {
-	//	return nil, mapServiceError(err)
-	//}
+	if err := requireAdmin(ctx, s.jwtSecret); err != nil {
+		return nil, mapServiceError(err)
+	}
 	if req.Id == 0 {
 		return nil, status.Error(codes.InvalidArgument, "supplier id is required")
 	}

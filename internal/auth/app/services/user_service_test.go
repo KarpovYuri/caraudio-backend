@@ -20,7 +20,7 @@ func TestUserServiceCreateUserSuccess(t *testing.T) {
 			return nil
 		},
 	}
-	svc := NewUserService(userRepo)
+	svc := NewUserService(userRepo, nil)
 
 	user, err := svc.CreateUser(ctx, "new-user", "password123", "")
 	if err != nil {
@@ -44,7 +44,7 @@ func TestUserServiceCreateUserAlreadyExists(t *testing.T) {
 			return domain.ErrUserAlreadyExists
 		},
 	}
-	svc := NewUserService(userRepo)
+	svc := NewUserService(userRepo, nil)
 
 	_, err := svc.CreateUser(ctx, "existing", "password123", domain.RoleAdmin)
 	if !errors.Is(err, domain.ErrUserAlreadyExists) {
@@ -78,7 +78,7 @@ func TestUserServiceUpdateUserPartial(t *testing.T) {
 			return nil
 		},
 	}
-	svc := NewUserService(userRepo)
+	svc := NewUserService(userRepo, nil)
 
 	user, err := svc.UpdateUser(ctx, "user-1", "", "", domain.RoleAdmin)
 	if err != nil {
@@ -96,7 +96,7 @@ func TestUserServiceUpdateUserNoFields(t *testing.T) {
 			return &domain.User{ID: "user-1"}, nil
 		},
 	}
-	svc := NewUserService(userRepo)
+	svc := NewUserService(userRepo, nil)
 
 	_, err := svc.UpdateUser(ctx, "user-1", "", "", "")
 	if !errors.Is(err, domain.ErrInvalidArgument) {
@@ -107,11 +107,11 @@ func TestUserServiceUpdateUserNoFields(t *testing.T) {
 func TestUserServiceDeleteUserNotFound(t *testing.T) {
 	ctx := context.Background()
 	userRepo := &fakeUserRepo{
-		deleteUserFn: func(_ context.Context, _ string) error {
-			return domain.ErrUserNotFound
+		getUserByIDFn: func(_ context.Context, _ string) (*domain.User, error) {
+			return nil, domain.ErrUserNotFound
 		},
 	}
-	svc := NewUserService(userRepo)
+	svc := NewUserService(userRepo, nil)
 
 	err := svc.DeleteUser(ctx, "missing-id")
 	if !errors.Is(err, domain.ErrUserNotFound) {

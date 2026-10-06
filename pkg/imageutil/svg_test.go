@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/KarpovYuri/caraudio-backend/internal/catalog/infrastructure/imageutil"
+	"github.com/KarpovYuri/caraudio-backend/pkg/imageutil"
 )
 
 func TestSanitizeSVGRemovesScript(t *testing.T) {
