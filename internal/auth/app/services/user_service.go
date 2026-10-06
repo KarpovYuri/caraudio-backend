@@ -12,20 +12,26 @@ import (
 	"github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/utils"
 )
 
+type PublicURLDeleter interface {
+	DeletePublicURL(publicURL string) error
+}
+
 type UserService interface {
 	ListUsers(ctx context.Context, filter domain.UserListFilter) (*domain.UserListResult, error)
 	CreateUser(ctx context.Context, login, password, role string) (*domain.User, error)
 	UpdateUser(ctx context.Context, id, login, password, role string) (*domain.User, error)
+	UpdateUserAvatar(ctx context.Context, id, avatarURL string) (*domain.User, error)
 	DeleteUser(ctx context.Context, id string) error
 	GetUser(ctx context.Context, id string) (*domain.User, error)
 }
 
 type userService struct {
 	userRepo postgres.UserRepository
+	files    PublicURLDeleter
 }
 
-func NewUserService(userRepo postgres.UserRepository) UserService {
-	return &userService{userRepo: userRepo}
+func NewUserService(userRepo postgres.UserRepository, files PublicURLDeleter) UserService {
+	return &userService{userRepo: userRepo, files: files}
 }
 
 func (s *userService) ListUsers(
@@ -102,8 +108,44 @@ func (s *userService) UpdateUser(
 	return user, nil
 }
 
+func (s *userService) UpdateUserAvatar(
+	ctx context.Context,
+	id, avatarURL string,
+) (*domain.User, error) {
+	avatarURL = strings.TrimSpace(avatarURL)
+	if id == "" || avatarURL == "" {
+		return nil, domain.ErrInvalidArgument
+	}
+
+	user, err := s.userRepo.GetUserByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Avatar = avatarURL
+	user.UpdatedAt = time.Now()
+
+	if err := s.userRepo.UpdateUser(ctx, user); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (s *userService) DeleteUser(ctx context.Context, id string) error {
-	return s.userRepo.DeleteUser(ctx, id)
+	user, err := s.userRepo.GetUserByID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	if err := s.userRepo.DeleteUser(ctx, id); err != nil {
+		return err
+	}
+
+	if s.files != nil && user.Avatar != "" {
+		_ = s.files.DeletePublicURL(user.Avatar)
+	}
+	return nil
 }
 
 func (s *userService) GetUser(ctx context.Context, id string) (*domain.User, error) {

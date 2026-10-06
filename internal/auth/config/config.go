@@ -24,7 +24,16 @@ type Config struct {
 	HTTPIdleTimeout   time.Duration  `mapstructure:"http_idle_timeout"`
 	ShutdownTimeout   time.Duration  `mapstructure:"shutdown_timeout"`
 	TokenCleanupEvery time.Duration  `mapstructure:"token_cleanup_every"`
+	Uploads           UploadsConfig  `mapstructure:"uploads"`
 	Database          DatabaseConfig `mapstructure:"database"`
+}
+
+type UploadsConfig struct {
+	Dir            string `mapstructure:"dir"`
+	PublicPath     string `mapstructure:"public_path"`
+	PublicBaseURL  string `mapstructure:"public_base_url"`
+	MaxAvatarBytes int64  `mapstructure:"max_avatar_bytes"`
+	MaxAvatarSide  int    `mapstructure:"max_avatar_side"`
 }
 
 type DatabaseConfig struct {
@@ -125,6 +134,25 @@ func LoadConfig() (*Config, error) {
 		}
 		cfg.TokenCleanupEvery = duration
 	}
+	if v := os.Getenv("AUTH_UPLOADS_DIR"); v != "" {
+		cfg.Uploads.Dir = v
+	}
+	if v := os.Getenv("AUTH_UPLOADS_PUBLIC_PATH"); v != "" {
+		cfg.Uploads.PublicPath = v
+	}
+	if v := os.Getenv("AUTH_UPLOADS_PUBLIC_BASE_URL"); v != "" {
+		cfg.Uploads.PublicBaseURL = v
+	}
+	if v := os.Getenv("AUTH_UPLOADS_MAX_AVATAR_BYTES"); v != "" {
+		if n, err := strconv.ParseInt(v, 10, 64); err == nil {
+			cfg.Uploads.MaxAvatarBytes = n
+		}
+	}
+	if v := os.Getenv("AUTH_UPLOADS_MAX_AVATAR_SIDE"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil {
+			cfg.Uploads.MaxAvatarSide = n
+		}
+	}
 
 	if cfg.JWTSecret == "" {
 		return nil, errors.New("AUTH_JWT_SECRET is required")
@@ -164,6 +192,18 @@ func LoadConfig() (*Config, error) {
 	}
 	if cfg.TokenCleanupEvery <= 0 {
 		cfg.TokenCleanupEvery = 10 * time.Minute
+	}
+	if cfg.Uploads.Dir == "" {
+		cfg.Uploads.Dir = "./uploads-auth"
+	}
+	if cfg.Uploads.PublicPath == "" {
+		cfg.Uploads.PublicPath = "/static"
+	}
+	if cfg.Uploads.MaxAvatarBytes <= 0 {
+		cfg.Uploads.MaxAvatarBytes = 10 << 20
+	}
+	if cfg.Uploads.MaxAvatarSide <= 0 {
+		cfg.Uploads.MaxAvatarSide = 512
 	}
 
 	slog.Info("auth service configuration loaded")

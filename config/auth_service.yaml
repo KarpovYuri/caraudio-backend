@@ -10,6 +10,13 @@ http_idle_timeout: 60s
 shutdown_timeout: 15s
 token_cleanup_every: 10m
 
+uploads:
+  dir: "./uploads-auth"
+  public_path: "/static"
+  public_base_url: "http://localhost:8080"
+  max_avatar_bytes: 10485760
+  max_avatar_side: 512
+
 database:
   host: ""
   port: 5432

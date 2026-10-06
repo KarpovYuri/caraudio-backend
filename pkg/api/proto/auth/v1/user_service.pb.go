@@ -29,6 +29,7 @@ type User struct {
 	Role          string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"`
 	CreatedAt     string                 `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     string                 `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Avatar        string                 `protobuf:"bytes,6,opt,name=avatar,proto3" json:"avatar,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -94,6 +95,13 @@ func (x *User) GetCreatedAt() string {
 func (x *User) GetUpdatedAt() string {
 	if x != nil {
 		return x.UpdatedAt
+	}
+	return ""
+}
+
+func (x *User) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
 	}
 	return ""
 }
@@ -630,7 +638,7 @@ var File_auth_v1_user_service_proto protoreflect.FileDescriptor
 
 const file_auth_v1_user_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1aauth/v1/user_service.proto\x12\aauth.v1\x1a\x1cgoogle/api/annotations.proto\"~\n" +
+	"\x1aauth/v1/user_service.proto\x12\aauth.v1\x1a\x1cgoogle/api/annotations.proto\"\x96\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05login\x18\x02 \x01(\tR\x05login\x12\x12\n" +
@@ -638,7 +646,8 @@ const file_auth_v1_user_service_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x04 \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\tR\tupdatedAt\"Y\n" +
+	"updated_at\x18\x05 \x01(\tR\tupdatedAt\x12\x16\n" +
+	"\x06avatar\x18\x06 \x01(\tR\x06avatar\"Y\n" +
 	"\x11CreateUserRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +

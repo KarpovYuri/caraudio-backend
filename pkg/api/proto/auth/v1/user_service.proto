@@ -12,6 +12,7 @@ message User {
   string role = 3;
   string created_at = 4;
   string updated_at = 5;
+  string avatar = 6;
 }
 
 message CreateUserRequest {

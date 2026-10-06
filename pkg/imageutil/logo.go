@@ -16,7 +16,6 @@ import (
 
 const DefaultMaxLogoSide = 512
 
-// ProcessLogo decodes an uploaded image, fits it into maxSide×maxSide and encodes lossless WebP.
 func ProcessLogo(r io.Reader, maxSide int) ([]byte, error) {
 	if maxSide <= 0 {
 		maxSide = DefaultMaxLogoSide

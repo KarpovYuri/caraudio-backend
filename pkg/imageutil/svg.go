@@ -8,9 +8,8 @@ import (
 	svgsanitize "go.privatebychoice.com/pbcsvgsanitize"
 )
 
-const DefaultMaxSVGBytes = 1 << 20 // 1 MiB after sanitize budget for logos
+const DefaultMaxSVGBytes = 1 << 20
 
-// IsSVG reports whether raw looks like an SVG document.
 func IsSVG(filename string, raw []byte) bool {
 	ext := strings.ToLower(strings.TrimSpace(filename))
 	if strings.HasSuffix(ext, ".svg") {
@@ -30,7 +29,6 @@ func IsSVG(filename string, raw []byte) bool {
 	return false
 }
 
-// SanitizeSVG reduces an untrusted SVG to a safe presentational subset.
 func SanitizeSVG(raw []byte, maxBytes int) ([]byte, error) {
 	if maxBytes <= 0 {
 		maxBytes = DefaultMaxSVGBytes

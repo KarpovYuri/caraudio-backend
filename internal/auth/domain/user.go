@@ -14,6 +14,7 @@ type User struct {
 	Login     string    `db:"login"`
 	Password  string    `db:"password"`
 	Role      string    `db:"role"`
+	Avatar    string    `db:"avatar"`
 	CreatedAt time.Time `db:"created_at"`
 	UpdatedAt time.Time `db:"updated_at"`
 }

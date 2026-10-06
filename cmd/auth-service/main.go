@@ -13,9 +13,11 @@ import (
 	"time"
 
 	authgrpc "github.com/KarpovYuri/caraudio-backend/internal/auth/adapters/grpc"
+	authhttp "github.com/KarpovYuri/caraudio-backend/internal/auth/adapters/http"
 	authservice "github.com/KarpovYuri/caraudio-backend/internal/auth/app/services"
 	authconfig "github.com/KarpovYuri/caraudio-backend/internal/auth/config"
 	authdb "github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/database/postgres"
+	authstorage "github.com/KarpovYuri/caraudio-backend/internal/auth/infrastructure/storage"
 	authv1 "github.com/KarpovYuri/caraudio-backend/pkg/api/proto/auth/v1"
 	"github.com/google/uuid"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -58,7 +60,20 @@ func main() {
 		cfg.JWTSecret,
 	)
 
-	userService := authservice.NewUserService(userRepo)
+	fileStorage, err := authstorage.NewLocalStorage(cfg.Uploads.Dir, cfg.Uploads.PublicPath, cfg.Uploads.PublicBaseURL)
+	if err != nil {
+		logger.Error("failed to init uploads storage", "error", err)
+		os.Exit(1)
+	}
+
+	userService := authservice.NewUserService(userRepo, fileStorage)
+	avatarHandler := authhttp.NewUserAvatarHandler(
+		userService,
+		fileStorage,
+		cfg.JWTSecret,
+		cfg.Uploads.MaxAvatarBytes,
+		cfg.Uploads.MaxAvatarSide,
+	)
 
 	authGRPCServer := authgrpc.NewAuthGRPCServer(authService, cfg.CookieSecure)
 	userGRPCServer := authgrpc.NewUserGRPCServer(userService, authService)
@@ -136,7 +151,16 @@ func main() {
 	defer cleanupCancel()
 	go runTokenCleanupJob(cleanupCtx, tokenRepo, cfg.TokenCleanupEvery, logger)
 
-	httpHandler := allowCORS(withRequestID(withAccessLog(mux, logger), logger), cfg.AllowedOrigins)
+	rootMux := http.NewServeMux()
+	staticPrefix := strings.TrimRight(cfg.Uploads.PublicPath, "/") + "/"
+	rootMux.Handle(staticPrefix, http.StripPrefix(
+		strings.TrimRight(cfg.Uploads.PublicPath, "/"),
+		authhttp.SecureStatic(http.FileServer(http.Dir(fileStorage.RootDir()))),
+	))
+	rootMux.HandleFunc("POST /v1/users/{id}/avatar", avatarHandler.Upload)
+	rootMux.Handle("/", mux)
+
+	httpHandler := allowCORS(withRequestID(withAccessLog(rootMux, logger), logger), cfg.AllowedOrigins)
 	httpServer := &http.Server{
 		Addr:         cfg.HTTPPort,
 		Handler:      httpHandler,
