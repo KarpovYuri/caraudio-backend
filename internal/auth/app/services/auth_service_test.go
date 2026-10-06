@@ -14,6 +14,7 @@ type fakeUserRepo struct {
 	createUserFn     func(ctx context.Context, user *domain.User) error
 	getUserByLoginFn func(ctx context.Context, login string) (*domain.User, error)
 	getUserByIDFn    func(ctx context.Context, id string) (*domain.User, error)
+	listUsersFn      func(ctx context.Context, filter domain.UserListFilter) (*domain.UserListResult, error)
 	updateUserFn     func(ctx context.Context, user *domain.User) error
 	deleteUserFn     func(ctx context.Context, id string) error
 }
@@ -40,10 +41,13 @@ func (f *fakeUserRepo) GetUserByID(ctx context.Context, id string) (*domain.User
 }
 
 func (f *fakeUserRepo) ListUsers(
-	_ context.Context,
-	_ domain.UserListFilter,
+	ctx context.Context,
+	filter domain.UserListFilter,
 ) (*domain.UserListResult, error) {
-	return &domain.UserListResult{}, nil
+	if f.listUsersFn == nil {
+		return &domain.UserListResult{}, nil
+	}
+	return f.listUsersFn(ctx, filter)
 }
 
 func (f *fakeUserRepo) UpdateUser(ctx context.Context, user *domain.User) error {
@@ -325,5 +329,50 @@ func TestAuthServiceValidateTokenExpired(t *testing.T) {
 	}
 	if !errors.Is(err, domain.ErrTokenExpired) {
 		t.Fatalf("expected ErrTokenExpired, got %v", err)
+	}
+}
+
+func TestAuthServiceValidateTokenSuccess(t *testing.T) {
+	ctx := context.Background()
+	token, err := utils.GenerateJWT("user-1", domain.RoleAdmin, "secret-key", time.Minute)
+	if err != nil {
+		t.Fatalf("failed to generate token: %v", err)
+	}
+
+	svc := NewAuthService(&fakeUserRepo{}, &fakeRefreshTokenRepo{}, "secret-key")
+	userID, role, isValid, err := svc.ValidateToken(ctx, token)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+	if !isValid {
+		t.Fatalf("expected token to be valid")
+	}
+	if userID != "user-1" || role != domain.RoleAdmin {
+		t.Fatalf("unexpected claims: userID=%q role=%q", userID, role)
+	}
+}
+
+func TestAuthServiceLogoutDeletesRefreshToken(t *testing.T) {
+	ctx := context.Background()
+	deleteCalled := false
+	rawRefresh := "refresh-to-delete"
+
+	tokenRepo := &fakeRefreshTokenRepo{
+		deleteByHashFn: func(_ context.Context, hash string) error {
+			deleteCalled = true
+			expected := utils.HashString(rawRefresh)
+			if hash != expected {
+				t.Fatalf("unexpected hash: got %q want %q", hash, expected)
+			}
+			return nil
+		},
+	}
+	svc := NewAuthService(&fakeUserRepo{}, tokenRepo, "secret-key")
+
+	if err := svc.Logout(ctx, rawRefresh); err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+	if !deleteCalled {
+		t.Fatalf("expected DeleteByHash to be called")
 	}
 }
